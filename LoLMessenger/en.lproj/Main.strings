@@ -1,0 +1,9 @@
+
+/* Class = "UIButton"; normalTitle = "Connect"; ObjectID = "Jpt-vW-SB4"; */
+"Jpt-vW-SB4.normalTitle" = "Connect";
+
+/* Class = "UITextField"; placeholder = "Username"; ObjectID = "jAb-Zx-Oaw"; */
+"jAb-Zx-Oaw.placeholder" = "Username";
+
+/* Class = "UITextField"; placeholder = "Password"; ObjectID = "u4q-r5-JVD"; */
+"u4q-r5-JVD.placeholder" = "Password";
