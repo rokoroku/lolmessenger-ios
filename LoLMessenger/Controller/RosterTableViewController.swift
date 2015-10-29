@@ -49,13 +49,14 @@ class RosterTableViewController : UIViewController {
     }
 
     func setSearchController() {
+        definesPresentationContext = true
         self.searchController = ({
             let controller = UISearchController(searchResultsController: nil)
             controller.searchResultsUpdater = self
             controller.dimsBackgroundDuringPresentation = false
-            controller.searchBar.sizeToFit()
 
             self.tableView.tableHeaderView = controller.searchBar
+            controller.searchBar.sizeToFit()
             return controller
         })()
     }
@@ -66,6 +67,8 @@ class RosterTableViewController : UIViewController {
         tableView.insertRowAnimation = insertRowAnimation
         tableView.deleteRowAnimation = deleteRowAnimation
         tableView.setDelegate(self)
+        tableView.backgroundView = UIView()
+        tableView.backgroundView?.backgroundColor = Theme.PrimaryColor
     }
 
     override func viewWillLayoutSubviews() {
@@ -94,7 +97,6 @@ class RosterTableViewController : UIViewController {
             if let cell = sender as? RosterTableChildCell, let roster = cell.roster {
                 let chat = XMPPService.sharedInstance.chat().getLeagueChatEntryByJID(roster.jid())!
                 chatViewController.setInitialChatData(chat)
-                searchController?.active = false
             }
         }
     }
@@ -153,9 +155,9 @@ extension RosterTableViewController: YUTableViewDelegate {
     
     func heightForNode(node: YUTableViewNode) -> CGFloat? {
         if node.cellIdentifier == "GroupCell" {
-            return 44.0;
+            return 40.0;
         }
-        return 56.0;
+        return 58.0;
     }
     
 }
@@ -175,7 +177,13 @@ extension RosterTableViewController: RosterDelegate {
 }
 
 extension RosterTableViewController: UISearchResultsUpdating {
+
     func updateSearchResultsForSearchController(searchController: UISearchController) {
+        if searchController.searchBar.superview?.isKindOfClass(UITableView) == false {
+            searchController.searchBar.removeFromSuperview()
+            self.tableView.addSubview(searchController.searchBar)
+        }
+
         filteredNodes.removeAll(keepCapacity: false)
         for groupNode in allNodes {
             if groupNode.childNodes != nil {

@@ -6,7 +6,6 @@
 import Foundation
 
 struct Constants {
-
     struct Notification {
         static let Chat = "chat"
         static let Subscription = "subscribe"

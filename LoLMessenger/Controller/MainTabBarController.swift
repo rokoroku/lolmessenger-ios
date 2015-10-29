@@ -12,9 +12,13 @@ class MainTabBarController : UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        // Do any additional setup after loading the view, typically from a nib.
         self.delegate = self
         self.view.autoresizingMask = UIViewAutoresizing.FlexibleHeight
-        // Do any additional setup after loading the view, typically from a nib.
+
+        updateRosterBadge(XMPPService.sharedInstance.roster())
+        updateChatBadge(XMPPService.sharedInstance.chat())
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -57,10 +61,6 @@ extension MainTabBarController : UITabBarControllerDelegate {
 //            tabBarItem.badgeValue = nil
 //        }
     }
-}
-
-extension MainTabBarController : UINavigationControllerDelegate {
-    
 }
 
 extension MainTabBarController : ChatDelegate, RosterDelegate {

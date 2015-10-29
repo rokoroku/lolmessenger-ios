@@ -11,6 +11,7 @@
 		1B9CE608DDBFCDA8EE8E78B3 /* XMPPService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9CE8C2FE02512F6F35A153 /* XMPPService.swift */; };
 		1B9CEB293029B3CA00B2797C /* Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9CEE337FAA5E2BE4A6D0DC /* Async.swift */; };
 		F80374471BD52EAB00B9266A /* DialogUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F80374461BD52EAB00B9266A /* DialogUtils.swift */; };
+		F80D2A6B1BE1F79E00459E96 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = F80D2A6A1BE1F79E00459E96 /* Theme.swift */; };
 		F83FB1E81BDFC8AA00FBDCCA /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F83FB1E21BDFC8AA00FBDCCA /* ChatViewController.swift */; };
 		F83FB1E91BDFC8AA00FBDCCA /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F83FB1E31BDFC8AA00FBDCCA /* LoginViewController.swift */; };
 		F83FB1EA1BDFC8AA00FBDCCA /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F83FB1E41BDFC8AA00FBDCCA /* MainTabBarController.swift */; };
@@ -66,6 +67,7 @@
 		A8C4616684FFF044C582023E /* Pods-LoLMessenger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LoLMessenger.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LoLMessenger/Pods-LoLMessenger.debug.xcconfig"; sourceTree = "<group>"; };
 		D0646A8FBEC4EA1E04044FDE /* Pods-LoLMessenger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LoLMessenger.release.xcconfig"; path = "Pods/Target Support Files/Pods-LoLMessenger/Pods-LoLMessenger.release.xcconfig"; sourceTree = "<group>"; };
 		F80374461BD52EAB00B9266A /* DialogUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DialogUtils.swift; sourceTree = "<group>"; };
+		F80D2A6A1BE1F79E00459E96 /* Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		F83FB1E21BDFC8AA00FBDCCA /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		F83FB1E31BDFC8AA00FBDCCA /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		F83FB1E41BDFC8AA00FBDCCA /* MainTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
@@ -241,6 +243,7 @@
 				F8B55C6D1BB532FB005C759D /* Info.plist */,
 				F8B55C5E1BB532FB005C759D /* AppDelegate.swift */,
 				1B9CE1D4FB6A038AF2D7AAD6 /* Constants.swift */,
+				F80D2A6A1BE1F79E00459E96 /* Theme.swift */,
 				F8893D811BDCA97D0086DBED /* StoredProperties.swift */,
 				F83FB20F1BDFC98F00FBDCCA /* Layout */,
 				F894015C1BDFDAEA00635D36 /* Model */,
@@ -515,6 +518,7 @@
 				1B9CE3E8A357CD51DB730827 /* Constants.swift in Sources */,
 				F83FB1E81BDFC8AA00FBDCCA /* ChatViewController.swift in Sources */,
 				F89401731BDFDAEA00635D36 /* RosterTableCell.swift in Sources */,
+				F80D2A6B1BE1F79E00459E96 /* Theme.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

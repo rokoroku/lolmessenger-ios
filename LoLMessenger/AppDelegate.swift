@@ -9,6 +9,8 @@
 import UIKit
 import Fabric
 import Crashlytics
+import Eureka
+import ChameleonFramework
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -18,13 +20,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: UIApplicationDelegate    
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject:AnyObject]?) -> Bool {
         // Override point for customization after application launch.
-        let settings = UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil)
-        UIApplication.sharedApplication().registerUserNotificationSettings(settings)
+
         Fabric.with([Crashlytics.self])
+
+        Theme.applyGlobalTheme()
+
+        let settings = UIUserNotificationSettings(
+            forTypes: [.Alert, .Badge, .Sound],
+            categories: nil)
+        application.registerUserNotificationSettings(settings)
+
 
         return true
     }
-    
+
+
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.

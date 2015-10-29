@@ -20,6 +20,12 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        view.backgroundColor = Theme.PrimaryColor
+        usernameField.backgroundColor = Theme.HighlightColor.darkenByPercentage(0.02)
+        passwordField.backgroundColor = Theme.HighlightColor.darkenByPercentage(0.02)
+        connectButton.normalBackgroundColor = Theme.HighlightColor
+        connectButton.highlightedBackgroundColor = Theme.HighlightColor.lightenByPercentage(0.1)
+
         // Looks for single or multiple taps.
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "dismissKeyboard"))
         view.bringSubviewToFront(connectButton)

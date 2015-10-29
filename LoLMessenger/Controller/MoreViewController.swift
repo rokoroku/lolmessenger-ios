@@ -23,11 +23,6 @@ class MoreViewController : FormViewController {
     func accountSection() -> Section {
         return Section("Account")
             <<< FloatLabelRow() {
-                $0.title = "Username"
-                $0.value = NSUserDefaults.standardUserDefaults().stringForKey(Constants.Key.Username)
-                $0.disabled = true
-            }
-            <<< FloatLabelRow() {
                 $0.title =  "Summoner Name"
                 $0.value = XMPPService.sharedInstance.myRosterElement?.username ?? "Unknown"
                 $0.disabled = true

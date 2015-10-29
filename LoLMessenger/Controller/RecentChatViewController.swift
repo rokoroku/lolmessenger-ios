@@ -9,7 +9,9 @@
 import UIKit
 import ChameleonFramework
 
-class RecentChatViewController : UITableViewController {
+class RecentChatViewController : UIViewController {
+
+    @IBOutlet weak var tableView: UITableView!
 
     var chats = [LeagueChat]()
     var numOfRows: Int {
@@ -37,7 +39,7 @@ class RecentChatViewController : UITableViewController {
         }
     }
 
-    func loadChats() {
+    func reloadChats() {
         if let chatEntries = XMPPService.sharedInstance.chat().getLeagueChatEntries() {
             chats = chatEntries
         }
@@ -48,17 +50,22 @@ class RecentChatViewController : UITableViewController {
         super.viewDidLoad()
         navigationController?.delegate = self
         navigationController?.hidesNavigationBarHairline = true
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.backgroundView = UIView()
+        tableView.backgroundView?.backgroundColor = Theme.PrimaryColor
         setSearchController()
     }
 
     func setSearchController() {
+        definesPresentationContext = true
         self.searchController = ({
             let controller = UISearchController(searchResultsController: nil)
             controller.searchResultsUpdater = self
             controller.dimsBackgroundDuringPresentation = false
-            controller.searchBar.sizeToFit()
 
             self.tableView.tableHeaderView = controller.searchBar
+            controller.searchBar.sizeToFit()
             return controller
         })()
     }
@@ -66,13 +73,14 @@ class RecentChatViewController : UITableViewController {
 
     override func viewWillAppear(animated: Bool) {
         // Load chats
-        loadChats()
+        reloadChats()
 
         // Add delegates
         XMPPService.sharedInstance.roster().addDelegate(self)
         XMPPService.sharedInstance.chat().addDelegate(self)
 
     }
+
 
     override func viewDidDisappear(animated: Bool) {
         // Remove delegates
@@ -89,7 +97,6 @@ class RecentChatViewController : UITableViewController {
                 let indexPath = tableView.indexPathForCell(selectedCell)!
                 let selectedChat = activeNodes[indexPath.row]
                 chatTableController.setInitialChatData(selectedChat)
-                searchController?.active = false
             }
         }
     }
@@ -107,19 +114,19 @@ extension RecentChatViewController : UINavigationControllerDelegate {
 
 // MARK: Table view delegate
 
-extension RecentChatViewController {
+extension RecentChatViewController : UITableViewDelegate, UITableViewDataSource {
 
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return numOfRows
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         // Table view cells are reused and should be dequeued using a cell identifier.
         let cellIdentifier = "RecentChatTableCell"
         let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! RecentChatTableCell
@@ -140,13 +147,13 @@ extension RecentChatViewController {
     }
 
     // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
         return !isSearching
     }
 
     // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
             // Delete the row from the data source
             chats.removeAtIndex(indexPath.row).remove()
@@ -172,12 +179,12 @@ extension RecentChatViewController : UISearchResultsUpdating {
 
 extension RecentChatViewController : RosterDelegate, ChatDelegate {
     func didReceiveRosterUpdate(sender: RosterService, from: LeagueRoster) {
-        loadChats()
+        reloadChats()
     }
     func didEnterChatRoom(sender: ChatService, from: LeagueChat) {
-        loadChats()
+        reloadChats()
     }
     func didReceiveNewMessage(sender: ChatService, from: LeagueChat, message: LeagueMessage.RawData) {
-        loadChats()
+        reloadChats()
     }
 }

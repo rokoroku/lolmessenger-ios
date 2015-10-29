@@ -31,7 +31,7 @@ class YUTableView: UITableView
     private var firstLevelNodes: [YUTableViewNode]!;
     private var rootNode : YUTableViewNode!;
     private var nodesToDisplay: [YUTableViewNode]!;
-    private var activeNodesId: [Int]!;
+    private var expansionState: [Int: Bool]!;
 
     /** If "YUTableViewNode"s don't have individual identifiers, this one is used */
     var defaultCellIdentifier: String!;
@@ -64,44 +64,35 @@ class YUTableView: UITableView
     }
 
     func isActiveNode (node: YUTableViewNode) -> Bool {
-        if activeNodesId == nil { activeNodesId = [] }
-        return activeNodesId.contains(node.nodeId)
+        if expansionState == nil { expansionState = [Int:Bool]() }
+        if let isActive = expansionState[node.nodeId] {
+            return isActive
+        } else if expandAllNodeAtFirstTime {
+            expansionState[node.nodeId] = true
+            return true
+        }
+        return false
     }
 
     func setNodes (nodes: [YUTableViewNode]) {
         rootNode = YUTableViewNode(childNodes: nodes);
         self.firstLevelNodes = nodes;
-        if activeNodesId == nil { activeNodesId = [] }
-        if expandAllNodeAtFirstTime && isFirstLoaded {
-            self.nodesToDisplay = []
-            for firstLevelNode in nodes {
-                nodesToDisplay.append(firstLevelNode)
+        self.nodesToDisplay = []
+        for firstLevelNode in nodes {
+            nodesToDisplay.append(firstLevelNode)
+            if isActiveNode(firstLevelNode) {
+                firstLevelNode.isActive = true
                 if firstLevelNode.childNodes != nil {
-                    firstLevelNode.isActive = true;
-                    activeNodesId.append(firstLevelNode.nodeId)
-                    for nextLevelNode in firstLevelNode.childNodes {
-                        nodesToDisplay.append(nextLevelNode)
-                    }
-                }
-            }
-        } else {
-            self.nodesToDisplay = []
-            for firstLevelNode in nodes {
-                nodesToDisplay.append(firstLevelNode)
-                if firstLevelNode.childNodes != nil && isActiveNode(firstLevelNode) {
-                    firstLevelNode.isActive = true;
                     for nextLevelNode in firstLevelNode.childNodes {
                         nodesToDisplay.append(nextLevelNode)
                     }
                 }
             }
         }
-        if !nodesToDisplay.isEmpty {
-            self.isFirstLoaded = false
-        }
+
         reloadData();
     }
-    
+
     func selectNodeAtIndex (index: Int) {
         let node = nodesToDisplay [index];
         openNodeAtIndexRow(index);
@@ -165,7 +156,7 @@ private extension YUTableView {
     func openNodeAtIndexRow (var indexRow: Int) {
         let node = nodesToDisplay [indexRow];
         if !isActiveNode(node) {
-            activeNodesId.append(node.nodeId)
+            expansionState[node.nodeId] = true
         }
 
         if allowOnlyOneActiveNodeInSameLevel {
@@ -176,8 +167,8 @@ private extension YUTableView {
             nodesToDisplay.insert(newNodes, atIndex: indexRow + 1);
             let indexesToInsert = indexesFromRow(indexRow + 1, count: newNodes.count)!;
             updateTableRows(insertRows: indexesToInsert, removeRows: nil);
-            node.isActive = true;
         }
+        node.isActive = true;
     }
 
     func closeNodeAtSameLevelWithNode (node: YUTableViewNode, indexRow: Int) {
@@ -191,13 +182,13 @@ private extension YUTableView {
     func closeNodeAtIndexRow (indexRow: Int, shouldReloadClosedRow: Bool = false ) {
         let node = nodesToDisplay [indexRow];
         if isActiveNode(node) {
-            if let index = activeNodesId.indexOf(node.nodeId) {
-                activeNodesId.removeAtIndex(index)
-            }
+            expansionState[node.nodeId] = false
         }
         let numberOfDisplayedChildren = getNumberOfDisplayedChildrenAndDeactivateEveryNode(node);
-        nodesToDisplay.removeRange(indexRow + 1...indexRow+numberOfDisplayedChildren );
-        updateTableRows(removeRows: indexesFromRow(indexRow + 1, count: numberOfDisplayedChildren));
+        if numberOfDisplayedChildren > 0 {
+            nodesToDisplay.removeRange(indexRow + 1...indexRow+numberOfDisplayedChildren );
+            updateTableRows(removeRows: indexesFromRow(indexRow + 1, count: numberOfDisplayedChildren));
+        }
         node.isActive = false;
         if shouldReloadClosedRow {
             self.reloadRowsAtIndexPaths([NSIndexPath(forRow: indexRow, inSection: 0)], withRowAnimation: .Fade)

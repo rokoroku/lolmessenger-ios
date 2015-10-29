@@ -105,6 +105,8 @@ class ChatViewController : UIViewController {
         textField.delegate = self
         textField.returnKeyType = .Done
         textField.enablesReturnKeyAutomatically = true
+        textField.superview?.backgroundColor = Theme.SecondaryColor
+
 
         checkValidMessage()
 
@@ -114,6 +116,7 @@ class ChatViewController : UIViewController {
         if let title = chatName {
             navigationItem.title = title
         }
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Alarm", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -245,8 +248,7 @@ extension ChatViewController : UITableViewDelegate, UITableViewDataSource {
     }
 
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        if tableView.contentOffset.y <= -120 && chatJID != nil && !isFetching {
-            print("overscrolled \(tableView.contentOffset.y)")
+        if tableView.contentOffset.y <= -100 && chatJID != nil && !isFetching {
             if let chat = XMPPService.sharedInstance.chat().getLeagueChatEntryByJID(chatJID!) {
                 self.isFetching = true
                 let loadedRows = chatData?.loadMore(chat)
@@ -298,12 +300,17 @@ extension ChatViewController : UITextFieldDelegate {
     }
 
     func textFieldDidBeginEditing(textField: UITextField) {
-        // Disable the Save button while editing.
+        // Disable the send button while editing.
         sendButton.enabled = false
     }
 
+    func textFieldDidEndEditing(textField: UITextField) {
+        checkValidMessage()
+    }
+
+
     func checkValidMessage() {
-        // Disable the Save button if the text field is empty.
+        // Disable the send button if the text field is empty.
         let text = textField.text ?? ""
         sendButton.enabled = !text.isEmpty()
     }
@@ -312,34 +319,27 @@ extension ChatViewController : UITextFieldDelegate {
 
 extension ChatViewController : RosterDelegate, ChatDelegate {
 
-    func updateTitle(roster: LeagueRoster) {
+    func updateTitle(roster: LeagueRoster?) {
 
         let titleLabel = IconLabel()
-        titleLabel.imageSize = CGSizeMake(13, 13)
-        titleLabel.image = roster.getStatusIcon()
+        titleLabel.imageSize = CGSizeMake(14, 14)
+        titleLabel.image = roster?.getStatusIcon() ?? XMPPPresence.Show.Unavailable.icon()
         titleLabel.numberOfLines = 0
         titleLabel.textAlignment = .Center
-        titleLabel.text = roster.username
+        titleLabel.text = roster?.username ?? chatName
         titleLabel.font = UIFont.boldSystemFontOfSize(16.0)
+        titleLabel.textColor = Theme.TextColorWhite
 
-        let titleView = UIView(frame: CGRect.zero)
-        let tempLabel = UILabel(frame: navigationController!.navigationBar.frame)
+        let tempLabel = UILabel(frame: navigationController?.navigationBar.frame ?? CGRect.zero)
         tempLabel.numberOfLines = 0
         tempLabel.textAlignment = .Center
-        tempLabel.text = roster.username
+        tempLabel.text = titleLabel.text
         tempLabel.font = UIFont.boldSystemFontOfSize(16.0)
         tempLabel.sizeToFit()
 
-        titleLabel.frame = CGRectMake(0, 0, tempLabel.frame.width + 20, tempLabel.frame.height)
+        titleLabel.frame =  CGRectMake(0, 0, tempLabel.frame.width + 20, tempLabel.frame.height)
 
-        // Use autoresizing to restrict the bounds to the area that the titleview allows
-        titleView.autoresizingMask = [.FlexibleWidth, .FlexibleLeftMargin, .FlexibleRightMargin]
-        titleView.autoresizesSubviews = true
-        titleLabel.autoresizingMask = titleView.autoresizingMask
-        
-        // Add as the nav bar's titleview
-        //titleView.addSubview(titleLabel)
-        navigationItem.titleView = titleLabel;
+        navigationItem.titleView = titleLabel
     }
 
     func didReceiveRosterUpdate(sender: RosterService, from: LeagueRoster) {

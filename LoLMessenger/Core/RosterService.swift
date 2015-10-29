@@ -146,19 +146,20 @@ class RosterService : NSObject {
 // MARK : XMPPStreamDelegate
 extension RosterService : XMPPStreamDelegate {
     @objc func xmppStream(sender: XMPPStream!, didReceivePresence presence: XMPPPresence!) {
-        var updatedRoster : LeagueRoster?
         if presence.isFrom(sender.myJID.bareJID()) {
             return
-
-        } else if let roster = rosterDictionary[presence.from().user] {
-            updatedRoster = roster
-            updatedRoster!.parsePresence(presence)
         }
 
-        if updatedRoster != nil && UIApplication.sharedApplication().applicationState == .Active {
-            invokeDelegates {
-                delegate in delegate.didReceiveRosterUpdate(self, from: updatedRoster!)
+        if !isPopulated {
+            Async.background(after: 0.5) {
+                self.xmppStream(sender, didReceivePresence: presence)
             }
+        } else if let roster = rosterDictionary[presence.from().user] {
+            roster.parsePresence(presence)
+            invokeDelegates {
+                delegate in delegate.didReceiveRosterUpdate(self, from: roster)
+            }
+
         }
     }
 }

@@ -58,10 +58,10 @@ public class FloatLabelCell: Cell<String>, CellType, UITextFieldDelegate {
     public override func update() {
         super.update()
         textLabel?.text = nil
-        floatLabelTextField.attributedPlaceholder = NSAttributedString(string: row.title ?? "", attributes: [NSForegroundColorAttributeName: UIColor.lightGrayColor()])
+        floatLabelTextField.attributedPlaceholder = NSAttributedString(string: row.title ?? "", attributes: [NSForegroundColorAttributeName: UIColor.flatGrayColor()])
         floatLabelTextField.text = row.value
         floatLabelTextField.enabled = !row.isDisabled
-        floatLabelTextField.titleTextColour = .lightGrayColor()
+        floatLabelTextField.titleTextColour = .flatGrayColor()
         floatLabelTextField.alpha = row.isDisabled ? 0.6 : 1
     }
 

@@ -57,6 +57,7 @@ class ChatTableCell: UITableViewCell {
         body.text = nil
         body.sizeToFit()
         body.updateConstraints()
+        body.textColor = UIColor.flatBlackColor()
 
         balloonImage.sizeToFit()
         balloonImage.updateConstraints()
@@ -78,10 +79,15 @@ class ChatTableCell: UITableViewCell {
 
     func setItem(roster: LeagueRoster?, message: LeagueMessage.RawData) {
         if profileIcon != nil {
-            profileIcon.image = roster?.getProfileIcon()
+            profileIcon.image = roster?.getProfileIcon() ?? UIImage(named: "profile_unknown")
         }
         if name != nil {
             name.text = message.nick
+            if roster?.show != .Unavailable {
+                name.textColor = Theme.TextColorWhite
+            } else {
+                name.textColor = Theme.TextColorDisabled
+            }
         }
         body.text = message.body
         timestamp.text = message.timestamp.format("HH:mm")
