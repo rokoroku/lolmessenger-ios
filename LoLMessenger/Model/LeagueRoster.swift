@@ -42,9 +42,9 @@ class LeagueRoster {
     var available: Bool = false
     var subscribed: Bool = false
     var priority: Int?
-    var show: XMPPPresence.Show = .Unknown {
+    var show: XMPPPresence.Show = .Unavailable {
         didSet {
-            available = show != .Unknown
+            available = show != .Unavailable
         }
     }
 
@@ -144,7 +144,7 @@ class LeagueRoster {
             if type == "unavailable" {
                 available = false
                 status = .Offline
-                show = .Unknown
+                show = .Unavailable
                 return;
             }
         }
@@ -198,7 +198,7 @@ class LeagueRoster {
                 case .Chat: showValue = "chat"; break;
                 case .Away: showValue = "away"; break;
                 case .Dnd: showValue = "dnd"; break;
-                case .Unknown: showValue = nil; break;
+                default: showValue = nil; break;
             }
 
             if showValue != nil {
@@ -221,10 +221,22 @@ class LeagueRoster {
         return presence
     }
 
-    func getNumericUserid() -> Int? {
+    func getNumericUserId() -> Int? {
         return Int(userid.substringFromIndex(userid.startIndex.advancedBy(3)))
     }
-    
+
+    func getStatusIcon() -> UIImage? {
+        return show.icon()
+    }
+
+    func getProfileIcon() -> UIImage? {
+        if let iconId = profileIcon {
+            return UIImage(named: "profile_\(iconId)")
+        } else {
+            return UIImage(named: "profile_unknown")
+        }
+    }
+
     func getStatusElement() -> DDXMLElement? {
         let body = DDXMLElement(name: "body")
 

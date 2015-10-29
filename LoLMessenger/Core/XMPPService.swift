@@ -288,7 +288,7 @@ extension XMPPService : XMPPStreamDelegate {
     }
 
     @objc func xmppStreamDidDisconnect(sender: XMPPStream!, withError error: NSError!) {
-        print("xmppStreamDidDisconnect!" + error.description)
+        print("xmppStreamDidDisconnect!")
 
         updateBadge()
         NotificationUtils.create("Disconnected!", body: error.localizedFailureReason ?? "Undefined")

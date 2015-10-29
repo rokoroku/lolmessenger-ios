@@ -15,7 +15,7 @@ extension XMPPPresence {
         case Chat
         case Away
         case Dnd
-        case Unknown
+        case Unavailable
 
         func icon() -> UIImage? {
             switch(self) {
@@ -33,10 +33,10 @@ extension XMPPPresence {
             case "chat": return .Chat
             case "away": return .Away
             case "dnd": return .Dnd
-            default: return .Unknown
+            default: return .Unavailable
             }
         }
-        return .Unknown
+        return .Unavailable
     }
 }
 

@@ -7,12 +7,34 @@
 //
 
 import UIKit
+import ChameleonFramework
 
 class RecentChatViewController : UITableViewController {
 
     var chats = [LeagueChat]()
     var numOfRows: Int {
-        return chats.count
+        if isSearching {
+            return filteredNodes.count
+        } else {
+            return chats.count
+        }
+    }
+
+    var searchController: UISearchController?
+    var isSearching: Bool {
+        if searchController?.active ?? false {
+            return !(searchController?.searchBar.text?.isEmpty ?? true)
+        }
+        return false
+    }
+
+    var filteredNodes = [LeagueChat]()
+    var activeNodes: [LeagueChat] {
+        if isSearching {
+            return filteredNodes
+        } else {
+            return chats
+        }
     }
 
     func loadChats() {
@@ -24,13 +46,25 @@ class RecentChatViewController : UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let navigationController = self.navigationController {
-            navigationController.delegate = self
-        }
+        navigationController?.delegate = self
+        navigationController?.hidesNavigationBarHairline = true
+        setSearchController()
     }
 
-    override func viewWillAppear(animated: Bool) {
+    func setSearchController() {
+        self.searchController = ({
+            let controller = UISearchController(searchResultsController: nil)
+            controller.searchResultsUpdater = self
+            controller.dimsBackgroundDuringPresentation = false
+            controller.searchBar.sizeToFit()
 
+            self.tableView.tableHeaderView = controller.searchBar
+            return controller
+        })()
+    }
+
+
+    override func viewWillAppear(animated: Bool) {
         // Load chats
         loadChats()
 
@@ -53,8 +87,9 @@ class RecentChatViewController : UITableViewController {
             // Get the cell that generated this segue.
             if let selectedCell = sender as? RecentChatTableCell {
                 let indexPath = tableView.indexPathForCell(selectedCell)!
-                let selectedChat = chats[indexPath.row]
+                let selectedChat = activeNodes[indexPath.row]
                 chatTableController.setInitialChatData(selectedChat)
+                searchController?.active = false
             }
         }
     }
@@ -90,7 +125,7 @@ extension RecentChatViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! RecentChatTableCell
 
         // Fetches the appropriate meal for the data source layout.
-        let chat = chats[indexPath.row]
+        let chat = activeNodes[indexPath.row]
         switch(chat.type) {
         case .Peer:
             let roster = XMPPService.sharedInstance.roster().getRosterByJID(chat.id)
@@ -107,7 +142,7 @@ extension RecentChatViewController {
     // Override to support conditional editing of the table view.
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
-        return true
+        return !isSearching
     }
 
     // Override to support editing the table view.
@@ -119,6 +154,19 @@ extension RecentChatViewController {
                 [NSIndexPath(forRow: indexPath.row, inSection: 0)],
                 withRowAnimation: .Fade)
         }
+    }
+
+}
+
+extension RecentChatViewController : UISearchResultsUpdating {
+    func updateSearchResultsForSearchController(searchController: UISearchController) {
+        filteredNodes = chats.filter {
+            if let keyword = searchController.searchBar.text {
+                return $0.name.stringByReplacingOccurrencesOfString(" ", withString: "").localizedCaseInsensitiveContainsString(keyword)
+            }
+            return false
+        }
+        tableView.reloadData()
     }
 }
 

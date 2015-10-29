@@ -43,22 +43,13 @@ class RosterTableChildCell: UITableViewCell {
         // Initialization code
         self.icon.layer.cornerRadius = 4.0
     }
-    
-    func setData (image: UIImage?, name: String, status: String) {
-        self.icon.image = image
-        self.name.text = name
-        self.status.text = status
-    }
 
-    func setData (roster: LeagueRoster) {
+    func setData(roster: LeagueRoster) {
         self.roster = roster
-
-        let image = UIImage(named: "profile_\(roster.profileIcon)")
-        let name = roster.username
-        let status = roster.getDisplayStatus()
-
-        setData(image ?? UIImage(named: "profile_unknown"), name: name, status: status)
-        indicator.image = roster.show.icon()
+        self.name.text = roster.username
+        self.icon.image = roster.getProfileIcon()
+        self.status.text = roster.getDisplayStatus()
+        self.indicator.image = roster.getStatusIcon()
     }
     
     override func setSelected(selected: Bool, animated: Bool) {

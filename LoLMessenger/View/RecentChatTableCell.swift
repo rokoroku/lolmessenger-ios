@@ -42,9 +42,9 @@ class RecentChatTableCell: UITableViewCell {
 
         if roster != nil {
             name.text = roster?.username
-            stateIcon.image = roster?.show.icon()
+            stateIcon.image = roster?.getStatusIcon()
         } else {
-            stateIcon.image = XMPPPresence.Show.Unknown.icon()
+            stateIcon.image = XMPPPresence.Show.Unavailable.icon()
         }
 
         if chat.unread > 0 {

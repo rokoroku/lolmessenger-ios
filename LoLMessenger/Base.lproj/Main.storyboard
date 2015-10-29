@@ -12,14 +12,24 @@
         <scene sceneID="S0v-Vp-MHE">
             <objects>
                 <tableViewController title="Recent Chat Table" id="YXZ-mg-dun" customClass="RecentChatViewController" customModule="LoLMessenger" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="58" sectionHeaderHeight="28" sectionFooterHeight="28" id="m1L-V7-qt9">
-                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="interactive" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="58" sectionHeaderHeight="28" sectionFooterHeight="28" id="m1L-V7-qt9">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <searchBar key="tableHeaderView" contentMode="redraw" id="SW3-3d-LqA">
+                            <rect key="frame" x="0.0" y="64" width="600" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <animations/>
+                            <textInputTraits key="textInputTraits"/>
+                            <scopeButtonTitles>
+                                <string>Title</string>
+                                <string>Title</string>
+                            </scopeButtonTitles>
+                        </searchBar>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="RecentChatTableCell" selectionStyle="none" indentationWidth="10" reuseIdentifier="RecentChatTableCell" id="KW8-sV-s5m" customClass="RecentChatTableCell" customModule="LoLMessenger" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="600" height="58"/>
+                                <rect key="frame" x="0.0" y="136" width="600" height="58"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KW8-sV-s5m" id="Yba-vA-z04">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="57.5"/>
@@ -178,10 +188,10 @@
                                     <constraint firstItem="5W7-aq-tEz" firstAttribute="leading" secondItem="gZC-Af-UaQ" secondAttribute="leading" constant="8" id="zNX-Qd-KYa"/>
                                 </constraints>
                             </view>
-                            <tableView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="100" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="xMz-Ht-nIc">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="550"/>
+                            <tableView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="interactive" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="100" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="xMz-Ht-nIc">
+                                <rect key="frame" x="0.0" y="64" width="600" height="486"/>
                                 <animations/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.15868747234344482" green="0.21822044253349304" blue="0.30320093035697937" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
                                     <tableViewCell opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="BalloonOthers" selectionStyle="none" indentationWidth="10" reuseIdentifier="BalloonOthers" id="idN-Jv-9hh" customClass="ChatTableCell" customModule="LoLMessenger" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="600" height="100"/>
@@ -250,6 +260,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <animations/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <outlet property="balloonImage" destination="Yap-BF-YBK" id="K8Y-Cf-5LL"/>
                                             <outlet property="body" destination="vWJ-r6-pFa" id="8Db-d1-2Kb"/>
@@ -308,6 +319,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <animations/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <outlet property="balloonImage" destination="WUw-8N-qXW" id="gPF-kC-TJl"/>
                                             <outlet property="body" destination="fb7-fX-7VZ" id="s6s-xk-xUY"/>
@@ -318,7 +330,6 @@
                             </tableView>
                         </subviews>
                         <animations/>
-                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="TRF-CM-Dwf" firstAttribute="top" secondItem="gZC-Af-UaQ" secondAttribute="bottom" id="0jv-xS-DJ3"/>
                             <constraint firstItem="xMz-Ht-nIc" firstAttribute="leading" secondItem="MCS-Ep-bS1" secondAttribute="leading" id="96j-m3-KXT"/>
@@ -327,10 +338,12 @@
                             <constraint firstAttribute="trailing" secondItem="xMz-Ht-nIc" secondAttribute="trailing" id="NDQ-rj-ZiD"/>
                             <constraint firstItem="xMz-Ht-nIc" firstAttribute="top" secondItem="MCS-Ep-bS1" secondAttribute="topMargin" id="VK6-nv-6VC"/>
                             <constraint firstItem="gZC-Af-UaQ" firstAttribute="leading" secondItem="MCS-Ep-bS1" secondAttribute="leading" id="itz-V5-PCQ"/>
+                            <constraint firstItem="xMz-Ht-nIc" firstAttribute="top" secondItem="5Ez-23-oiq" secondAttribute="bottom" id="kyy-6R-s11"/>
                             <constraint firstItem="gZC-Af-UaQ" firstAttribute="top" secondItem="xMz-Ht-nIc" secondAttribute="bottom" id="lK4-mT-XWy"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
+                                <exclude reference="VK6-nv-6VC"/>
                                 <exclude reference="0jv-xS-DJ3"/>
                             </mask>
                         </variation>
@@ -370,7 +383,7 @@
             <objects>
                 <navigationController storyboardIdentifier="RecentChatViewController" title="Chat Controller" useStoryboardIdentifierAsRestorationIdentifier="YES" id="0OT-qu-puD" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" systemItem="recents" id="bHS-OH-sg4"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="C6R-UA-NoG">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="C6R-UA-NoG">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <animations/>
@@ -417,21 +430,23 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="uXL-Jd-nlR">
-                                <rect key="frame" x="0.0" y="64" width="600" height="44"/>
-                                <animations/>
-                                <textInputTraits key="textInputTraits"/>
-                                <connections>
-                                    <outlet property="delegate" destination="7qY-nS-FGq" id="CAK-j3-xhY"/>
-                                </connections>
-                            </searchBar>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" sectionIndexMinimumDisplayRowCount="1" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="0NG-aP-bKH" customClass="YUTableView" customModule="LoLMessenger" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="108" width="600" height="492"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="interactive" dataMode="prototypes" style="plain" separatorStyle="default" sectionIndexMinimumDisplayRowCount="1" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="0NG-aP-bKH" customClass="YUTableView" customModule="LoLMessenger" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <searchBar key="tableHeaderView" contentMode="redraw" id="4v9-be-2O1">
+                                    <rect key="frame" x="0.0" y="64" width="600" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                    <animations/>
+                                    <textInputTraits key="textInputTraits"/>
+                                    <scopeButtonTitles>
+                                        <string>Title</string>
+                                        <string>Title</string>
+                                    </scopeButtonTitles>
+                                </searchBar>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="GroupCell" selectionStyle="none" indentationWidth="10" reuseIdentifier="GroupCell" rowHeight="44" id="D0b-DM-abj" customClass="RosterTableGroupCell" customModule="LoLMessenger" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="136" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="D0b-DM-abj" id="bTD-BU-C90">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
@@ -446,7 +461,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DfI-Qz-sbf">
-                                                    <rect key="frame" x="48" y="12.5" width="37.5" height="18"/>
+                                                    <rect key="frame" x="48" y="13" width="37.5" height="18"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -468,14 +483,14 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="RosterCell" selectionStyle="none" indentationWidth="10" reuseIdentifier="RosterCell" rowHeight="60" id="MB4-qo-Om2" customClass="RosterTableChildCell" customModule="LoLMessenger" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="72" width="600" height="60"/>
+                                        <rect key="frame" x="0.0" y="180" width="600" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="MB4-qo-Om2" id="deL-zf-OiO">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="59.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Status" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tnr-rO-dQh">
-                                                    <rect key="frame" x="60" y="33.5" width="44" height="18"/>
+                                                    <rect key="frame" x="60" y="34" width="44" height="18"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -535,33 +550,19 @@
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="0NG-aP-bKH" firstAttribute="leading" secondItem="uXL-Jd-nlR" secondAttribute="leading" id="0b4-ep-EVW"/>
-                            <constraint firstItem="0NG-aP-bKH" firstAttribute="trailing" secondItem="uXL-Jd-nlR" secondAttribute="trailing" id="9FJ-f2-6tY"/>
+                            <constraint firstItem="0NG-aP-bKH" firstAttribute="top" secondItem="6iB-f9-IkG" secondAttribute="topMargin" id="IoG-Sj-FY4"/>
+                            <constraint firstItem="0NG-aP-bKH" firstAttribute="leading" secondItem="6iB-f9-IkG" secondAttribute="leading" id="TW5-ed-qgH"/>
                             <constraint firstAttribute="bottom" secondItem="0NG-aP-bKH" secondAttribute="bottom" id="XAa-sC-oba"/>
-                            <constraint firstItem="uXL-Jd-nlR" firstAttribute="leading" secondItem="6iB-f9-IkG" secondAttribute="leading" id="frt-JX-yev"/>
-                            <constraint firstItem="uXL-Jd-nlR" firstAttribute="top" secondItem="XOZ-K2-R4t" secondAttribute="bottom" id="ixu-ad-lFH"/>
-                            <constraint firstItem="0NG-aP-bKH" firstAttribute="top" secondItem="uXL-Jd-nlR" secondAttribute="bottom" id="k53-lI-ftp"/>
-                            <constraint firstAttribute="trailing" secondItem="uXL-Jd-nlR" secondAttribute="trailing" id="mIy-0W-VxC"/>
+                            <constraint firstAttribute="trailing" secondItem="0NG-aP-bKH" secondAttribute="trailing" id="ygc-t8-Kqc"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" systemItem="contacts" id="J2b-tJ-sg1"/>
                     <navigationItem key="navigationItem" title="Friends" id="YJ3-tc-MRG"/>
                     <connections>
-                        <outlet property="searchBar" destination="uXL-Jd-nlR" id="bGk-Je-oi4"/>
-                        <outlet property="searchDisplayController" destination="Tky-jm-yi8" id="PZL-tS-SSl"/>
                         <outlet property="tableView" destination="0NG-aP-bKH" id="605-IF-Ngb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8Vm-uL-2eG" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <searchDisplayController id="Tky-jm-yi8">
-                    <connections>
-                        <outlet property="delegate" destination="7qY-nS-FGq" id="Aoa-OS-b7F"/>
-                        <outlet property="searchBar" destination="uXL-Jd-nlR" id="hzZ-5F-mmv"/>
-                        <outlet property="searchContentsController" destination="7qY-nS-FGq" id="F5l-kN-32M"/>
-                        <outlet property="searchResultsDataSource" destination="7qY-nS-FGq" id="Rtq-aa-qRu"/>
-                        <outlet property="searchResultsDelegate" destination="7qY-nS-FGq" id="rqz-II-kPN"/>
-                    </connections>
-                </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="2221" y="-943"/>
         </scene>
@@ -574,6 +575,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <animations/>
+                        <color key="barTintColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <connections>
                         <segue destination="7qY-nS-FGq" kind="relationship" relationship="rootViewController" id="U0b-1c-KeV"/>
@@ -707,6 +709,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="rQB-wS-Agn"/>
+        <segue reference="fqo-QO-92X"/>
     </inferredMetricsTieBreakers>
 </document>

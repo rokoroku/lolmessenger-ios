@@ -8,6 +8,7 @@
 
 import UIKit
 import XMPPFramework
+import ChameleonFramework
 
 struct ChatData {
     var size: Int
@@ -315,7 +316,7 @@ extension ChatViewController : RosterDelegate, ChatDelegate {
 
         let titleLabel = IconLabel()
         titleLabel.imageSize = CGSizeMake(13, 13)
-        titleLabel.image = roster.show.icon()
+        titleLabel.image = roster.getStatusIcon()
         titleLabel.numberOfLines = 0
         titleLabel.textAlignment = .Center
         titleLabel.text = roster.username
@@ -324,7 +325,6 @@ extension ChatViewController : RosterDelegate, ChatDelegate {
         let titleView = UIView(frame: CGRect.zero)
         let tempLabel = UILabel(frame: navigationController!.navigationBar.frame)
         tempLabel.numberOfLines = 0
-        tempLabel.lineBreakMode = .ByTruncatingTail
         tempLabel.textAlignment = .Center
         tempLabel.text = roster.username
         tempLabel.font = UIFont.boldSystemFontOfSize(16.0)

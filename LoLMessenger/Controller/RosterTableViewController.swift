@@ -7,46 +7,102 @@
 //
 
 import UIKit
+import ChameleonFramework
 
 class RosterTableViewController : UIViewController {
     
     @IBOutlet weak var tableView: YUTableView!
-    @IBOutlet weak var searchBar: UISearchBar!
-    
+
     var closeOtherNodes = false
     var insertRowAnimation: UITableViewRowAnimation = .Fade
     var deleteRowAnimation: UITableViewRowAnimation = .Fade
-    
-    var allNodes : [YUTableViewNode]!
+
+    var searchController: UISearchController?
+    var isSearching: Bool {
+        if searchController?.active ?? false {
+            return !(searchController?.searchBar.text?.isEmpty ?? true)
+        }
+        return false
+    }
+
+    var allNodes = [YUTableViewNode]()
+    var filteredNodes = [YUTableViewNode]()
+    var activeNodes: [YUTableViewNode] {
+        if isSearching {
+            return filteredNodes
+        } else {
+            return allNodes
+        }
+    }
+
     var groupDictionary : [String:GroupNode]!
 
     var showOffline = true
     var separateOfflineGroup = true
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        setTableProperties();
+        setTableProperties()
+        setSearchController()
         XMPPService.sharedInstance.roster().addDelegate(self)
+        navigationController?.hidesNavigationBarHairline = true
     }
-    
-    func setTableProperties () {
-        tableView.expandAllNodeAtFirstTime = true;
-        tableView.allowOnlyOneActiveNodeInSameLevel = closeOtherNodes;
-        tableView.insertRowAnimation = insertRowAnimation;
-        tableView.deleteRowAnimation = deleteRowAnimation;
-        tableView.setDelegate(self);
-        
-        allNodes = loadRosterNodes();
-        tableView.setNodes(allNodes);
+
+    func setSearchController() {
+        self.searchController = ({
+            let controller = UISearchController(searchResultsController: nil)
+            controller.searchResultsUpdater = self
+            controller.dimsBackgroundDuringPresentation = false
+            controller.searchBar.sizeToFit()
+
+            self.tableView.tableHeaderView = controller.searchBar
+            return controller
+        })()
     }
-    
-    func setTableViewSettings (closeOtherNodes closeOtherNodes: Bool, insertAnimation: UITableViewRowAnimation, deleteAnimation: UITableViewRowAnimation) {
-        self.closeOtherNodes = closeOtherNodes;
-        self.insertRowAnimation = insertAnimation;
-        self.deleteRowAnimation = deleteAnimation;
+
+    func setTableProperties() {
+        tableView.expandAllNodeAtFirstTime = true
+        tableView.allowOnlyOneActiveNodeInSameLevel = closeOtherNodes
+        tableView.insertRowAnimation = insertRowAnimation
+        tableView.deleteRowAnimation = deleteRowAnimation
+        tableView.setDelegate(self)
     }
-    
-    func loadRosterNodes () -> [YUTableViewNode] {
+
+    override func viewWillLayoutSubviews() {
+        let adjustForTabbarInsets = UIEdgeInsetsMake(self.topLayoutGuide.length, 0, self.bottomLayoutGuide.length, 0)
+        self.tableView!.contentInset = adjustForTabbarInsets;
+        self.tableView!.scrollIndicatorInsets = adjustForTabbarInsets;
+    }
+
+    override func viewWillAppear(animated: Bool) {
+        // Called when the view is about to made visible. 
+        reloadRosterNodes()
+    }
+
+    override func viewWillDisappear(animated: Bool) {
+        // Called when the view is dismissed, covered or otherwise hidden.
+    }
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == Constants.Segue.EnterChat {
+            // Get the new view controller using segue.destinationViewController.
+            // Pass the selected object to the new view controller.
+            let chatViewController = segue.destinationViewController as! ChatViewController
+
+            // Get the cell that generated this segue.
+            if let cell = sender as? RosterTableChildCell, let roster = cell.roster {
+                let chat = XMPPService.sharedInstance.chat().getLeagueChatEntryByJID(roster.jid())!
+                chatViewController.setInitialChatData(chat)
+                searchController?.active = false
+            }
+        }
+    }
+}
+
+extension RosterTableViewController {
+
+    func reloadRosterNodes() {
         groupDictionary = [String:GroupNode]()
 
         let offlineGroup = GroupNode(name: "Offline")
@@ -63,13 +119,15 @@ class RosterTableViewController : UIViewController {
         }
         var result = Array(groupDictionary.values.sort { $0.name < $1.name })
         result.append(offlineGroup)
-        return result;
+
+        allNodes = result
+        tableView.setNodes(activeNodes)
     }
-    
+
     func getGroupNode(name: String) -> GroupNode {
         var groupName = name
         if name == Constants.XMPP.DefaultGroup {
-            groupName = "일반"
+            groupName = NSLocalizedString("General", comment: "Default Group")
         }
         if let groupNode = groupDictionary[groupName] {
             return groupNode
@@ -79,47 +137,10 @@ class RosterTableViewController : UIViewController {
             return groupNode
         }
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == Constants.Segue.EnterChat {
-            // Get the new view controller using segue.destinationViewController.
-            // Pass the selected object to the new view controller.
-            let chatViewController = segue.destinationViewController as! ChatViewController
-
-            // Get the cell that generated this segue.
-            if let cell = sender as? RosterTableChildCell, let roster = cell.roster {
-                let chat = XMPPService.sharedInstance.chat().getLeagueChatEntryByJID(roster.jid())!
-                chatViewController.setInitialChatData(chat)
-            }
-        }
-    }
-
-    override func viewWillLayoutSubviews() {
-        let adjustForTabbarInsets = UIEdgeInsetsMake(0, 0, self.bottomLayoutGuide.length, 0)
-        self.tableView!.contentInset = adjustForTabbarInsets;
-        self.tableView!.scrollIndicatorInsets = adjustForTabbarInsets;
-    }
-
-    override func viewWillAppear(animated: Bool) {
-        // Called when the view is about to made visible. 
-        loadRosterNodes()
-    }
-
-    override func viewWillDisappear(animated: Bool) {
-        // Called when the view is dismissed, covered or otherwise hidden.
-    }
-
-    
 }
 
 extension RosterTableViewController: YUTableViewDelegate {
-    
+
     func setContentsOfCell(cell: UITableViewCell, node: YUTableViewNode) {
         cell.selectionStyle = .None
         if let rosterNode = node as? RosterNode, let rosterCell = cell as? RosterTableChildCell {
@@ -141,12 +162,9 @@ extension RosterTableViewController: YUTableViewDelegate {
 
 extension RosterTableViewController: RosterDelegate {
     func didReceiveRosterUpdate(sender: RosterService, from: LeagueRoster) {
-        if tableView != nil {
-            allNodes = loadRosterNodes()
-            tableView.setNodes(allNodes)
-        }
+        reloadRosterNodes()
     }
-    
+
     func didReceiveFriendSubscription(sender: RosterService, from: LeagueRoster) {
         
     }
@@ -156,6 +174,28 @@ extension RosterTableViewController: RosterDelegate {
     }
 }
 
+extension RosterTableViewController: UISearchResultsUpdating {
+    func updateSearchResultsForSearchController(searchController: UISearchController) {
+        filteredNodes.removeAll(keepCapacity: false)
+        for groupNode in allNodes {
+            if groupNode.childNodes != nil {
+                let filteredChildNodes = groupNode.childNodes.filter {
+                    if let roster = $0.data as? LeagueRoster,
+                        let keyword = searchController.searchBar.text {
+                        return roster.username.stringByReplacingOccurrencesOfString(" ", withString: "").localizedCaseInsensitiveContainsString(keyword)
+                    }
+                    return false
+                }
+                if !filteredChildNodes.isEmpty {
+                    let filteredGroupNode = GroupNode(name: groupNode.data as! String)
+                    filteredGroupNode.childNodes = filteredChildNodes
+                    filteredNodes.append(filteredGroupNode)
+                }
+            }
+        }
+        tableView.setNodes(activeNodes)
+    }
+}
 
 class GroupNode : YUTableViewNode {
     init(name: String) {
@@ -182,7 +222,7 @@ class GroupNode : YUTableViewNode {
 
 class RosterNode : YUTableViewNode {
     init(roster: LeagueRoster) {
-        super.init(data: roster, nodeId: roster.getNumericUserid(), cellIdentifier: "RosterCell")
+        super.init(data: roster, nodeId: roster.getNumericUserId(), cellIdentifier: "RosterCell")
     }
     
     var roster: LeagueRoster {

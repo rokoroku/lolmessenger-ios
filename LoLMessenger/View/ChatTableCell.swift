@@ -68,40 +68,24 @@ class ChatTableCell: UITableViewCell {
         }
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-    }
-
     override func prepareForReuse() {
         super.prepareForReuse()
         body.text = nil
         body.sizeToFit()
-        balloonImage.setNeedsDisplay()
         balloonImage.invalidateIntrinsicContentSize()
+        balloonImage.setNeedsDisplay()
     }
 
     func setItem(roster: LeagueRoster?, message: LeagueMessage.RawData) {
         if profileIcon != nil {
-            if let iconId = roster?.profileIcon {
-                profileIcon.image = UIImage(named: "profile_\(iconId)") ?? UIImage(named: "profile_unknown")
-            } else {
-                profileIcon.image = UIImage(named: "profile_unknown")
-            }
+            profileIcon.image = roster?.getProfileIcon()
         }
         if name != nil {
             name.text = message.nick
         }
-        if body != nil {
-            body.text = message.body
-        }
-        if balloonImage != nil {
-            balloonImage.type = message.isMine ? .Right : .Left
-            balloonImage.invalidateIntrinsicContentSize()
-            balloonImage.setNeedsDisplay()
-        }
-        if timestamp != nil {
-            timestamp.text = message.timestamp.format("HH:mm")
-        }
+        body.text = message.body
+        timestamp.text = message.timestamp.format("HH:mm")
+        balloonImage.type = message.isMine ? .Right : .Left
     }
 
 }

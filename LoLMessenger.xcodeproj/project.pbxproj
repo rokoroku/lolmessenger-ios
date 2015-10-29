@@ -170,12 +170,12 @@
 		F83FB1E11BDFC8AA00FBDCCA /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				F83FB1E21BDFC8AA00FBDCCA /* ChatViewController.swift */,
 				F83FB1E31BDFC8AA00FBDCCA /* LoginViewController.swift */,
 				F83FB1E41BDFC8AA00FBDCCA /* MainTabBarController.swift */,
-				F83FB1E51BDFC8AA00FBDCCA /* MoreViewController.swift */,
-				F83FB1E61BDFC8AA00FBDCCA /* RecentChatViewController.swift */,
 				F83FB1E71BDFC8AA00FBDCCA /* RosterTableViewController.swift */,
+				F83FB1E61BDFC8AA00FBDCCA /* RecentChatViewController.swift */,
+				F83FB1E51BDFC8AA00FBDCCA /* MoreViewController.swift */,
+				F83FB1E21BDFC8AA00FBDCCA /* ChatViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";

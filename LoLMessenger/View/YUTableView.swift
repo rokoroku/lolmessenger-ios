@@ -73,7 +73,6 @@ class YUTableView: UITableView
         self.firstLevelNodes = nodes;
         if activeNodesId == nil { activeNodesId = [] }
         if expandAllNodeAtFirstTime && isFirstLoaded {
-            self.isFirstLoaded = false
             self.nodesToDisplay = []
             for firstLevelNode in nodes {
                 nodesToDisplay.append(firstLevelNode)
@@ -96,6 +95,9 @@ class YUTableView: UITableView
                     }
                 }
             }
+        }
+        if !nodesToDisplay.isEmpty {
+            self.isFirstLoaded = false
         }
         reloadData();
     }

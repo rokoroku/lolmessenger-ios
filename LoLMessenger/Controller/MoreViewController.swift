@@ -7,6 +7,7 @@
 //
 
 import Eureka
+import ChameleonFramework
 
 class MoreViewController : FormViewController {
     
@@ -16,6 +17,7 @@ class MoreViewController : FormViewController {
         form +++ notificationSection()
         form +++ friendSection()
         form +++ chatSection()
+        navigationController?.hidesNavigationBarHairline = true
     }
 
     func accountSection() -> Section {
