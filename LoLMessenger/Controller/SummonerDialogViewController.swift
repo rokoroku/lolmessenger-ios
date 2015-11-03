@@ -70,7 +70,6 @@ class SummonerDialogViewController : UIViewController {
 
     func updateRoster() {
         if let roster = roster {
-            print(roster.description)
             profileIcon.image = roster.getProfileIcon()
             summonerName.text = roster.username
             statusMessage.text = roster.statusMsg

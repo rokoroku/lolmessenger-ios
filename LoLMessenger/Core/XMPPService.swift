@@ -305,6 +305,8 @@ extension XMPPService : XMPPStreamDelegate {
             myRosterElement = LeagueRoster(jid: sender.myJID, nickname: summonerName, group: nil)
             if let storedPresence = StoredProperties.Presences.get(sender.myJID.user) {
                 myRosterElement!.parsePresence(storedPresence)
+            } else {
+                myRosterElement?.statusMsg = Constants.XMPP.DefaultStatus
             }
             myRosterElement!.show = .Chat
             Async.background(after: 0.3, block: {

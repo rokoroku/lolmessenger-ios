@@ -16,6 +16,7 @@ struct Constants {
     struct Key {
         static let Username = "username"
         static let Password = "password"
+        static let Region = "region"
         static func Presence(userid: String) -> String {
             return "presence_\(userid)"
         }
@@ -31,6 +32,7 @@ struct Constants {
             static let Mobile = "iOS"
         }
         static let DefaultGroup = "**Default"
+        static let DefaultStatus = "Using iOS Client (beta)"
         static let Unknown = "Unknown"
     }
 
