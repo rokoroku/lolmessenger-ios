@@ -16,7 +16,8 @@ enum LeagueState : Int8 {
 
     // dnd
     case InQueue
-    case SelectingChampion
+    case InTeamSelect
+    case InChampionSelect
     case InGame
     case Spectating
 
@@ -68,7 +69,34 @@ class LeagueRoster {
     var gameStatus: String?
     var skinName: String?
     var timeStamp: Int?
-    
+
+    //Properties
+    private var currentGameQueueString: String? {
+        if let type = gameQueueType {
+            if type.containsString("ARAM") || type.containsString("NORMAL") || type.containsString("UNRANKED") { return "Normal" }
+            else if type.containsString("BOT") { return "Co-op" }
+            else if type.containsString("RANKED") { return "Ranked" }
+            else if type.containsString("NONE") { return  "Custom" }
+        }
+        return nil
+    }
+
+    private var currentGameType: String? {
+        if let type = gameQueueType {
+            if type.containsString("ARAM") { return "ARAM" }
+            else if type.containsString("5x5") || type.containsString("NORMAL") { return "Summoner's Rift" }
+            else if type.containsString("3x3") { return "Twisted Treeline" }
+        }
+        return nil
+    }
+
+    var elapsedTime: NSTimeInterval? {
+        if let gameStartedAt = timeStamp {
+            return NSDate().timeIntervalSince1970 - NSTimeInterval(gameStartedAt/1000)
+        }
+        return nil
+    }
+
     init(rosterElement: DDXMLElement) {
         self.userid = XMPPJID.jidWithString(rosterElement.attributeStringValueForName("jid")).user
         self.username = rosterElement.attributeStringValueForName("name", withDefaultValue: Constants.XMPP.Unknown)
@@ -86,30 +114,72 @@ class LeagueRoster {
         return XMPPJID.jidWithUser(userid, domain: Constants.XMPP.Domain.User, resource: Constants.XMPP.Resource.Mobile)
     }
 
-    func getDisplayStatus() -> String {
+    func getDisplayColor() -> UIColor {
+        switch(show) {
+        case .Chat: return Theme.GreenColor
+        case .Away: return Theme.RedColor
+        case .Dnd: return Theme.YellowColor
+        default: return Theme.TextColorDisabled
+        }
+    }
+
+    func getCurrentGameStatus() -> String? {
+        if status == .InGame {
+            if let queue = currentGameQueueString {
+                if let type = currentGameType {
+                    if let champion = skinName { return "\(type) (\(queue)) - \(champion)" }
+                    else { return "\(type) (\(queue))" }
+                }
+                else if let champion = skinName {
+                    return "\(queue) Game - \(champion)"
+                } else {
+                    return "\(queue) Game "
+                }
+            } else if let champion = skinName {
+                return "In Game - \(champion)"
+            } else {
+                return "In Game"
+            }
+        }
+        return nil
+    }
+
+    func getDisplayStatus(showStatusMessage: Bool = true) -> String {
+
         switch(status) {
         case .Online, .Away:
             if let statusMessage = statusMsg {
-                if !statusMessage.stringByReplacingOccurrencesOfString(" ", withString: "").isEmpty {
+                if showStatusMessage && !statusMessage.stringByReplacingOccurrencesOfString(" ", withString: "").isEmpty {
                     return statusMessage
                 } else {
                     return status == .Online ? "Online" : "Away"
                 }
             }
         case .HostingGame:
-            return "Hosting Game"
+            var queueType = ""
+            if let type = gameStatus {
+                if type == "inTeamBuilder" { return "In Team Builder" }
+                else if type.containsString("Normal") { queueType = "Normal" }
+                else if type.containsString("Ranked") { queueType = "Ranked" }
+                else if type.containsString("CoopVsAI") { queueType = "Co-op" }
+                else if type.containsString("Practice") { queueType = "Practice" }
+            }
+            return "Hosting a \(queueType) Game"
+
+        case .InTeamSelect:
+            return "In Team Select"
 
         case .InQueue:
             return "In Queue"
 
-        case .SelectingChampion:
-            return "Selecting Champion"
+        case .InChampionSelect:
+            return "In Champion Select"
 
         case .InGame:
             return "In Game"
 
         case .Spectating:
-            return "Hosting Game"
+            return "Spectating"
 
         case .Offline:
             return "Offline"
@@ -132,6 +202,12 @@ class LeagueRoster {
             userid = xmppPresence.from().user
         }
 
+        if xmppPresence.childCount() == 0 {
+            show = .Chat
+            status = .Unknown
+            return
+        }
+
         show = xmppPresence.showType()
         switch (show) {
             case .Chat: status = .Online; break;
@@ -142,10 +218,10 @@ class LeagueRoster {
 
         if let type = xmppPresence.type() {
             if type == "unavailable" {
-                available = false
-                status = .Offline
                 show = .Unavailable
-                return;
+                status = .Offline
+                available = false
+                return
             }
         }
 
@@ -174,13 +250,17 @@ class LeagueRoster {
 
         if let _ = gameStatus {
             let lowercasedGameStatus = gameStatus!.lowercaseString
-            if show == .Chat && lowercasedGameStatus.containsString("hosting") {
-                status = .HostingGame
+            if show == .Chat {
+                if lowercasedGameStatus.containsString("hosting") {
+                    status = .HostingGame
+                } else if lowercasedGameStatus.containsString("team") {
+                    status = .InTeamSelect
+                }
             } else if show == .Dnd {
                 if lowercasedGameStatus.containsString("queue") {
                     status = .InQueue
                 } else if lowercasedGameStatus.containsString("champion") {
-                    status = .SelectingChampion
+                    status = .InChampionSelect
                 } else if lowercasedGameStatus.containsString("ingame") {
                     status = .InGame
                 } else if lowercasedGameStatus.containsString("spectating") {
@@ -242,6 +322,7 @@ class LeagueRoster {
 
         body.addChild(DDXMLElement(name: "level", numberValue: level))
         body.addChild(DDXMLElement(name: "profileIcon", numberValue: profileIcon))
+        body.addChild(DDXMLElement(name: "statusMsg", stringValue: statusMsg))
         body.addChild(DDXMLElement(name: "championMasteryScore", numberValue: championMasteryScore))
         body.addChild(DDXMLElement(name: "wins", numberValue: normalWins))
         body.addChild(DDXMLElement(name: "rankedWins", numberValue: rankedWins))
@@ -249,11 +330,10 @@ class LeagueRoster {
         body.addChild(DDXMLElement(name: "rankedLeagueDivision", stringValue: rankedLeagueDivision))
         body.addChild(DDXMLElement(name: "rankedLeagueTier", stringValue: rankedLeagueTier))
         body.addChild(DDXMLElement(name: "rankedLeagueQueue", stringValue: rankedLeagueQueue))
-        body.addChild(DDXMLElement(name: "skinName", stringValue: skinName))
-        body.addChild(DDXMLElement(name: "statusMsg", stringValue: statusMsg))
-        body.addChild(DDXMLElement(name: "gameQueueType", stringValue: gameQueueType))
-        body.addChild(DDXMLElement(name: "gameStatus", stringValue: gameStatus))
-        body.addChild(DDXMLElement(name: "timeStamp", numberValue: timeStamp))
+        //body.addChild(DDXMLElement(name: "skinName", stringValue: skinName))
+        //body.addChild(DDXMLElement(name: "gameQueueType", stringValue: gameQueueType))
+        //body.addChild(DDXMLElement(name: "gameStatus", stringValue: gameStatus))
+        //body.addChild(DDXMLElement(name: "timeStamp", numberValue: timeStamp))
 
         return DDXMLElement(name: "status", stringValue: body.XMLString())
     }

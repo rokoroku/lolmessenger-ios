@@ -107,6 +107,10 @@ class RosterService : NSObject {
         }
     }
 
+    func setNote(roster: LeagueRoster, note: String) {
+        xmppRoster.setNote(note, forUser: roster.jid())
+    }
+
     func getNumOfSubscriptionRequests() -> Int {
         return 0
     }
@@ -146,20 +150,24 @@ class RosterService : NSObject {
 // MARK : XMPPStreamDelegate
 extension RosterService : XMPPStreamDelegate {
     @objc func xmppStream(sender: XMPPStream!, didReceivePresence presence: XMPPPresence!) {
-        if presence.isFrom(sender.myJID.bareJID()) {
+        if presence.isFrom(sender.myJID, options: XMPPJIDCompareUser) {
             return
         }
 
-        if !isPopulated {
-            Async.background(after: 0.5) {
-                self.xmppStream(sender, didReceivePresence: presence)
-            }
-        } else if let roster = rosterDictionary[presence.from().user] {
+        if let roster = rosterDictionary[presence.from().user] {
+//            var roster = rosterDictionary[presence.from().user]
+//            if roster == nil {
+//                roster = LeagueRoster(jid: presence.from(), nickname: nil, group: nil)
+//                rosterDictionary[presence.from().user] = roster
+//            }
             roster.parsePresence(presence)
             invokeDelegates {
                 delegate in delegate.didReceiveRosterUpdate(self, from: roster)
             }
-
+        } else if !isPopulated {
+            Async.background(after: 1) {
+                self.xmppStream(sender, didReceivePresence: presence)
+            }
         }
     }
 }
@@ -192,4 +200,16 @@ extension RosterService : XMPPRosterDelegate {
     
 }
 
+extension XMPPRoster {
+    public func setNote(note: String?, forUser jid: XMPPJID) {
+        let item = DDXMLElement(name: "item")
+        item.addAttributeWithName("jid", stringValue: jid.bare())
+        item.addChild(DDXMLElement(name: "note", stringValue: note))
 
+        let query = DDXMLElement(name: "query", xmlns: "jabber:iq:roster")
+        query.addChild(item)
+
+        let iq = XMPPIQ(type: "set", child: query)
+        xmppStream.sendElement(iq)
+    }
+}

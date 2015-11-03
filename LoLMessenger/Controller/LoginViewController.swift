@@ -8,6 +8,7 @@
 
 import UIKit
 import TKSubmitTransition
+import ChameleonFramework
 
 class LoginViewController: UIViewController {
 

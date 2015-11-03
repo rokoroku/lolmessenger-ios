@@ -16,14 +16,20 @@ class NotificationUtils {
 
         // create a corresponding local notification
         let notification = UILocalNotification()
-        notification.alertTitle = "New Message"
+        if #available(iOS 8.2, *) {
+            notification.alertTitle = NSLocalizedString("New Message", comment: "New Message Alert Title")
+        } else {
+            // Fallback on earlier versions
+        }
         notification.alertBody = "\(message.nick) : \(message.body)"
-        notification.alertAction = "open"
-        notification.soundName = UILocalNotificationDefaultSoundName // play default sound
-        notification.category = "lol_message"
+        notification.alertAction = NSLocalizedString("Open", comment: "New Message Alert Action")
+        if StoredProperties.Settings.notifyWithSound.value {
+            notification.soundName = UILocalNotificationDefaultSoundName // play default sound
+        }
+        notification.category = "message"
         notification.userInfo = [
             Constants.Notification.ChatID: chat.id,
-            Constants.Notification.Redirect: !UIApplication.isActive()]
+            Constants.Notification.AppState: UIApplication.isActive()]
         notification.applicationIconBadgeNumber = chat.unread
 
         return notification
@@ -32,10 +38,18 @@ class NotificationUtils {
     class func create(title: String, body: String) -> UILocalNotification {
         // create a corresponding local notification
         let notification = UILocalNotification()
-        notification.alertTitle = title
+        if #available(iOS 8.2, *) {
+            notification.alertTitle = title
+        } else {
+            // Fallback on earlier versions
+        }
         notification.alertBody = body
         notification.alertAction = "open"
-        notification.soundName = UILocalNotificationDefaultSoundName // play default sound
+
+        if StoredProperties.Settings.notifyWithSound.value {
+            notification.soundName = UILocalNotificationDefaultSoundName // play default sound
+        }
+
         notification.category = "lol_alert"
         notification.userInfo = ["uid" : "alert"]
 
@@ -45,8 +59,7 @@ class NotificationUtils {
     class func dismiss(key: String, id: String) {
         let application = UIApplication.sharedApplication()
         if let scheduledNotifications = application.scheduledLocalNotifications {
-            scheduledNotifications.forEach {
-                notification in
+            scheduledNotifications.forEach { notification in
                 if let uid = notification.userInfo?[key] as? String {
                     if uid == id {
                         application.cancelLocalNotification(notification)

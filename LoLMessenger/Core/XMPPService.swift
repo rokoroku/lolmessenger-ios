@@ -160,8 +160,8 @@ class XMPPService : NSObject {
 
     func login(username: String, password: String) -> Bool {
         do {
-            try xmppStream?.authenticate(XMPPPlainAuthentication(stream: xmppStream!, username: username, password: "AIR_" + password))
-
+            let token = XMPPPlainAuthentication(stream: xmppStream!, username: username, password: "AIR_" + password)
+            try xmppStream?.authenticate(token)
         } catch let error as NSError {
             print(error.description)
             return false;
@@ -175,6 +175,7 @@ class XMPPService : NSObject {
 
     func sendPresence(presence: XMPPPresence) {
         StoredProperties.Presences.put(xmppStream!.myJID.user, presence: presence)
+        print("myPresence: \(presence)")
         xmppStream?.sendElement(presence)
     }
 
@@ -281,7 +282,6 @@ extension XMPPService : XMPPStreamDelegate {
 
     @objc func xmppStream(sender: XMPPStream!, didNotAuthenticate error: DDXMLElement!) {
         print("xmppStreamDidNotAuthenticated!")
-
         delegates.forEach {
             delegate in delegate.onAuthenticationFailed(self)
         }
@@ -307,7 +307,7 @@ extension XMPPService : XMPPStreamDelegate {
                 myRosterElement!.parsePresence(storedPresence)
             }
             myRosterElement!.show = .Chat
-            Async.background(after: 0.25, block: {
+            Async.background(after: 0.3, block: {
                 self.sendPresence(self.myRosterElement!.getPresenceElement())
             })
         }
@@ -327,7 +327,7 @@ extension XMPPService : XMPPStreamDelegate {
                 currentRoster.rankedLeagueQueue = xiffRoster.rankedLeagueQueue
                 currentRoster.rankedLeagueDivision = xiffRoster.rankedLeagueDivision
                 currentRoster.championMasteryScore = xiffRoster.championMasteryScore
-                if xiffRoster.status == .HostingGame || xiffRoster.status == .SelectingChampion || xiffRoster.status == .InQueue {
+                if xiffRoster.status == .HostingGame || xiffRoster.status == .InTeamSelect || xiffRoster.status == .InChampionSelect || xiffRoster.status == .InQueue {
                     currentRoster.priority = -1
                     sendPresence(currentRoster.getPresenceElement())
                 } else if currentRoster.priority < 0 {

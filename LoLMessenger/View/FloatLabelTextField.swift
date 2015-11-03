@@ -63,7 +63,7 @@ import UIKit
 		}
 	}
 	
-	@IBInspectable var titleTextColour:UIColor = .grayColor() {
+	@IBInspectable var titleTextColour:UIColor = .lightGrayColor() {
 		didSet {
 			if !isFirstResponder() {
 				title.textColor = titleTextColour
@@ -145,7 +145,7 @@ import UIKit
 	// MARK:- Private Methods
 	private func setup() {
 		borderStyle = UITextBorderStyle.None
-		titleActiveTextColour = tintColor
+		titleActiveTextColour = FloatLabelTextField.appearance().tintColor
 		// Set up title label
 		title.alpha = 0.0
 		title.font = titleFont

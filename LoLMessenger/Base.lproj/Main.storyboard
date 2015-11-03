@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Hdv-7M-9cr">
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Segues with Peek and Pop" minToolsVersion="7.1"/>
     </dependencies>
     <scenes>
         <!--Recent Chat Controller-->
         <scene sceneID="Ydb-mi-NoD">
             <objects>
-                <viewController title="Recent Chat Controller" id="YKJ-tL-PT0" customClass="RecentChatViewController" customModule="LoLMessenger" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Recent Chat Controller" id="YKJ-tL-PT0" customClass="RecentChatViewController" customModule="Messenger_for_League_of_Legends" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="GAQ-vS-A17"/>
                         <viewControllerLayoutGuide type="bottom" id="e0B-nu-p0c"/>
@@ -20,31 +20,21 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="58" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="m1L-V7-qt9">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" alwaysBounceVertical="YES" canCancelContentTouches="NO" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="58" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="m1L-V7-qt9">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <inset key="separatorInset" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
-                                <searchBar key="tableHeaderView" contentMode="redraw" id="SW3-3d-LqA">
-                                    <rect key="frame" x="0.0" y="64" width="600" height="44"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                    <animations/>
-                                    <textInputTraits key="textInputTraits"/>
-                                    <scopeButtonTitles>
-                                        <string>Title</string>
-                                        <string>Title</string>
-                                    </scopeButtonTitles>
-                                </searchBar>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="RecentChatTableCell" selectionStyle="none" indentationWidth="10" reuseIdentifier="RecentChatTableCell" id="KW8-sV-s5m" customClass="RecentChatTableCell" customModule="LoLMessenger" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="136" width="600" height="58"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="RecentChatTableCell" selectionStyle="none" indentationWidth="10" reuseIdentifier="RecentChatTableCell" id="KW8-sV-s5m" customClass="RecentChatTableCell" customModule="Messenger_for_League_of_Legends" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="92" width="600" height="58"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KW8-sV-s5m" id="Yba-vA-z04">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="57.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mVn-FS-RFJ" userLabel="Name">
-                                                    <rect key="frame" x="12" y="6" width="43.5" height="14"/>
+                                                    <rect key="frame" x="12" y="6" width="43.5" height="19.5"/>
                                                     <animations/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="44" id="IXg-mZ-S00"/>
@@ -59,13 +49,13 @@
                                                     </variation>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Message" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="huc-bR-xBP" userLabel="Message">
-                                                    <rect key="frame" x="12" y="30" width="65.5" height="20.5"/>
+                                                    <rect key="frame" x="12" y="30" width="65" height="19.5"/>
                                                     <animations/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="hh:mm" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rfY-Vk-PNk" userLabel="Timestamp">
-                                                    <rect key="frame" x="543" y="6" width="45" height="13"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="hh:mm" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rfY-Vk-PNk" userLabel="Timestamp">
+                                                    <rect key="frame" x="543" y="6" width="45" height="18.5"/>
                                                     <animations/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="45" id="HPB-Li-BWj"/>
@@ -75,18 +65,18 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k8b-OE-E3i" userLabel="Badge">
-                                                    <rect key="frame" x="568" y="30" width="20" height="20.5"/>
+                                                    <rect key="frame" x="568" y="30" width="20" height="19.5"/>
                                                     <animations/>
                                                     <color key="backgroundColor" red="0.85043728351593018" green="0.21816034615039825" blue="0.15920260548591614" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="20" id="bhi-Oe-Ho1"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="13"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="H1W-qe-N1u" userLabel="StateIcon">
-                                                    <rect key="frame" x="59.5" y="6" width="14" height="14"/>
+                                                    <rect key="frame" x="59.5" y="8" width="14" height="14"/>
                                                     <animations/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="14" id="1S8-tD-lNX"/>
@@ -105,11 +95,9 @@
                                                 <constraint firstAttribute="trailingMargin" secondItem="rfY-Vk-PNk" secondAttribute="trailing" id="CD0-aD-9MT"/>
                                                 <constraint firstItem="k8b-OE-E3i" firstAttribute="centerY" secondItem="huc-bR-xBP" secondAttribute="centerY" id="JJK-y8-C8A"/>
                                                 <constraint firstItem="mVn-FS-RFJ" firstAttribute="top" secondItem="Yba-vA-z04" secondAttribute="topMargin" id="TQ3-aQ-x6W"/>
-                                                <constraint firstItem="huc-bR-xBP" firstAttribute="top" secondItem="H1W-qe-N1u" secondAttribute="bottom" constant="10" id="Vtc-Sc-y0Z"/>
                                                 <constraint firstItem="H1W-qe-N1u" firstAttribute="leading" secondItem="mVn-FS-RFJ" secondAttribute="trailing" constant="4" id="gIu-GE-7Dd"/>
-                                                <constraint firstItem="H1W-qe-N1u" firstAttribute="centerY" secondItem="mVn-FS-RFJ" secondAttribute="centerY" id="hEb-Em-EdL"/>
-                                                <constraint firstItem="k8b-OE-E3i" firstAttribute="top" secondItem="rfY-Vk-PNk" secondAttribute="bottom" constant="11" id="i23-k0-Zlo"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="huc-bR-xBP" secondAttribute="bottom" constant="1" id="rK3-jX-u0T"/>
+                                                <constraint firstItem="H1W-qe-N1u" firstAttribute="centerY" secondItem="mVn-FS-RFJ" secondAttribute="centerY" constant="-1" id="hEb-Em-EdL"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="huc-bR-xBP" secondAttribute="bottom" constant="2" id="rK3-jX-u0T"/>
                                             </constraints>
                                             <edgeInsets key="layoutMargins" top="6" left="12" bottom="6" right="12"/>
                                         </tableViewCellContentView>
@@ -121,7 +109,10 @@
                                             <outlet property="name" destination="mVn-FS-RFJ" id="0wk-U7-ehI"/>
                                             <outlet property="stateIcon" destination="H1W-qe-N1u" id="JAj-X2-wAw"/>
                                             <outlet property="timestamp" destination="rfY-Vk-PNk" id="rRz-zH-vGA"/>
-                                            <segue destination="Vrd-nV-eyh" kind="show" identifier="EnterChat" id="fqo-QO-92X"/>
+                                            <segue destination="Vrd-nV-eyh" kind="show" identifier="EnterChat" id="fqo-QO-92X">
+                                                <segue key="commit" inheritsFrom="parent" id="Zhy-Uo-7YH"/>
+                                                <segue key="preview" destination="Vrd-nV-eyh" identifier="PreviewChat" id="Zkj-Dg-Rus"/>
+                                            </segue>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -148,7 +139,7 @@
         <!--More-->
         <scene sceneID="b7K-c2-NYz">
             <objects>
-                <viewController storyboardIdentifier="MoreViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="kWl-Jy-aUz" customClass="MoreViewController" customModule="LoLMessenger" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MoreViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="kWl-Jy-aUz" customClass="MoreViewController" customModule="Messenger_for_League_of_Legends" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="R3q-ps-4GO"/>
                         <viewControllerLayoutGuide type="bottom" id="C9V-qA-UOB"/>
@@ -157,7 +148,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="More" id="g5u-Gy-Pmn"/>
                 </viewController>
@@ -168,7 +158,7 @@
         <!--Chat View Controller-->
         <scene sceneID="o6G-md-Gxx">
             <objects>
-                <viewController storyboardIdentifier="ChatViewController" extendedLayoutIncludesOpaqueBars="YES" hidesBottomBarWhenPushed="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Vrd-nV-eyh" customClass="ChatViewController" customModule="LoLMessenger" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ChatViewController" extendedLayoutIncludesOpaqueBars="YES" hidesBottomBarWhenPushed="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Vrd-nV-eyh" customClass="ChatViewController" customModule="Messenger_for_League_of_Legends" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="5Ez-23-oiq"/>
                         <viewControllerLayoutGuide type="bottom" id="TRF-CM-Dwf"/>
@@ -191,14 +181,20 @@
                                             <rect key="frame" x="343" y="449" width="49" height="30"/>
                                         </variation>
                                     </button>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5W7-aq-tEz">
+                                    <textField autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="15" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="5W7-aq-tEz">
                                         <rect key="frame" x="8" y="6" width="530" height="36"/>
                                         <animations/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="36" id="Icu-RJ-q0Z"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="send"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="_placeholderLabel.textColor">
+                                                <color key="value" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                         <variation key="widthClass=compact" misplaced="YES">
                                             <rect key="frame" x="8" y="447" width="328" height="36"/>
                                         </variation>
@@ -215,27 +211,28 @@
                                     <constraint firstItem="5W7-aq-tEz" firstAttribute="leading" secondItem="gZC-Af-UaQ" secondAttribute="leading" constant="8" id="zNX-Qd-KYa"/>
                                 </constraints>
                             </view>
-                            <tableView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="interactive" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="100" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="xMz-Ht-nIc">
+                            <tableView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="100" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="xMz-Ht-nIc">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="488"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="BalloonOthers" selectionStyle="none" indentationWidth="10" reuseIdentifier="BalloonOthers" id="idN-Jv-9hh" customClass="ChatTableCell" customModule="LoLMessenger" customModuleProvider="target">
+                                    <tableViewCell opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="BalloonOthers" selectionStyle="none" indentationWidth="10" reuseIdentifier="BalloonOthers" id="idN-Jv-9hh" customClass="ChatTableCell" customModule="Messenger_for_League_of_Legends" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="600" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="idN-Jv-9hh" id="WaO-9l-ETY">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="100"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4EN-7W-2mE" userLabel="Icon">
+                                                <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4EN-7W-2mE" userLabel="Icon">
                                                     <rect key="frame" x="8" y="8" width="40" height="40"/>
                                                     <animations/>
+                                                    <gestureRecognizers/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="40" id="8WM-b2-ZPx"/>
                                                         <constraint firstAttribute="width" constant="40" id="z08-zU-sRe"/>
                                                     </constraints>
                                                 </imageView>
-                                                <view opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Yap-BF-YBK" userLabel="Balloon Image" customClass="BalloonView" customModule="LoLMessenger" customModuleProvider="target">
+                                                <view opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Yap-BF-YBK" userLabel="Balloon Image" customClass="BalloonView" customModule="Messenger_for_League_of_Legends" customModuleProvider="target">
                                                     <rect key="frame" x="55" y="26" width="53.5" height="37.5"/>
                                                     <animations/>
                                                     <accessibility key="accessibilityConfiguration">
@@ -260,9 +257,9 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kJI-mv-D6u" userLabel="Name">
-                                                    <rect key="frame" x="54" y="6" width="36" height="17"/>
+                                                    <rect key="frame" x="54" y="6" width="35.5" height="17"/>
                                                     <animations/>
-                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -296,14 +293,14 @@
                                             <outlet property="timestamp" destination="PGU-nH-wCU" id="yLV-aI-C9o"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="BalloonMine" selectionStyle="none" indentationWidth="10" reuseIdentifier="BalloonMine" id="52d-Uo-gdZ" customClass="ChatTableCell" customModule="LoLMessenger" customModuleProvider="target">
+                                    <tableViewCell opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="BalloonMine" selectionStyle="none" indentationWidth="10" reuseIdentifier="BalloonMine" id="52d-Uo-gdZ" customClass="ChatTableCell" customModule="Messenger_for_League_of_Legends" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="128" width="600" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="52d-Uo-gdZ" id="kdT-VP-W74">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="100"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="WUw-8N-qXW" userLabel="Balloon Image" customClass="BalloonView" customModule="LoLMessenger" customModuleProvider="target">
+                                                <view opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="WUw-8N-qXW" userLabel="Balloon Image" customClass="BalloonView" customModule="Messenger_for_League_of_Legends" customModuleProvider="target">
                                                     <rect key="frame" x="539" y="3" width="53.5" height="37.5"/>
                                                     <animations/>
                                                     <accessibility key="accessibilityConfiguration">
@@ -361,6 +358,7 @@
                             <constraint firstItem="TRF-CM-Dwf" firstAttribute="top" secondItem="gZC-Af-UaQ" secondAttribute="bottom" id="0jv-xS-DJ3"/>
                             <constraint firstItem="xMz-Ht-nIc" firstAttribute="leading" secondItem="MCS-Ep-bS1" secondAttribute="leading" id="96j-m3-KXT"/>
                             <constraint firstAttribute="trailing" secondItem="gZC-Af-UaQ" secondAttribute="trailing" id="CZW-ca-Se0"/>
+                            <constraint firstItem="TRF-CM-Dwf" firstAttribute="top" secondItem="xMz-Ht-nIc" secondAttribute="bottom" priority="250" id="L1J-5u-89n"/>
                             <constraint firstAttribute="bottom" secondItem="gZC-Af-UaQ" secondAttribute="bottom" id="LU9-1o-9r1"/>
                             <constraint firstAttribute="trailing" secondItem="xMz-Ht-nIc" secondAttribute="trailing" id="NDQ-rj-ZiD"/>
                             <constraint firstItem="xMz-Ht-nIc" firstAttribute="top" secondItem="MCS-Ep-bS1" secondAttribute="topMargin" id="VK6-nv-6VC"/>
@@ -378,10 +376,12 @@
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="inputBox" destination="gZC-Af-UaQ" id="UQI-SD-KKE"/>
                         <outlet property="keyboardHeightLayoutConstraint" destination="LU9-1o-9r1" id="lh5-wX-Kc2"/>
                         <outlet property="sendButton" destination="kOy-7P-kTR" id="SDn-dX-AXo"/>
                         <outlet property="tableView" destination="xMz-Ht-nIc" id="McS-ED-ScK"/>
                         <outlet property="textField" destination="5W7-aq-tEz" id="f0W-2x-Nzq"/>
+                        <segue destination="fdP-3d-TK7" kind="custom" identifier="SummonerModal" customClass="PopupSegue" customModule="Messenger_for_League_of_Legends" customModuleProvider="target" id="fJO-XY-gGi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aax-EX-adP" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -391,7 +391,6 @@
         <!--Navigation Controller-->
         <scene sceneID="hpM-xv-bde">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="WMi-0s-i3E" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController id="FQs-Ph-PXv" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" systemItem="more" id="U02-CN-b0O"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Gik-8t-Yj4">
@@ -403,13 +402,13 @@
                         <segue destination="kWl-Jy-aUz" kind="relationship" relationship="rootViewController" id="UB5-NT-ldH"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WMi-0s-i3E" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1513" y="446"/>
         </scene>
         <!--Chat Controller-->
         <scene sceneID="Wbl-hd-hlS">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="pFF-oW-AcL" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController storyboardIdentifier="RecentChatViewController" title="Chat Controller" useStoryboardIdentifierAsRestorationIdentifier="YES" id="0OT-qu-puD" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" systemItem="recents" id="bHS-OH-sg4"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="C6R-UA-NoG">
@@ -422,13 +421,14 @@
                         <segue destination="YKJ-tL-PT0" kind="relationship" relationship="rootViewController" id="lMS-VQ-Yf1"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pFF-oW-AcL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1513" y="-257"/>
         </scene>
         <!--Tab Controller-->
         <scene sceneID="6dv-fz-prM">
             <objects>
-                <tabBarController storyboardIdentifier="TabBarController" title="Tab Controller" useStoryboardIdentifierAsRestorationIdentifier="YES" id="nEb-Ji-byN" customClass="MainTabBarController" customModule="LoLMessenger" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="TabBarController" title="Tab Controller" useStoryboardIdentifierAsRestorationIdentifier="YES" id="nEb-Ji-byN" customClass="MainTabBarController" customModule="Messenger_for_League_of_Legends" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="yzU-bj-R68"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="Pcw-tm-q2g">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
@@ -449,7 +449,7 @@
         <!--Roster Table-->
         <scene sceneID="1AR-hS-pg7">
             <objects>
-                <viewController id="7qY-nS-FGq" userLabel="Roster Table" customClass="RosterTableViewController" customModule="LoLMessenger" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="7qY-nS-FGq" userLabel="Roster Table" customClass="RosterTableViewController" customModule="Messenger_for_League_of_Legends" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="XOZ-K2-R4t"/>
                         <viewControllerLayoutGuide type="bottom" id="UCh-4C-aPv"/>
@@ -458,24 +458,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" sectionIndexMinimumDisplayRowCount="1" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="0NG-aP-bKH" customClass="YUTableView" customModule="LoLMessenger" customModuleProvider="target">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" canCancelContentTouches="NO" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" sectionIndexMinimumDisplayRowCount="1" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="0NG-aP-bKH" customClass="YUTableView" customModule="Messenger_for_League_of_Legends" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <inset key="separatorInset" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
-                                <searchBar key="tableHeaderView" contentMode="redraw" id="4v9-be-2O1">
-                                    <rect key="frame" x="0.0" y="64" width="600" height="44"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                    <animations/>
-                                    <textInputTraits key="textInputTraits"/>
-                                    <scopeButtonTitles>
-                                        <string>Title</string>
-                                        <string>Title</string>
-                                    </scopeButtonTitles>
-                                </searchBar>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="GroupCell" selectionStyle="none" indentationWidth="10" reuseIdentifier="GroupCell" rowHeight="44" id="D0b-DM-abj" customClass="RosterTableGroupCell" customModule="LoLMessenger" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="136" width="600" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="GroupCell" selectionStyle="none" indentationWidth="10" reuseIdentifier="GroupCell" rowHeight="44" id="D0b-DM-abj" customClass="RosterTableGroupCell" customModule="Messenger_for_League_of_Legends" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="92" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="D0b-DM-abj" id="bTD-BU-C90">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
@@ -512,17 +502,17 @@
                                             <outlet property="label" destination="DfI-Qz-sbf" id="UhV-Vc-Nfs"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="RosterCell" selectionStyle="none" indentationWidth="10" reuseIdentifier="RosterCell" rowHeight="60" id="MB4-qo-Om2" customClass="RosterTableChildCell" customModule="LoLMessenger" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="180" width="600" height="60"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="RosterCell" selectionStyle="none" indentationWidth="10" reuseIdentifier="RosterCell" rowHeight="60" id="MB4-qo-Om2" customClass="RosterTableChildCell" customModule="Messenger_for_League_of_Legends" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="136" width="600" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="MB4-qo-Om2" id="deL-zf-OiO">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="59.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Status" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tnr-rO-dQh">
-                                                    <rect key="frame" x="60" y="33" width="46" height="19.5"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Status" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Tnr-rO-dQh">
+                                                    <rect key="frame" x="60" y="33" width="46.5" height="19.5"/>
                                                     <animations/>
-                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -551,6 +541,7 @@
                                             </subviews>
                                             <animations/>
                                             <constraints>
+                                                <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="Tnr-rO-dQh" secondAttribute="trailing" constant="4" id="4GR-Bg-MZk"/>
                                                 <constraint firstItem="Tnr-rO-dQh" firstAttribute="leading" secondItem="YyW-6h-nC4" secondAttribute="trailing" constant="8" id="4J2-9g-JUP"/>
                                                 <constraint firstItem="q3P-gU-Cwl" firstAttribute="top" secondItem="deL-zf-OiO" secondAttribute="topMargin" constant="-1" id="Am9-0c-aYv"/>
                                                 <constraint firstItem="YyW-6h-nC4" firstAttribute="leading" secondItem="deL-zf-OiO" secondAttribute="leadingMargin" id="FwT-5C-Xdl"/>
@@ -569,9 +560,9 @@
                                             <outlet property="indicator" destination="Szt-YV-9mL" id="fT2-8r-dMu"/>
                                             <outlet property="name" destination="q3P-gU-Cwl" id="nbK-jb-IqY"/>
                                             <outlet property="status" destination="Tnr-rO-dQh" id="7Ls-c0-eoJ"/>
-                                            <segue destination="Vrd-nV-eyh" kind="show" identifier="EnterChat" id="Of7-xS-8c2">
-                                                <segue key="commit" inheritsFrom="parent" id="rQB-wS-Agn"/>
-                                                <segue key="preview" inheritsFrom="commit" id="WR4-tW-JKt"/>
+                                            <segue destination="fdP-3d-TK7" kind="custom" identifier="SummonerModal" customClass="PopupSegue" customModule="Messenger_for_League_of_Legends" customModuleProvider="target" id="Rlp-p8-CtA">
+                                                <segue key="commit" destination="fdP-3d-TK7" kind="custom" identifier="SummonerModalCommit" customClass="PopupSegue" customModule="Messenger_for_League_of_Legends" customModuleProvider="target" id="gqO-Ru-I5I"/>
+                                                <segue key="preview" destination="fdP-3d-TK7" identifier="SummonerModalPreview" id="wgZ-7i-U7E"/>
                                             </segue>
                                         </connections>
                                     </tableViewCell>
@@ -589,8 +580,10 @@
                     </view>
                     <tabBarItem key="tabBarItem" systemItem="contacts" id="J2b-tJ-sg1"/>
                     <navigationItem key="navigationItem" title="Friends" id="YJ3-tc-MRG"/>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
                     <connections>
                         <outlet property="tableView" destination="0NG-aP-bKH" id="605-IF-Ngb"/>
+                        <segue destination="Vrd-nV-eyh" kind="show" identifier="EnterChat" id="srB-Eq-LJ2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8Vm-uL-2eG" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -600,7 +593,6 @@
         <!--Navigation Controller-->
         <scene sceneID="XW5-J1-Yg1">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="8gb-aK-W5q" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController storyboardIdentifier="RosterTableViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Gch-5t-bRk" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" systemItem="contacts" id="7kE-jL-DZS"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="B0D-WN-NsI">
@@ -613,13 +605,14 @@
                         <segue destination="7qY-nS-FGq" kind="relationship" relationship="rootViewController" id="U0b-1c-KeV"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8gb-aK-W5q" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1513" y="-943"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="dfc-sS-xiF">
             <objects>
-                <viewController id="Hdv-7M-9cr" customClass="LoginViewController" customModule="LoLMessenger" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Hdv-7M-9cr" customClass="LoginViewController" customModule="Messenger_for_League_of_Legends" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Wcj-J0-hDj"/>
                         <viewControllerLayoutGuide type="bottom" id="g8X-sW-pjI"/>
@@ -668,41 +661,20 @@
                                     <action selector="connect:" destination="Hdv-7M-9cr" eventType="touchUpInside" id="AAx-io-3gn"/>
                                 </connections>
                             </button>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="1gh-ov-Xzs">
-                                <rect key="frame" x="160" y="220" width="280" height="100"/>
-                                <subviews>
-                                    <textField autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" alpha="0.90000000000000002" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="L4Q-Qr-lPf">
-                                        <rect key="frame" x="0.0" y="0.0" width="280" height="44"/>
-                                        <animations/>
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="280" id="0Gw-xd-AGi"/>
-                                            <constraint firstAttribute="height" constant="44" id="iTZ-h4-44f"/>
-                                        </constraints>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                        <textInputTraits key="textInputTraits" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
-                                    </textField>
-                                    <textField autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" alpha="0.90000000000000002" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="cy6-NX-DRT">
-                                        <rect key="frame" x="0.0" y="56" width="280" height="44"/>
-                                        <animations/>
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="280" id="FBN-dl-kUC"/>
-                                            <constraint firstAttribute="height" constant="44" id="LXq-nz-Y2E"/>
-                                        </constraints>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                        <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES" secureTextEntry="YES"/>
-                                        <connections>
-                                            <action selector="connect:" destination="Hdv-7M-9cr" eventType="primaryActionTriggered" id="Hiy-rH-p7R"/>
-                                        </connections>
-                                    </textField>
-                                </subviews>
+                            <textField autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" alpha="0.90000000000000002" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="L4Q-Qr-lPf">
+                                <rect key="frame" x="160" y="222" width="280" height="44"/>
                                 <animations/>
-                            </stackView>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="280" id="Ike-8c-hFP"/>
+                                    <constraint firstAttribute="height" constant="44" id="eCH-7q-XOf"/>
+                                </constraints>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
+                            </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Messenger for  League of Legends" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8cN-sP-uFN" userLabel="Messenger for League of Legends">
-                                <rect key="frame" x="191.5" y="64" width="217.5" height="57.5"/>
+                                <rect key="frame" x="191" y="64" width="217.5" height="57.5"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -713,17 +685,35 @@
                                 <animations/>
                                 <state key="normal" title="Need an account?"/>
                             </button>
+                            <textField autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" alpha="0.90000000000000002" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="cy6-NX-DRT">
+                                <rect key="frame" x="160" y="278" width="280" height="44"/>
+                                <animations/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="oBB-6O-aGf"/>
+                                </constraints>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES" secureTextEntry="YES"/>
+                                <connections>
+                                    <action selector="connect:" destination="Hdv-7M-9cr" eventType="primaryActionTriggered" id="Hiy-rH-p7R"/>
+                                </connections>
+                            </textField>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="1gh-ov-Xzs" firstAttribute="centerX" secondItem="BmG-EV-eTt" secondAttribute="centerX" id="LEh-t5-puN"/>
+                            <constraint firstItem="gHb-4G-4J8" firstAttribute="top" relation="greaterThanOrEqual" secondItem="cy6-NX-DRT" secondAttribute="bottom" priority="250" constant="36" id="BGV-Se-CWW"/>
+                            <constraint firstItem="L4Q-Qr-lPf" firstAttribute="leading" secondItem="cy6-NX-DRT" secondAttribute="leading" id="OOv-at-egm"/>
                             <constraint firstItem="8cN-sP-uFN" firstAttribute="centerX" secondItem="BmG-EV-eTt" secondAttribute="centerX" id="SQm-0U-Y6s"/>
+                            <constraint firstItem="cy6-NX-DRT" firstAttribute="centerX" secondItem="gHb-4G-4J8" secondAttribute="centerX" id="arW-eo-Pwz"/>
                             <constraint firstItem="VZE-bw-eK9" firstAttribute="top" secondItem="gHb-4G-4J8" secondAttribute="bottom" constant="8" id="dD3-6e-dwc"/>
+                            <constraint firstItem="L4Q-Qr-lPf" firstAttribute="trailing" secondItem="cy6-NX-DRT" secondAttribute="trailing" id="dDm-if-kkc"/>
+                            <constraint firstItem="cy6-NX-DRT" firstAttribute="centerY" secondItem="BmG-EV-eTt" secondAttribute="centerY" id="j2Q-fl-VXX"/>
                             <constraint firstItem="8cN-sP-uFN" firstAttribute="top" secondItem="Wcj-J0-hDj" secondAttribute="bottom" constant="44" id="jhO-bs-zCf"/>
+                            <constraint firstItem="cy6-NX-DRT" firstAttribute="top" secondItem="L4Q-Qr-lPf" secondAttribute="bottom" constant="12" id="lny-3g-4sb"/>
                             <constraint firstItem="gHb-4G-4J8" firstAttribute="centerX" secondItem="BmG-EV-eTt" secondAttribute="centerX" id="t43-lJ-n6W"/>
                             <constraint firstItem="VZE-bw-eK9" firstAttribute="centerX" secondItem="BmG-EV-eTt" secondAttribute="centerX" id="w7V-eq-cwP"/>
-                            <constraint firstItem="1gh-ov-Xzs" firstAttribute="centerY" secondItem="BmG-EV-eTt" secondAttribute="centerY" multiplier="0.9" id="zem-Nt-w1i"/>
                             <constraint firstItem="g8X-sW-pjI" firstAttribute="top" secondItem="VZE-bw-eK9" secondAttribute="bottom" constant="132" id="zwM-Kn-nvL"/>
                         </constraints>
                     </view>
@@ -738,8 +728,212 @@
             </objects>
             <point key="canvasLocation" x="105" y="1"/>
         </scene>
+        <!--Summoner Dialog-->
+        <scene sceneID="onz-wl-F9Z">
+            <objects>
+                <viewController storyboardIdentifier="SummonerDialogViewController" title="Summoner Dialog" nibName="SummonerDialog" useStoryboardIdentifierAsRestorationIdentifier="YES" id="fdP-3d-TK7" customClass="SummonerDialogViewController" customModule="Messenger_for_League_of_Legends" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="vVr-CK-5ou"/>
+                        <viewControllerLayoutGuide type="bottom" id="tYu-Fz-re1"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="yS5-pD-FeK">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="300"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BZo-y4-4Ar" userLabel="Profile Icon">
+                                <rect key="frame" x="16" y="16" width="72" height="72"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="72" id="1rj-Mq-ear"/>
+                                    <constraint firstAttribute="height" constant="72" id="xW9-pD-2yW"/>
+                                </constraints>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile_icon_ring" translatesAutoresizingMaskIntoConstraints="NO" id="hxU-e4-BTQ" userLabel="Profile Icon Ring">
+                                <rect key="frame" x="14" y="14" width="76" height="76"/>
+                                <animations/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Summoner Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ast-Tu-3U5">
+                                <rect key="frame" x="94" y="18" width="136" height="20.5"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Status Message" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ucn-aI-Znb">
+                                <rect key="frame" x="94" y="42" width="210" height="18"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fGg-Be-PYp" userLabel="Champion Mastery Score">
+                                <rect key="frame" x="286" y="19" width="18" height="17"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                                <color key="textColor" red="0.50588235290000005" green="0.42352941179999998" blue="0.2784313725" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile_matsery_icon" translatesAutoresizingMaskIntoConstraints="NO" id="b2B-rP-oGL" userLabel="Champion Mastery Icon">
+                                <rect key="frame" x="268" y="21" width="14" height="14"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="14" id="Oen-3e-MNx"/>
+                                    <constraint firstAttribute="width" constant="14" id="etN-8h-U8R"/>
+                                </constraints>
+                            </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6MZ-LW-dgC">
+                                <rect key="frame" x="16" y="125" width="288" height="1"/>
+                                <animations/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.19835668103448276" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="PAa-Hw-aEz"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lr2-Bl-cDn">
+                                <rect key="frame" x="265" y="99" width="39" height="17"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" priority="750" constant="36" id="bQ4-gY-r5n"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VyW-Jd-Zk4">
+                                <rect key="frame" x="16" y="256" width="140" height="44"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="5RN-qi-woh"/>
+                                </constraints>
+                                <state key="normal" title="Close"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BQx-GJ-QaC">
+                                <rect key="frame" x="164" y="256" width="140" height="44"/>
+                                <animations/>
+                                <state key="normal" title="Chat"/>
+                            </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="mtY-T2-5If" customClass="JVFloatLabeledTextView">
+                                <rect key="frame" x="18" y="134" width="286" height="113.5"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="cpC-18-Zrb"/>
+                                    <constraint firstAttribute="height" priority="750" constant="44" id="hnM-k1-lCg"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="Note"/>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="_placeholderLabel.textColor">
+                                        <color key="value" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="hnM-k1-lCg"/>
+                                    </mask>
+                                </variation>
+                            </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Game Stastus" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nFa-wZ-9eD">
+                                <rect key="frame" x="18" y="98" width="101.5" height="19.5"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <animations/>
+                        <constraints>
+                            <constraint firstItem="Ast-Tu-3U5" firstAttribute="top" secondItem="hxU-e4-BTQ" secondAttribute="top" constant="4" id="0I5-o8-avE"/>
+                            <constraint firstItem="BZo-y4-4Ar" firstAttribute="top" secondItem="vVr-CK-5ou" secondAttribute="bottom" id="27u-0R-ReN"/>
+                            <constraint firstItem="nFa-wZ-9eD" firstAttribute="leading" secondItem="yS5-pD-FeK" secondAttribute="leadingMargin" constant="2" id="3PX-Rd-xQp"/>
+                            <constraint firstItem="mtY-T2-5If" firstAttribute="top" secondItem="6MZ-LW-dgC" secondAttribute="bottom" constant="8" id="48Y-t8-oHL"/>
+                            <constraint firstItem="tYu-Fz-re1" firstAttribute="top" secondItem="mtY-T2-5If" secondAttribute="bottom" constant="107" id="62E-fd-fN3"/>
+                            <constraint firstItem="Ucn-aI-Znb" firstAttribute="top" secondItem="Ast-Tu-3U5" secondAttribute="bottom" constant="4" id="7zF-ac-l4l"/>
+                            <constraint firstItem="hxU-e4-BTQ" firstAttribute="centerX" secondItem="BZo-y4-4Ar" secondAttribute="centerX" id="AQ4-A1-ekC"/>
+                            <constraint firstItem="VyW-Jd-Zk4" firstAttribute="top" secondItem="mtY-T2-5If" secondAttribute="bottom" priority="750" constant="8" id="C9o-P5-sH6"/>
+                            <constraint firstItem="hxU-e4-BTQ" firstAttribute="centerY" secondItem="BZo-y4-4Ar" secondAttribute="centerY" id="C9v-DQ-lKZ"/>
+                            <constraint firstItem="Ucn-aI-Znb" firstAttribute="leading" secondItem="Ast-Tu-3U5" secondAttribute="leading" id="CSU-Hy-Ru5"/>
+                            <constraint firstItem="b2B-rP-oGL" firstAttribute="centerY" secondItem="Ast-Tu-3U5" secondAttribute="centerY" id="EjI-2e-FCy"/>
+                            <constraint firstItem="fGg-Be-PYp" firstAttribute="leading" secondItem="b2B-rP-oGL" secondAttribute="trailing" constant="4" id="F3H-0S-q6c"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Ucn-aI-Znb" secondAttribute="trailing" id="H16-eM-kba"/>
+                            <constraint firstItem="fGg-Be-PYp" firstAttribute="centerY" secondItem="b2B-rP-oGL" secondAttribute="centerY" id="J5L-F5-BHH"/>
+                            <constraint firstItem="tYu-Fz-re1" firstAttribute="top" secondItem="mtY-T2-5If" secondAttribute="bottom" constant="63" id="KI4-Fz-dMG"/>
+                            <constraint firstItem="BQx-GJ-QaC" firstAttribute="leading" secondItem="VyW-Jd-Zk4" secondAttribute="trailing" constant="8" id="MQj-Zt-LN1"/>
+                            <constraint firstItem="tYu-Fz-re1" firstAttribute="top" secondItem="BQx-GJ-QaC" secondAttribute="bottom" id="MvR-uM-LgP"/>
+                            <constraint firstItem="fGg-Be-PYp" firstAttribute="centerY" secondItem="Ast-Tu-3U5" secondAttribute="centerY" id="Nid-u1-a12"/>
+                            <constraint firstItem="BZo-y4-4Ar" firstAttribute="leading" secondItem="yS5-pD-FeK" secondAttribute="leadingMargin" id="O2v-c4-cly"/>
+                            <constraint firstItem="BQx-GJ-QaC" firstAttribute="centerY" secondItem="VyW-Jd-Zk4" secondAttribute="centerY" id="OR8-vs-1wO"/>
+                            <constraint firstItem="mtY-T2-5If" firstAttribute="leading" secondItem="yS5-pD-FeK" secondAttribute="leadingMargin" id="ObT-Yj-c2T"/>
+                            <constraint firstItem="Ast-Tu-3U5" firstAttribute="leading" secondItem="hxU-e4-BTQ" secondAttribute="trailing" constant="4" id="R35-9i-Mp2"/>
+                            <constraint firstItem="BQx-GJ-QaC" firstAttribute="height" secondItem="VyW-Jd-Zk4" secondAttribute="height" priority="750" id="SAY-xV-sBP"/>
+                            <constraint firstItem="hxU-e4-BTQ" firstAttribute="width" secondItem="BZo-y4-4Ar" secondAttribute="width" constant="4" id="Thw-1W-G61"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="6MZ-LW-dgC" secondAttribute="trailing" id="Ujb-bk-cLJ"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="BQx-GJ-QaC" secondAttribute="trailing" id="WAc-gr-c1w"/>
+                            <constraint firstItem="fGg-Be-PYp" firstAttribute="trailing" secondItem="yS5-pD-FeK" secondAttribute="trailingMargin" id="Xq8-LA-Gm2"/>
+                            <constraint firstItem="6MZ-LW-dgC" firstAttribute="top" secondItem="nFa-wZ-9eD" secondAttribute="bottom" constant="8" id="afj-pL-3Tx"/>
+                            <constraint firstItem="lr2-Bl-cDn" firstAttribute="centerY" secondItem="nFa-wZ-9eD" secondAttribute="centerY" id="aq5-Lw-2KB"/>
+                            <constraint firstItem="6MZ-LW-dgC" firstAttribute="leading" secondItem="yS5-pD-FeK" secondAttribute="leadingMargin" id="fej-CH-jyb"/>
+                            <constraint firstItem="BZo-y4-4Ar" firstAttribute="top" secondItem="vVr-CK-5ou" secondAttribute="bottom" constant="16" id="gAA-ON-zI1"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="lr2-Bl-cDn" secondAttribute="trailing" id="gug-tb-lS4"/>
+                            <constraint firstItem="VyW-Jd-Zk4" firstAttribute="top" relation="greaterThanOrEqual" secondItem="mtY-T2-5If" secondAttribute="bottom" priority="250" constant="8" id="h3e-Ti-0F1"/>
+                            <constraint firstItem="nFa-wZ-9eD" firstAttribute="top" secondItem="6MZ-LW-dgC" secondAttribute="bottom" constant="8" id="j4v-UN-DPJ"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="mtY-T2-5If" secondAttribute="trailing" id="l3h-PW-mfi"/>
+                            <constraint firstItem="Ast-Tu-3U5" firstAttribute="leading" secondItem="hxU-e4-BTQ" secondAttribute="leading" id="ngX-Uk-a0e"/>
+                            <constraint firstItem="mtY-T2-5If" firstAttribute="leading" secondItem="yS5-pD-FeK" secondAttribute="leadingMargin" constant="2" id="qSp-87-E0Y"/>
+                            <constraint firstItem="tYu-Fz-re1" firstAttribute="top" secondItem="mtY-T2-5If" secondAttribute="bottom" priority="250" constant="8" id="qnv-nT-CWI"/>
+                            <constraint firstItem="hxU-e4-BTQ" firstAttribute="height" secondItem="BZo-y4-4Ar" secondAttribute="height" constant="4" id="qqS-Wx-D27"/>
+                            <constraint firstItem="BQx-GJ-QaC" firstAttribute="width" secondItem="VyW-Jd-Zk4" secondAttribute="width" id="rbb-TV-Jby"/>
+                            <constraint firstItem="mtY-T2-5If" firstAttribute="top" secondItem="nFa-wZ-9eD" secondAttribute="bottom" constant="8" id="rhj-pd-jgW"/>
+                            <constraint firstItem="VyW-Jd-Zk4" firstAttribute="leading" secondItem="yS5-pD-FeK" secondAttribute="leadingMargin" id="rj1-H1-C5C"/>
+                            <constraint firstItem="tYu-Fz-re1" firstAttribute="top" secondItem="VyW-Jd-Zk4" secondAttribute="bottom" id="sqQ-GF-wVN"/>
+                            <constraint firstItem="nFa-wZ-9eD" firstAttribute="top" secondItem="hxU-e4-BTQ" secondAttribute="bottom" constant="8" id="sxK-oH-HT1"/>
+                            <constraint firstItem="lr2-Bl-cDn" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="nFa-wZ-9eD" secondAttribute="trailing" constant="4" id="wQN-tT-snQ"/>
+                            <constraint firstItem="6MZ-LW-dgC" firstAttribute="top" secondItem="hxU-e4-BTQ" secondAttribute="bottom" constant="8" id="yji-Fs-dJL"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="27u-0R-ReN"/>
+                                <exclude reference="ngX-Uk-a0e"/>
+                                <exclude reference="j4v-UN-DPJ"/>
+                                <exclude reference="yji-Fs-dJL"/>
+                                <exclude reference="ObT-Yj-c2T"/>
+                                <exclude reference="rhj-pd-jgW"/>
+                                <exclude reference="EjI-2e-FCy"/>
+                                <exclude reference="62E-fd-fN3"/>
+                                <exclude reference="KI4-Fz-dMG"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="320" height="300"/>
+                    <connections>
+                        <outlet property="championScore" destination="fGg-Be-PYp" id="QiP-Pk-BAG"/>
+                        <outlet property="chatButton" destination="BQx-GJ-QaC" id="wYx-0x-Jdt"/>
+                        <outlet property="closeButton" destination="VyW-Jd-Zk4" id="jeT-Ir-0tf"/>
+                        <outlet property="elapsedTime" destination="lr2-Bl-cDn" id="Dng-JX-DKn"/>
+                        <outlet property="gameStatus" destination="nFa-wZ-9eD" id="jZY-Rv-PR2"/>
+                        <outlet property="masteryIcon" destination="b2B-rP-oGL" id="OpO-5b-Yt6"/>
+                        <outlet property="profileIcon" destination="BZo-y4-4Ar" id="EV6-lP-P0P"/>
+                        <outlet property="rosterNote" destination="mtY-T2-5If" id="5Rc-1T-Wtb"/>
+                        <outlet property="statusMessage" destination="Ucn-aI-Znb" id="3fE-gT-18W"/>
+                        <outlet property="summonerName" destination="Ast-Tu-3U5" id="Cyg-gI-Oxd"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aUW-bN-YAl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2937" y="-1123"/>
+        </scene>
     </scenes>
+    <resources>
+        <image name="profile_icon_ring" width="100" height="100"/>
+        <image name="profile_matsery_icon" width="15" height="13"/>
+    </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="fqo-QO-92X"/>
+        <segue reference="srB-Eq-LJ2"/>
+        <segue reference="fJO-XY-gGi"/>
     </inferredMetricsTieBreakers>
 </document>

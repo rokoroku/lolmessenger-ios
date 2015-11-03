@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "F8B55C5A1BB532FB005C759D"
-               BuildableName = "LoLMessenger.app"
+               BuildableName = "Messenger for League of Legends.app"
                BlueprintName = "LoLMessenger"
                ReferencedContainer = "container:LoLMessenger.xcodeproj">
             </BuildableReference>
@@ -43,7 +43,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F8B55C5A1BB532FB005C759D"
-            BuildableName = "LoLMessenger.app"
+            BuildableName = "Messenger for League of Legends.app"
             BlueprintName = "LoLMessenger"
             ReferencedContainer = "container:LoLMessenger.xcodeproj">
          </BuildableReference>
@@ -66,7 +66,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F8B55C5A1BB532FB005C759D"
-            BuildableName = "LoLMessenger.app"
+            BuildableName = "Messenger for League of Legends.app"
             BlueprintName = "LoLMessenger"
             ReferencedContainer = "container:LoLMessenger.xcodeproj">
          </BuildableReference>
@@ -85,7 +85,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F8B55C5A1BB532FB005C759D"
-            BuildableName = "LoLMessenger.app"
+            BuildableName = "Messenger for League of Legends.app"
             BlueprintName = "LoLMessenger"
             ReferencedContainer = "container:LoLMessenger.xcodeproj">
          </BuildableReference>

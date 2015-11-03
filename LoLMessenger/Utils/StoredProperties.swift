@@ -63,11 +63,9 @@ class StoredProperty<T: AnyObject> {
     var key: String
     var value: T {
         get {
-            print("get key: \(key)")
             return storedValue
         }
         set {
-            print("set key: \(key) value: \(newValue)")
             NSUserDefaults.standardUserDefaults().setObject(newValue, forKey: key)
             NSUserDefaults.standardUserDefaults().synchronize()
             self.storedValue = newValue

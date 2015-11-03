@@ -15,8 +15,8 @@ class MoreViewController : FormViewController {
         super.viewDidLoad()
         form +++ accountSection()
         form +++ notificationSection()
-        form +++ friendSection()
-        form +++ chatSection()
+//        form +++ friendSection()
+//        form +++ chatSection()
         navigationController?.hidesNavigationBarHairline = true
     }
 
@@ -41,11 +41,11 @@ class MoreViewController : FormViewController {
 
     func notificationSection() -> Section {
         return Section("Notification")
-            <<< SwitchRow() {
-                $0.title = "Friend Subscription"
-                $0.value = StoredProperties.Settings.notifySubscription.value
-                $0.onChange { StoredProperties.Settings.notifySubscription.value = $0.value! as Bool }
-            }
+//            <<< SwitchRow() {
+//                $0.title = "Friend Subscription"
+//                $0.value = StoredProperties.Settings.notifySubscription.value
+//                $0.onChange { StoredProperties.Settings.notifySubscription.value = $0.value! as Bool }
+//            }
             <<< SwitchRow() {
                 $0.title = "New Message"
                 $0.value = StoredProperties.Settings.notifyMessage.value

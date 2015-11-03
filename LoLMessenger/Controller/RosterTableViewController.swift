@@ -54,6 +54,7 @@ class RosterTableViewController : UIViewController {
             let controller = UISearchController(searchResultsController: nil)
             controller.searchResultsUpdater = self
             controller.dimsBackgroundDuringPresentation = false
+            controller.delegate = self
 
             self.tableView.tableHeaderView = controller.searchBar
             controller.searchBar.sizeToFit()
@@ -88,15 +89,28 @@ class RosterTableViewController : UIViewController {
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == Constants.Segue.EnterChat {
-            // Get the new view controller using segue.destinationViewController.
-            // Pass the selected object to the new view controller.
-            let chatViewController = segue.destinationViewController as! ChatViewController
 
-            // Get the cell that generated this segue.
-            if let cell = sender as? RosterTableChildCell, let roster = cell.roster {
-                let chat = XMPPService.sharedInstance.chat().getLeagueChatEntryByJID(roster.jid())!
-                chatViewController.setInitialChatData(chat)
+        // Get the cell that generated the segue.
+        if let cell = sender as? RosterTableChildCell, let roster = cell.roster {
+
+            if let chatViewController = segue.destinationViewController as? ChatViewController,
+                let chat = XMPPService.sharedInstance.chat().getLeagueChatEntryByJID(roster.jid()) {
+                    chatViewController.setInitialChatData(chat)
+            }
+
+            else if let summonerViewController = segue.destinationViewController as? SummonerDialogViewController {
+                summonerViewController.roster = roster
+                if segue.identifier == "SummonerModalPreview" {
+                    summonerViewController.hidesBottomButtons = true
+
+                } else if segue.identifier == "SummonerModalCommit" {
+                    if let popupSegue = segue as? PopupSegue {
+                        popupSegue.shouldPerform = false
+                        Async.main(after: 0.1) {
+                            self.performSegueWithIdentifier("EnterChat", sender: sender)
+                        }
+                    }
+                }
             }
         }
     }
@@ -176,13 +190,16 @@ extension RosterTableViewController: RosterDelegate {
     }
 }
 
-extension RosterTableViewController: UISearchResultsUpdating {
+extension RosterTableViewController: UISearchResultsUpdating, UISearchControllerDelegate {
+
+    func didPresentSearchController(searchController: UISearchController) {
+        if searchController.searchBar.superview?.isKindOfClass(UITableView) == false {
+            //searchController.searchBar.removeFromSuperview()
+            self.tableView.addSubview(searchController.searchBar)
+       }
+    }
 
     func updateSearchResultsForSearchController(searchController: UISearchController) {
-        if searchController.searchBar.superview?.isKindOfClass(UITableView) == false {
-            searchController.searchBar.removeFromSuperview()
-            self.tableView.addSubview(searchController.searchBar)
-        }
 
         filteredNodes.removeAll(keepCapacity: false)
         for groupNode in allNodes {

@@ -58,11 +58,12 @@ class ChatViewController : UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var sendButton: UIButton!
-
+    @IBOutlet weak var inputBox: UIView!
 
     var chatJID: XMPPJID?
     var chatName: String?
     var chatData: ChatData?
+    var hideInputBox: Bool = false
 
     var numOfRows: Int {
         return chatData?.messages.count ?? 0
@@ -82,7 +83,14 @@ class ChatViewController : UIViewController {
             tableView.reloadData()
         }
     }
-    
+
+    override func awakeFromNib() {
+        if #available(iOS 9.0, *) {
+            UILabel.appearanceWhenContainedInInstancesOfClasses([UITextField.self]).textColor = Theme.TextColorDisabled
+        }
+        super.awakeFromNib()
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -99,16 +107,10 @@ class ChatViewController : UIViewController {
         tableView.scrollRectToVisible(rect, animated: false)
         scrollToBottom()
 
-        XMPPService.sharedInstance.roster().addDelegate(self)
-        XMPPService.sharedInstance.chat().addDelegate(self)
-
         textField.delegate = self
-        textField.returnKeyType = .Done
-        textField.enablesReturnKeyAutomatically = true
+        textField.backgroundColor = UIColor.whiteColor()
         textField.superview?.backgroundColor = Theme.SecondaryColor
-
-
-        checkValidMessage()
+        textField.textColor = Theme.TextColorBlack
 
         sendButton.addTarget(self, action: "sendMessage", forControlEvents: UIControlEvents.TouchUpInside)
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "dismissKeyboard"))
@@ -116,21 +118,23 @@ class ChatViewController : UIViewController {
         if let title = chatName {
             navigationItem.title = title
         }
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Alarm", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
+        //navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Alarm", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
     }
 
     override func viewDidAppear(animated: Bool) {
+        UIApplication.sharedApplication().cancelAllLocalNotifications()
         NSNotificationCenter.defaultCenter().addObserver(self,
             selector: "adjustKeyboardHeight:",
             name: UIKeyboardWillChangeFrameNotification,
             object: nil)
-        UIApplication.sharedApplication().cancelAllLocalNotifications()
+        if let chatJID = self.chatJID {
+            updateTitle(XMPPService.sharedInstance.roster().getRosterByJID(chatJID))
+        }
     }
 
     override func viewWillAppear(animated: Bool) {
-        if let chatJID = self.chatJID, let roster = XMPPService.sharedInstance.roster().getRosterByJID(chatJID) {
-            updateTitle(roster)
-        }
+        XMPPService.sharedInstance.roster().addDelegate(self)
+        XMPPService.sharedInstance.chat().addDelegate(self)
     }
 
     override func viewWillDisappear(animated: Bool) {
@@ -146,10 +150,15 @@ class ChatViewController : UIViewController {
     override func viewDidDisappear(animated: Bool) {
         XMPPService.sharedInstance.chat().removeDelegate(self)
         XMPPService.sharedInstance.roster().removeDelegate(self)
+
+        if #available(iOS 9.0, *) {
+            UILabel.appearanceWhenContainedInInstancesOfClasses([UILabel.self]).textColor = Theme.TextColorPrimary
+        }
     }
 
     override func viewWillLayoutSubviews() {
         let adjustForTabbarInsets = UIEdgeInsetsMake(self.topLayoutGuide.length, 0, 0, 0)
+        self.inputBox.hidden = hideInputBox
         self.tableView!.contentInset = adjustForTabbarInsets;
         self.tableView!.scrollIndicatorInsets = adjustForTabbarInsets;
     }
@@ -190,17 +199,18 @@ class ChatViewController : UIViewController {
                 delay: NSTimeInterval(0),
                 options: animationCurve,
                 animations: { self.view.layoutIfNeeded() },
-                completion: { _ in if height > 0 {
-                    if let lastCell = self.tableView.indexPathsForVisibleRows?.last {
-                        self.tableView.scrollToRowAtIndexPath(lastCell, atScrollPosition: .Bottom, animated: false)
+                completion: { _ in
+                    if height > 0 {
+                        if let lastCell = self.tableView.indexPathsForVisibleRows?.last {
+                            self.tableView.scrollToRowAtIndexPath(lastCell, atScrollPosition: .Bottom, animated: false)
+                        }
                     }
-                }
-            })
+                })
 
         }
     }
 
-    func dismissKeyboard(){
+    func dismissKeyboard() {
         view.endEditing(true)
     }
 
@@ -209,6 +219,25 @@ class ChatViewController : UIViewController {
             if !body.isEmpty() {
                 textField.text = nil
                 XMPPService.sharedInstance.chat().sendMessage(jid, msg: body)
+            }
+        }
+    }
+
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+
+        print(sender)
+        // Get the cell that generated the segue.
+        if let cell = sender as? ChatTableCell, let roster = cell.roster {
+
+            if let chatViewController = segue.destinationViewController as? ChatViewController,
+                let chat = XMPPService.sharedInstance.chat().getLeagueChatEntryByJID(roster.jid()) {
+                    chatViewController.setInitialChatData(chat)
+            }
+
+            else if let summonerViewController = segue.destinationViewController as? SummonerDialogViewController {
+                summonerViewController.roster = roster
             }
         }
     }
@@ -230,6 +259,10 @@ extension ChatViewController : UITableViewDelegate, UITableViewDataSource {
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
         // Fetches the appropriate message for the data source layout.
+        if indexPath.row >= chatData?.messages.count {
+            return UITableViewCell()
+        }
+
         let message = (chatData?.messages[indexPath.row])!
         if message.isMine {
             let cellIdentifier = "BalloonMine"
@@ -328,7 +361,11 @@ extension ChatViewController : RosterDelegate, ChatDelegate {
         titleLabel.textAlignment = .Center
         titleLabel.text = roster?.username ?? chatName
         titleLabel.font = UIFont.boldSystemFontOfSize(16.0)
-        titleLabel.textColor = Theme.TextColorWhite
+        if roster?.available ?? false {
+            titleLabel.textColor = Theme.TextColorPrimary
+        } else {
+            titleLabel.textColor = Theme.TextColorDisabled
+        }
 
         let tempLabel = UILabel(frame: navigationController?.navigationBar.frame ?? CGRect.zero)
         tempLabel.numberOfLines = 0

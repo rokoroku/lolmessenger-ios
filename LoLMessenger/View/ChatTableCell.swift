@@ -37,14 +37,13 @@ class BalloonView: UIView {
 
 class ChatTableCell: UITableViewCell {
 
-    static var zeroSize: CGSize = CGSizeMake(0, 0)
-
     @IBOutlet weak var profileIcon: UIImageView!
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var body: UILabel!
     @IBOutlet weak var timestamp: UILabel!
     @IBOutlet weak var balloonImage: BalloonView!
 
+    var roster: LeagueRoster?
     var initialSize: CGSize?
     var balloonNinePatch: TUNinePatchProtocol?
 
@@ -66,7 +65,17 @@ class ChatTableCell: UITableViewCell {
         if profileIcon != nil {
             profileIcon.layer.cornerRadius = 2.0
             profileIcon.layer.masksToBounds = true
+
+            let singleTapRecognizer = UITapGestureRecognizer(target: self, action: Selector("openSummonerDialog"))
+            singleTapRecognizer.numberOfTapsRequired = 1
+            profileIcon.userInteractionEnabled = true
+            profileIcon.addGestureRecognizer(singleTapRecognizer)
         }
+
+    }
+
+    func openSummonerDialog() {
+        UIApplication.topViewController()?.performSegueWithIdentifier("SummonerModal", sender: self)
     }
 
     override func prepareForReuse() {
@@ -78,13 +87,16 @@ class ChatTableCell: UITableViewCell {
     }
 
     func setItem(roster: LeagueRoster?, message: LeagueMessage.RawData) {
+        self.roster = roster
+
         if profileIcon != nil {
             profileIcon.image = roster?.getProfileIcon() ?? UIImage(named: "profile_unknown")
+            profileIcon.tag = roster?.getNumericUserId() ?? -1
         }
         if name != nil {
             name.text = message.nick
             if roster?.show != .Unavailable {
-                name.textColor = Theme.TextColorWhite
+                name.textColor = Theme.TextColorPrimary
             } else {
                 name.textColor = Theme.TextColorDisabled
             }

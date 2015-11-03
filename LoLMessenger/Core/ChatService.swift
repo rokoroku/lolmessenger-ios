@@ -199,7 +199,7 @@ extension ChatService : XMPPStreamDelegate {
                     var isActiveChat = false
                     if let chatController = UIApplication.topViewController() as? ChatViewController {
                         let isCurrentChat = chatController.chatJID?.isEqualToJID(leagueChat.jid, options: XMPPJIDCompareUser) ?? false
-                        isActiveChat = isCurrentChat && !UIApplication.isActive()
+                        isActiveChat = isCurrentChat && UIApplication.isActive()
                     }
 
                     leagueChat.update {
@@ -208,17 +208,17 @@ extension ChatService : XMPPStreamDelegate {
 
                     let rawChat = leagueChat.freeze()
                     let rawMessage = leagueMessage.raw()
+
                     invokeDelegates {
-                        delegate in
-                        print("invokeDelegate \(delegate)")
-                        delegate.didReceiveNewMessage(self, from: rawChat, message: rawMessage)
+                        delegate in delegate.didReceiveNewMessage(self, from: rawChat, message: rawMessage)
                     }
 
                     if !isActiveChat {
-                        let notification = NotificationUtils.create(leagueChat, message: leagueMessage)
-                        UIApplication.sharedApplication().scheduleLocalNotification(notification)
+                        if StoredProperties.Settings.notifyMessage.value {
+                            let notification = NotificationUtils.create(leagueChat, message: leagueMessage)
+                            UIApplication.sharedApplication().scheduleLocalNotification(notification)
+                        }
                     }
-
                     xmppService.updateBadge()
                 }
             }

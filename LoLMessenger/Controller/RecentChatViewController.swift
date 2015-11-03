@@ -63,6 +63,7 @@ class RecentChatViewController : UIViewController {
             let controller = UISearchController(searchResultsController: nil)
             controller.searchResultsUpdater = self
             controller.dimsBackgroundDuringPresentation = false
+            controller.delegate = self
 
             self.tableView.tableHeaderView = controller.searchBar
             controller.searchBar.sizeToFit()
@@ -89,14 +90,19 @@ class RecentChatViewController : UIViewController {
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == Constants.Segue.EnterChat {
-            let chatTableController = segue.destinationViewController as! ChatViewController
-
+        if let chatViewController = segue.destinationViewController as? ChatViewController {
             // Get the cell that generated this segue.
             if let selectedCell = sender as? RecentChatTableCell {
                 let indexPath = tableView.indexPathForCell(selectedCell)!
                 let selectedChat = activeNodes[indexPath.row]
-                chatTableController.setInitialChatData(selectedChat)
+                chatViewController.setInitialChatData(selectedChat)
+            }
+
+            if segue.identifier == "EnterChat" {
+                chatViewController.hideInputBox = false
+
+            } else if segue.identifier == "PreviewChat" {
+                chatViewController.hideInputBox = true
             }
         }
     }
@@ -165,7 +171,15 @@ extension RecentChatViewController : UITableViewDelegate, UITableViewDataSource 
 
 }
 
-extension RecentChatViewController : UISearchResultsUpdating {
+extension RecentChatViewController : UISearchResultsUpdating, UISearchControllerDelegate {
+
+    func didPresentSearchController(searchController: UISearchController) {
+        if searchController.searchBar.superview?.isKindOfClass(UITableView) == false {
+            //searchController.searchBar.removeFromSuperview()
+            self.tableView.addSubview(searchController.searchBar)
+        }
+    }
+
     func updateSearchResultsForSearchController(searchController: UISearchController) {
         filteredNodes = chats.filter {
             if let keyword = searchController.searchBar.text {

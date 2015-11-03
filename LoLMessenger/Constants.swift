@@ -9,8 +9,8 @@ struct Constants {
     struct Notification {
         static let Chat = "chat"
         static let Subscription = "subscribe"
-        static let ChatID = "chatId"
-        static let Redirect = "redirect"
+        static let ChatID = "chatid"
+        static let AppState = "appstate"
     }
 
     struct Key {

@@ -9,13 +9,13 @@
 import UIKit
 import Fabric
 import Crashlytics
-import Eureka
-import ChameleonFramework
+import AVFoundation
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
+    var audioPlayer: AVAudioPlayer?
 
     // MARK: UIApplicationDelegate    
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject:AnyObject]?) -> Bool {
@@ -23,6 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         Fabric.with([Crashlytics.self])
 
+        application.statusBarStyle = .LightContent
         Theme.applyGlobalTheme()
 
         let settings = UIUserNotificationSettings(
@@ -70,15 +71,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
         if let chatId = notification.userInfo?[Constants.Notification.ChatID] as? String,
-            let redirect = notification.userInfo?[Constants.Notification.Redirect] as? Bool {
-                if redirect {
-                    if let topViewController = UIApplication.topViewController(),
-                        let chatViewController = topViewController.storyboard?.instantiateViewControllerWithIdentifier("ChatViewController") as? ChatViewController,
-                        let chatEntry = XMPPService.sharedInstance.chat().getLeagueChatEntry(chatId) {
-                            chatViewController.setInitialChatData(chatEntry)
-                            topViewController.navigationController?.pushViewController(chatViewController, animated: true)
+            let wasActive = notification.userInfo?[Constants.Notification.AppState] as? Bool {
+                if wasActive {
+                    if let roster = XMPPService.sharedInstance.roster().getRosterByJID(chatId) {
+                        let banner = Banner(
+                            title: roster.username,
+                            subtitle: try! notification.alertBody!.split(" : ")[1],
+                            image: roster.getProfileIcon(),
+                            backgroundColor: Theme.SecondaryColor,
+                            didTapBlock: { NavigationUtils.navigateToChat(chatId: chatId) }
+                        )
+                        alert()
+                        banner.show(duration: 3.0)
                     }
+                } else {
+                    NavigationUtils.navigateToChat(chatId: chatId)
                 }
+        }
+    }
+
+    func alert(vibrate: Bool = StoredProperties.Settings.notifyWithVibrate.value, sound: Bool = StoredProperties.Settings.notifyWithSound.value) {
+        if vibrate {
+            AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
+        }
+        if sound {
+            AudioServicesPlaySystemSound(1002)
         }
     }
 }

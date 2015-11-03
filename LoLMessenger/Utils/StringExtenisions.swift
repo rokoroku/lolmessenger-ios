@@ -9,6 +9,7 @@
 import Foundation
 
 extension String {
+
     func split(splitter: String) throws -> Array<String> {
         let regEx = try NSRegularExpression(pattern: splitter, options: NSRegularExpressionOptions())
         let stop = "&&"

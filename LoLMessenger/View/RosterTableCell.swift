@@ -49,14 +49,8 @@ class RosterTableChildCell: UITableViewCell {
         self.name.text = roster.username
         self.icon.image = roster.getProfileIcon()
         self.status.text = roster.getDisplayStatus()
+        self.status.textColor = roster.getDisplayColor()
         self.indicator.image = roster.getStatusIcon()
-
-        switch(roster.show) {
-        case .Chat: status.textColor = Theme.GreenColor; break;
-        case .Dnd: status.textColor = Theme.YellowColor; break;
-        case .Away: status.textColor = Theme.RedColor; break;
-        default: status.textColor = Theme.TextColorWhite; break;
-        }
     }
     
     override func setSelected(selected: Bool, animated: Bool) {
