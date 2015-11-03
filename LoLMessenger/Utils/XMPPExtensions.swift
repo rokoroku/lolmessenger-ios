@@ -10,24 +10,25 @@ import UIKit
 import Foundation
 import XMPPFramework
 
-extension XMPPPresence {
-    enum Show {
-        case Chat
-        case Away
-        case Dnd
-        case Unavailable
+enum PresenceShow {
+    case Chat
+    case Away
+    case Dnd
+    case Unavailable
 
-        func icon() -> UIImage? {
-            switch(self) {
-            case .Chat: return UIImage(named: "icon_green")
-            case .Dnd: return UIImage(named: "icon_yellow")
-            case .Away: return UIImage(named: "icon_red")
-            default: return UIImage(named: "icon_black")
-            }
+    func icon() -> UIImage? {
+        switch(self) {
+        case .Chat: return UIImage(named: "icon_green")
+        case .Dnd: return UIImage(named: "icon_yellow")
+        case .Away: return UIImage(named: "icon_red")
+        default: return UIImage(named: "icon_black")
         }
     }
+}
 
-    func showType() -> Show {
+extension XMPPPresence {
+
+    func showType() -> PresenceShow {
         if let value = getElementStringValue("show") {
             switch value {
             case "chat": return .Chat

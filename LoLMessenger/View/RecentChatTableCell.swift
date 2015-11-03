@@ -44,7 +44,7 @@ class RecentChatTableCell: UITableViewCell {
             name.text = roster?.username
             stateIcon.image = roster?.getStatusIcon()
         } else {
-            stateIcon.image = XMPPPresence.Show.Unavailable.icon()
+            stateIcon.image = PresenceShow.Unavailable.icon()
         }
 
         if chat.unread > 0 {

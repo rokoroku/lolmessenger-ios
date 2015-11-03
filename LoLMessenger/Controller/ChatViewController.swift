@@ -356,7 +356,7 @@ extension ChatViewController : RosterDelegate, ChatDelegate {
 
         let titleLabel = IconLabel()
         titleLabel.imageSize = CGSizeMake(14, 14)
-        titleLabel.image = roster?.getStatusIcon() ?? XMPPPresence.Show.Unavailable.icon()
+        titleLabel.image = roster?.getStatusIcon() ?? PresenceShow.Unavailable.icon()
         titleLabel.numberOfLines = 0
         titleLabel.textAlignment = .Center
         titleLabel.text = roster?.username ?? chatName

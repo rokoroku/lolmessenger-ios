@@ -43,7 +43,7 @@ class LeagueRoster {
     var available: Bool = false
     var subscribed: Bool = false
     var priority: Int?
-    var show: XMPPPresence.Show = .Unavailable {
+    var show: PresenceShow = .Unavailable {
         didSet {
             available = show != .Unavailable
         }

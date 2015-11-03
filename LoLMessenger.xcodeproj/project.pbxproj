@@ -664,7 +664,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				INFOPLIST_FILE = LoLMessenger/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = kr.rokoroku.lolmessenger;
+				PRODUCT_BUNDLE_IDENTIFIER = kr.rokoroku.lolmessenger1;
 				PRODUCT_NAME = "Messenger for League of Legends";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
@@ -680,7 +680,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = LoLMessenger/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = kr.rokoroku.lolmessenger;
+				PRODUCT_BUNDLE_IDENTIFIER = kr.rokoroku.lolmessenger1;
 				PRODUCT_NAME = "Messenger for League of Legends";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
