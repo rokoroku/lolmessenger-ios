@@ -44,6 +44,7 @@
 		F8B55C5F1BB532FB005C759D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B55C5E1BB532FB005C759D /* AppDelegate.swift */; };
 		F8B55C691BB532FB005C759D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F8B55C681BB532FB005C759D /* Assets.xcassets */; };
 		F8B55C771BB532FB005C759D /* LoLMessengerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B55C761BB532FB005C759D /* LoLMessengerTests.swift */; };
+		F8D63D101BEA38F000BB8DEB /* UIExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8D63D0F1BEA38F000BB8DEB /* UIExtensions.swift */; };
 		F8E22BD11BBE5C1900C03773 /* StringExtenisions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8E22BD01BBE5C1900C03773 /* StringExtenisions.swift */; };
 		F8E22BD31BBE668700C03773 /* XMPPExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8E22BD21BBE668700C03773 /* XMPPExtensions.swift */; };
 		F9E675E5A379D862BAA1C8FB /* Pods_LoLMessenger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3028A8E268985713BD4AA7F3 /* Pods_LoLMessenger.framework */; };
@@ -106,6 +107,7 @@
 		F8B55C721BB532FB005C759D /* LoLMessengerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LoLMessengerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8B55C761BB532FB005C759D /* LoLMessengerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoLMessengerTests.swift; sourceTree = "<group>"; };
 		F8B55C781BB532FB005C759D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F8D63D0F1BEA38F000BB8DEB /* UIExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIExtensions.swift; sourceTree = "<group>"; };
 		F8E22BD01BBE5C1900C03773 /* StringExtenisions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtenisions.swift; sourceTree = "<group>"; };
 		F8E22BD21BBE668700C03773 /* XMPPExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMPPExtensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -140,6 +142,7 @@
 				F80374461BD52EAB00B9266A /* DialogUtils.swift */,
 				F84CB8F01BD78DD60054801F /* NotificationUtils.swift */,
 				F8803C181BDB6C59005AC9CA /* NavigationUtils.swift */,
+				F8D63D0F1BEA38F000BB8DEB /* UIExtensions.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -529,6 +532,7 @@
 				F83FB1E81BDFC8AA00FBDCCA /* ChatViewController.swift in Sources */,
 				F89AB8C51BE25E9400B4571D /* Banner.swift in Sources */,
 				F89401731BDFDAEA00635D36 /* RosterTableCell.swift in Sources */,
+				F8D63D101BEA38F000BB8DEB /* UIExtensions.swift in Sources */,
 				F80D2A6B1BE1F79E00459E96 /* Theme.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -678,6 +682,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				INFOPLIST_FILE = LoLMessenger/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = kr.rokoroku.lolmessenger1;

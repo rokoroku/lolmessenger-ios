@@ -7,35 +7,10 @@
 //
 
 import UIKit
-import STPopup
-
-class PopupSegue : UIStoryboardSegue {
-
-    var shouldPerform:Bool = true
-
-    override func perform() {
-        if shouldPerform {
-            let screenSize = UIScreen.mainScreen().bounds.size
-            var contentSize = CGSizeMake(screenSize.width - 32, screenSize.height/2)
-            if contentSize.width > 340 { contentSize.width = 340 }
-
-            self.destinationViewController.contentSizeInPopup = contentSize
-            self.destinationViewController.landscapeContentSizeInPopup = contentSize
-
-            let popupController = STPopupController(rootViewController: self.destinationViewController)
-            popupController.navigationBarHidden = true
-            popupController.transitionStyle = .Fade
-            popupController.cornerRadius = 16
-
-            Async.main {
-                popupController.presentInViewController(self.sourceViewController)
-            }
-        }
-    }
-}
 
 class NavigationUtils {
     class func navigateToChat(viewController: UIViewController? = UIApplication.topViewController(), chatId: String) {
+        print(viewController)
         if let rootViewController = viewController,
             let chatViewController = rootViewController.storyboard?.instantiateViewControllerWithIdentifier("ChatViewController") as? ChatViewController,
             let chatEntry = XMPPService.sharedInstance.chat().getLeagueChatEntry(chatId) {
@@ -77,10 +52,15 @@ extension UIApplication {
             }
         }
 
+        if let search = base as? UISearchController,
+            let parent = search.presentingViewController {
+                return parent
+        }
+
         if let presented = base?.presentedViewController {
             return topViewController(presented)
         }
-        
+
         return base
     }
 }

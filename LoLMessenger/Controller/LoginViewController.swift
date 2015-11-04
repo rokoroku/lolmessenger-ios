@@ -28,8 +28,8 @@ class LoginViewController: UIViewController {
         view.backgroundColor = Theme.PrimaryColor
         usernameField.backgroundColor = Theme.HighlightColor
         passwordField.backgroundColor = Theme.HighlightColor
-        regionButton.backgroundColor = Theme.HighlightColor
-        regionButton.layer.cornerRadius = 4
+        //regionButton.backgroundColor = Theme.HighlightColor
+        //regionButton.layer.cornerRadius = 4
 
         connectButton.normalBackgroundColor = Theme.HighlightColor
         connectButton.highlightedBackgroundColor = Theme.HighlightColor.lightenByPercentage(0.1)
@@ -45,7 +45,7 @@ class LoginViewController: UIViewController {
 
         usernameField.text = myJID
         passwordField.text = myPassword
-        selectedRegion = LeagueServer.forShorthand(myRegion ?? "NA")!
+        selectedRegion = LeagueServer.forShorthand(myRegion ?? "KR")!
         regionButton.setTitle(selectedRegion.name, forState: .Normal)
 
         if XMPPService.sharedInstance.isAuthenticated {
@@ -53,6 +53,11 @@ class LoginViewController: UIViewController {
             viewController.transitioningDelegate = self
             self.presentViewController(viewController, animated: true, completion: nil)
         }
+    }
+
+    @IBAction
+    func nextField(sender: AnyObject) {
+        passwordField.becomeFirstResponder()
     }
 
     @IBAction
@@ -85,7 +90,7 @@ class LoginViewController: UIViewController {
         }
     }
 
-    func dismissKeyboard(){
+    func dismissKeyboard() {
         //Causes the view (or one of its embedded text fields) to resign the first responder status.
         view.endEditing(true)
     }
@@ -116,7 +121,8 @@ class LoginViewController: UIViewController {
         let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
         optionMenu.addAction(cancelAction)
         
-        self.presentViewController(optionMenu, animated: true, completion: nil)
+        dismissKeyboard()
+        presentViewController(optionMenu, animated: true, completion: nil)
     }
 }
 

@@ -68,6 +68,12 @@ class YUTableView: UITableView
         if let isActive = expansionState[node.nodeId] {
             return isActive
         } else if expandAllNodeAtFirstTime {
+            if let groupTitle = node.data as? String {
+                if groupTitle == "Offline" {
+                    expansionState[node.nodeId] = false
+                    return false
+                }
+            }
             expansionState[node.nodeId] = true
             return true
         }

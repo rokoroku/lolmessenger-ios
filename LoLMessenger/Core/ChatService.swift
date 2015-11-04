@@ -135,34 +135,37 @@ class ChatService : NSObject {
     }
 
     func getLeagueChatEntry(jid: String) -> LeagueChat? {
-
-        let realm = xmppService.db()
-        let result = realm.objects(LeagueChat.self).filter("id = '\(jid)'")
-        if let storedChat = result.first {
-            let _ = storedChat.messages.count
-            return storedChat
-
-        } else {
-            if let roster = xmppService.roster().getRosterByJID(jid) {
-                do {
-                    realm.beginWrite()
-                    let createdChat = realm.create(LeagueChat.self, value: LeagueChat(chatId: jid, name: roster.username))
-                    try realm.commitWrite()
-                    return createdChat
-
-                } catch _ {
-
-                }
+        if let realm = xmppService.db() {
+            let result = realm.objects(LeagueChat.self).filter("id = '\(jid)'")
+            if let storedChat = result.first {
+                let _ = storedChat.messages.count
+                return storedChat
 
             } else {
-                // TODO: sent to room
+                if let roster = xmppService.roster().getRosterByJID(jid) {
+                    do {
+                        realm.beginWrite()
+                        let createdChat = realm.create(LeagueChat.self, value: LeagueChat(chatId: jid, name: roster.username))
+                        try realm.commitWrite()
+                        return createdChat
+
+                    } catch _ {
+
+                    }
+                    
+                } else {
+                    // TODO: sent to room
+                }
             }
         }
         return nil
     }
 
     func getNumOfUnreadMessages() -> Int {
-        return xmppService.db().objects(LeagueChat.self).reduce(0) { $0 + $1.unread }
+        if let realm = xmppService.db() {
+            return realm.objects(LeagueChat.self).reduce(0) { $0 + $1.unread }
+        }
+        return 0
     }
 
     func getLeagueChatEntryByJID(jid: XMPPJID) -> LeagueChat? {
@@ -170,7 +173,10 @@ class ChatService : NSObject {
     }
 
     func getLeagueChatEntries() -> [LeagueChat]? {
-        return xmppService.db().objects(LeagueChat).sorted("timestamp", ascending: false).filter{ $0.lastMessage != nil }
+        if let realm = xmppService.db() {
+            return realm.objects(LeagueChat.self).sorted("timestamp", ascending: false).filter{ $0.lastMessage != nil }
+        }
+        return nil
     }
 }
 
@@ -179,7 +185,11 @@ class ChatService : NSObject {
 extension ChatService : XMPPStreamDelegate {
     @objc func xmppStream(sender: XMPPStream!, didReceiveMessage message: XMPPMessage!) {
         print("didReceive \(message)")
-        if let leagueChat = getLeagueChatEntryByJID(message.from()) {
+        if message.from().domain == "sec.pvp.net" {
+            // skip messages such as endgame2145955503@sec.pvp.net/User
+            return
+
+        } else if let leagueChat = getLeagueChatEntryByJID(message.from()) {
             if let leagueMessage = LeagueMessage(message: message, nick: leagueChat.name, isMine: false) {
                 if message.type() == "error" {
                     if let lastMessage = leagueChat.messages.last {

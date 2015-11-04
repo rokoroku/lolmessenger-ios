@@ -12,16 +12,31 @@ class RosterTableGroupCell: UITableViewCell {
     
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var indicator: UIImageView!
+    @IBOutlet weak var childCountLabel: UILabel!
 
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        self.childCountLabel.textColor = Theme.TextColorSecondary
     }
     
-    func setTitle (text: String) {
-        self.label.text = text;
+    func setData (groupNode: GroupNode) {
+        self.label.text = groupNode.data as? String ?? "Unknown";
+        if groupNode.numOfTotalRoster > 0 {
+            let childCount = groupNode.childNodes != nil ? groupNode.childNodes.count : 0
+            childCountLabel.text = "(\(childCount)/\(groupNode.numOfTotalRoster))"
+        } else {
+            childCountLabel.text = nil
+        }
+        if groupNode.isActive {
+            indicator.image = UIImage(named: "collapsed_arrow")?
+                .tint(Theme.TextColorPrimary, blendMode: .Overlay)
+        } else {
+            indicator.image = UIImage(named: "expand_arrow")?
+                .tint(Theme.TextColorPrimary, blendMode: .Overlay)
+        }
     }
-    
+
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }

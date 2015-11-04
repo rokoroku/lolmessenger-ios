@@ -54,12 +54,14 @@ class RosterTableViewController : UIViewController {
             let controller = UISearchController(searchResultsController: nil)
             controller.searchResultsUpdater = self
             controller.dimsBackgroundDuringPresentation = false
+            controller.searchBar.sizeToFit()
             controller.delegate = self
 
             self.tableView.tableHeaderView = controller.searchBar
-            controller.searchBar.sizeToFit()
             return controller
         })()
+
+        self.tableView.reloadData()
     }
 
     func setTableProperties() {
@@ -127,6 +129,7 @@ extension RosterTableViewController {
             for roster in rosterList {
                 let rosterNode = RosterNode(roster: roster)
                 var groupNode: GroupNode = getGroupNode(roster.group)
+                groupNode.numOfTotalRoster++
                 if separateOfflineGroup && !roster.available {
                     groupNode = offlineGroup
                 }
@@ -163,7 +166,7 @@ extension RosterTableViewController: YUTableViewDelegate {
             rosterCell.setData(rosterNode.roster)
 
         } else if let groupNode = node as? GroupNode, let groupCell = cell as? RosterTableGroupCell {
-            groupCell.setTitle(groupNode.name)
+            groupCell.setData(groupNode)
         }
     }
     
@@ -172,6 +175,12 @@ extension RosterTableViewController: YUTableViewDelegate {
             return 40.0;
         }
         return 58.0;
+    }
+
+    func didSelectNode(node: YUTableViewNode, indexPath: NSIndexPath) {
+        if let _ = node as? GroupNode, let cell = tableView.cellForRowAtIndexPath(indexPath) as? RosterTableGroupCell {
+            cell.indicator.rotate180Degrees()
+        }
     }
     
 }
@@ -226,7 +235,9 @@ class GroupNode : YUTableViewNode {
     init(name: String) {
         super.init(data: name, nodeId: name.hashValue, cellIdentifier: "GroupCell")
     }
-    
+
+    var numOfTotalRoster = 0
+
     func add(rosterNode: RosterNode) {
         if childNodes == nil {
             childNodes = [rosterNode] as [RosterNode]

@@ -95,7 +95,6 @@ class SummonerDialogViewController : UIViewController {
     }
 
     func updateTimestamp() {
-        print("updateTimestamp")
         if roster?.status == .InGame {
             if let interval = roster?.elapsedTime {
                 let minutes = (Int(interval) / 60) % 60

@@ -203,9 +203,14 @@ class XMPPService : NSObject {
         return xmppStream!
     }
 
-    func db() -> Realm {
+    func db() -> Realm? {
         assert(xmppStream != nil)
-        return try! Realm(configuration: realmConfig)
+        do {
+            return try Realm(configuration: realmConfig)
+        } catch _ {
+
+        }
+        return nil
     }
 
     func addDelegate(delegate:XMPPConnectionDelegate) {
@@ -291,7 +296,10 @@ extension XMPPService : XMPPStreamDelegate {
         print("xmppStreamDidDisconnect!")
 
         updateBadge()
-        NotificationUtils.create("Disconnected!", body: error.localizedFailureReason ?? "Undefined")
+
+        if error != nil {
+            NotificationUtils.create("Disconnected!", body: error.localizedFailureReason ?? "Undefined")
+        }
 
         delegates.forEach {
             delegate in delegate.onDisconnected(self, error: error)

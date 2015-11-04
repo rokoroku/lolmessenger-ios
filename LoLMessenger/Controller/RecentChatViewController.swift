@@ -63,12 +63,14 @@ class RecentChatViewController : UIViewController {
             let controller = UISearchController(searchResultsController: nil)
             controller.searchResultsUpdater = self
             controller.dimsBackgroundDuringPresentation = false
+            controller.searchBar.sizeToFit()
             controller.delegate = self
 
             self.tableView.tableHeaderView = controller.searchBar
-            controller.searchBar.sizeToFit()
             return controller
         })()
+        
+        self.tableView.reloadData()
     }
 
 
@@ -193,11 +195,9 @@ extension RecentChatViewController : UISearchResultsUpdating, UISearchController
 
 extension RecentChatViewController : RosterDelegate, ChatDelegate {
     func didReceiveRosterUpdate(sender: RosterService, from: LeagueRoster) {
-        reloadChats()
+        tableView.reloadData()
     }
-    func didEnterChatRoom(sender: ChatService, from: LeagueChat) {
-        reloadChats()
-    }
+
     func didReceiveNewMessage(sender: ChatService, from: LeagueChat, message: LeagueMessage.RawData) {
         reloadChats()
     }
