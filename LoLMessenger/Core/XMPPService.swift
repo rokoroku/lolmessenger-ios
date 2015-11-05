@@ -298,7 +298,8 @@ extension XMPPService : XMPPStreamDelegate {
         updateBadge()
 
         if error != nil {
-            NotificationUtils.create("Disconnected!", body: error.localizedFailureReason ?? "Undefined")
+            let notification = NotificationUtils.create("Disconnected!", body: error.localizedFailureReason ?? "Undefined Error")
+            UIApplication.sharedApplication().scheduleLocalNotification(notification)
         }
 
         delegates.forEach {
@@ -307,6 +308,7 @@ extension XMPPService : XMPPStreamDelegate {
     }
 
     @objc func xmppStream(sender: XMPPStream!, didReceiveIQ iq: XMPPIQ!) -> Bool {
+        print("didReceiveIQ: " + iq.description)
         if let session = iq.elementForName("session") {
             print("didReceiveSessionIQ!" + iq.description)
             let summonerName = session.getElementStringValue("summoner_name", defaultValue: "Unknown")!
@@ -364,7 +366,7 @@ extension XMPPService : XMPPStreamDelegate {
 extension XMPPService : XMPPReconnectDelegate {
     @objc func xmppReconnect(sender: XMPPReconnect!, didDetectAccidentalDisconnect connectionFlags: SCNetworkConnectionFlags) {
         print("didDetectAccidentalDisconnect \(connectionFlags.value)")
-
-        NotificationUtils.create("xmppReconnect", body: "didDetectAccidentalDisconnect \(connectionFlags.value)")
+        let notification = NotificationUtils.create("xmppReconnect", body: "didDetectAccidentalDisconnect (code: \(connectionFlags.value))")
+        UIApplication.sharedApplication().scheduleLocalNotification(notification)
     }
 }

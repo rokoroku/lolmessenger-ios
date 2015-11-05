@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import STPopup
 import ChameleonFramework
 
 class RosterTableViewController : UIViewController {
@@ -44,7 +45,6 @@ class RosterTableViewController : UIViewController {
         super.viewDidLoad()
         setTableProperties()
         setSearchController()
-        XMPPService.sharedInstance.roster().addDelegate(self)
         navigationController?.hidesNavigationBarHairline = true
     }
 
@@ -83,10 +83,17 @@ class RosterTableViewController : UIViewController {
     override func viewWillAppear(animated: Bool) {
         // Called when the view is about to made visible. 
         reloadRosterNodes()
+        XMPPService.sharedInstance.roster().addDelegate(self)
     }
 
     override func viewWillDisappear(animated: Bool) {
         // Called when the view is dismissed, covered or otherwise hidden.
+    }
+
+    override func viewDidDisappear(animated: Bool) {
+        if let _ = UIApplication.topViewController() as? STPopupContainerViewController {
+            XMPPService.sharedInstance.roster().removeDelegate(self)
+        }
     }
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation

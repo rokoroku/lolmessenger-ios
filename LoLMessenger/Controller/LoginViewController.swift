@@ -19,7 +19,7 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var connectButton: TKTransitionSubmitButton!
 
     private var isConnecting = false
-    private var selectedRegion: LeagueServer = LeagueServer.KR
+    private var selectedRegion: LeagueServer?
     private let keychain = KeychainSwift()
 
     override func viewDidLoad() {
@@ -45,13 +45,14 @@ class LoginViewController: UIViewController {
 
         usernameField.text = storedJID
         passwordField.text = storedPassword
-        selectedRegion = LeagueServer.forShorthand(storedRegion) ?? LeagueServer.byCurrentLocale()
-        regionButton.setTitle(selectedRegion.name, forState: .Normal)
+        selectedRegion = LeagueServer.forShorthand(storedRegion)
+        regionButton.setTitle(selectedRegion?.name ?? "Select Region", forState: .Normal)
+    }
 
+    override func viewDidAppear(animated: Bool) {
         if XMPPService.sharedInstance.isAuthenticated {
-            let viewController = self.storyboard!.instantiateViewControllerWithIdentifier("TabController") as UIViewController!
-            viewController.transitioningDelegate = self
-            self.presentViewController(viewController, animated: true, completion: nil)
+            let viewController = self.storyboard!.instantiateViewControllerWithIdentifier("TabBarController") as UIViewController!
+            UIApplication.topViewController()?.presentViewController(viewController, animated: true, completion: nil)
         }
     }
 
@@ -69,23 +70,33 @@ class LoginViewController: UIViewController {
     @IBAction
     func connect(sender: AnyObject) {
         dismissKeyboard()
-        if !isConnecting {
-            isConnecting = true
-            connectButton.startLoadingAnimation()
-            Async.background({
-                if !XMPPService.sharedInstance.isXmppConnected {
-                    XMPPService.sharedInstance.addDelegate(self)
-                    XMPPService.sharedInstance.connect(self.selectedRegion)
+        if let username = usernameField.text {
+            if let password = passwordField.text {
+                if let region = selectedRegion {
+                    if !isConnecting {
+                        isConnecting = true
+                        connectButton.startLoadingAnimation()
+                        Async.background({
+                            if !XMPPService.sharedInstance.isXmppConnected {
+                                XMPPService.sharedInstance.addDelegate(self)
+                                XMPPService.sharedInstance.connect(region)
+                            } else {
+                                self.authenticate(username, password: password)
+                            }
+                        })
+                    }
                 } else {
-                    self.authenticate()
+                    DialogUtils.alert("Error", message: "Please select region")
                 }
-            })
+            } else {
+                DialogUtils.alert("Error", message: "Please input password")
+            }
+        } else {
+            DialogUtils.alert("Error", message: "Please input username")
         }
     }
 
-    func authenticate() {
-        let username = usernameField.text!
-        let password = passwordField.text!
+    func authenticate(username: String, password: String) {
         XMPPService.sharedInstance.login(username, password: password)
     }
     
@@ -103,47 +114,54 @@ class LoginViewController: UIViewController {
 
     @IBAction
     func visitHomepage(sender: AnyObject) {
-        if let url = NSURL(string: "http://\(selectedRegion.shorthand).leagueoflegends.com") {
+        if let url = NSURL(string: "http://\(selectedRegion?.shorthand ?? "na").leagueoflegends.com") {
             UIApplication.sharedApplication().openURL(url)
         }
     }
 
     @IBAction
     func showRegionList(sender: AnyObject) {
-        let optionMenu = UIAlertController(title: nil, message: "Choose Region", preferredStyle: .ActionSheet)
+        dismissKeyboard()
+
+        let alertController = UIAlertController(title: nil, message: "Select Region", preferredStyle: .ActionSheet)
+
         let handler: ((UIAlertAction) -> Void) = { action in
-            self.regionButton.setTitle(action.title, forState: .Normal)
-            self.selectedRegion = LeagueServer.forName(action.title!)!
-            if XMPPService.sharedInstance.isXmppConnected {
-                XMPPService.sharedInstance.disconnect()
+            if let title = action.title {
+                self.regionButton.setTitle(title, forState: .Normal)
+                self.selectedRegion = LeagueServer.forName(title)!
+                if XMPPService.sharedInstance.isXmppConnected {
+                    XMPPService.sharedInstance.disconnect()
+                }
             }
         }
 
         for region in LeagueServer.availableRegions {
             let action = UIAlertAction(title: region.name, style: .Default, handler: handler)
-            optionMenu.addAction(action)
+            alertController.addAction(action)
         }
 
         let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
-        optionMenu.addAction(cancelAction)
-        
-        dismissKeyboard()
-        presentViewController(optionMenu, animated: true, completion: nil)
+        alertController.addAction(cancelAction)
+
+        if let senderView = sender as? UIView, let popoverController = alertController.popoverPresentationController {
+            popoverController.sourceView = senderView
+            popoverController.sourceRect = senderView.bounds
+        }
+        self.presentViewController(alertController, animated: true, completion: nil)
     }
 }
 
 // MARK: UIViewControllerTransitioningDelegate
 
-extension LoginViewController: UIViewControllerTransitioningDelegate {
+extension LoginViewController: UIViewControllerTransitioningDelegate, UIPopoverPresentationControllerDelegate {
 
     func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return TKFadeInAnimator(transitionDuration: 0.5, startingAlpha: 0.8)
     }
-    
-    func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return nil
-    }
 
+    func prepareForPopoverPresentation(popoverPresentationController: UIPopoverPresentationController) {
+
+    }
 }
 
 // MARK : XMPPConnectionDelegate
@@ -152,8 +170,8 @@ extension LoginViewController : XMPPConnectionDelegate {
 
     func onConnected(sender: XMPPService) {
         keychain.set(usernameField.text!, forKey: Constants.Key.Username)
-        keychain.set(selectedRegion.shorthand, forKey: Constants.Key.Region)
-        authenticate()
+        keychain.set(selectedRegion!.shorthand, forKey: Constants.Key.Region)
+        authenticate(usernameField.text!, password: passwordField.text!)
     }
     
     func onAuthenticated(sender: XMPPService) {        
@@ -162,24 +180,19 @@ extension LoginViewController : XMPPConnectionDelegate {
             completion: {
                 let viewController = self.storyboard!.instantiateViewControllerWithIdentifier("TabBarController") as UIViewController!
                 viewController.transitioningDelegate = self
-                self.presentViewController(viewController, animated: true, completion: nil)
+                UIApplication.topViewController()?.presentViewController(viewController, animated: true, completion: nil)
         })
     }
     
     func onDisconnected(sender: XMPPService, error: ErrorType?) {
         if let _ = error {
-            let alert = UIAlertController(title: "Error", message: error.debugDescription, preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Cancel, handler: nil))
-            UIApplication.sharedApplication().keyWindow!.rootViewController!.presentViewController(alert, animated: true, completion: nil)
+            DialogUtils.alert("Error", message: error.debugDescription)
         }
         stopConnecting()
     }
     
     func onAuthenticationFailed(sender: XMPPService) {
-        let alert = UIAlertController(title: "Error", message: "Authentication Failed, Check your credential and region", preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Cancel, handler: nil))
-        UIApplication.sharedApplication().keyWindow!.rootViewController!.presentViewController(alert, animated: true, completion: nil)
-        
+        DialogUtils.alert("Error", message: "Authentication Failed, Check your credential and region")
         stopConnecting()
     }
 

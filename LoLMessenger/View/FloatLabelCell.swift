@@ -79,8 +79,12 @@ public class FloatLabelCell: Cell<String>, CellType, UITextFieldDelegate {
 
     private func layoutConstraints() -> [NSLayoutConstraint] {
         let views = ["floatLabeledTextField": floatLabelTextField]
-        let metrics = ["vMargin":6.0]
-        return NSLayoutConstraint.constraintsWithVisualFormat("H:|-[floatLabeledTextField]-|", options: .AlignAllBaseline, metrics: metrics, views: views) + NSLayoutConstraint.constraintsWithVisualFormat("V:|-(vMargin)-[floatLabeledTextField]-(vMargin)-|", options: .AlignAllBaseline, metrics: metrics, views: views)
+        let metrics = ["vMargin":6.0, "hMargin":12.0]
+        if #available(iOS 9.0, *) {
+            return NSLayoutConstraint.constraintsWithVisualFormat("H:|-[floatLabeledTextField]-|", options: .AlignAllBaseline, metrics: nil, views: views) + NSLayoutConstraint.constraintsWithVisualFormat("V:|-(vMargin)-[floatLabeledTextField]-(vMargin)-|", options: .AlignAllBaseline, metrics: metrics, views: views)
+        } else {
+            return NSLayoutConstraint.constraintsWithVisualFormat("H:|-(hMargin)-[floatLabeledTextField]-(hMargin)-|", options: .AlignAllBaseline, metrics: metrics, views: views) + NSLayoutConstraint.constraintsWithVisualFormat("V:|-(vMargin)-[floatLabeledTextField]-(vMargin)-|", options: .AlignAllBaseline, metrics: metrics, views: views)
+        }
     }
 
     // MARK : TextFieldDelegate

@@ -152,11 +152,9 @@ class ChatViewController : UIViewController {
         if #available(iOS 9.0, *) {
             UILabel.appearanceWhenContainedInInstancesOfClasses([UILabel.self]).textColor = Theme.TextColorPrimary
         }
-        if let topViewController = UIApplication.topViewController() {
-            if String(topViewController.dynamicType) != "STPopupContainerViewController" {
-                XMPPService.sharedInstance.chat().removeDelegate(self)
-                XMPPService.sharedInstance.roster().removeDelegate(self)
-            }
+        if let _ = UIApplication.topViewController() as? STPopupContainerViewController {
+            XMPPService.sharedInstance.chat().removeDelegate(self)
+            XMPPService.sharedInstance.roster().removeDelegate(self)
         }
     }
 

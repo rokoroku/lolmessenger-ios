@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import STPopup
 import ChameleonFramework
 
 class RecentChatViewController : UIViewController {
@@ -87,8 +88,10 @@ class RecentChatViewController : UIViewController {
 
     override func viewDidDisappear(animated: Bool) {
         // Remove delegates
-        XMPPService.sharedInstance.roster().removeDelegate(self)
-        XMPPService.sharedInstance.chat().removeDelegate(self)
+        if let _ = UIApplication.topViewController() as? STPopupContainerViewController {
+            XMPPService.sharedInstance.chat().removeDelegate(self)
+            XMPPService.sharedInstance.roster().removeDelegate(self)
+        }
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

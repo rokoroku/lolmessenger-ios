@@ -52,6 +52,10 @@ class SummonerDialogViewController : UIViewController {
             atPoint: CGPointMake(masteryIcon.bounds.width/2, masteryIcon.bounds.height/2))
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "dismissKeyboard"))
         updateRoster()
+
+        if let backgroundView = popupController?.backgroundView {
+             backgroundView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "dismiss"))
+        }
     }
 
     override func viewWillLayoutSubviews() {
@@ -63,9 +67,17 @@ class SummonerDialogViewController : UIViewController {
         }
     }
 
+    override func viewWillAppear(animated: Bool) {
+        XMPPService.sharedInstance.roster().addDelegate(self)
+    }
+
     override func viewWillDisappear(animated: Bool) {
         timer?.invalidate()
         timer = nil
+    }
+
+    override func viewDidDisappear(animated: Bool) {
+        XMPPService.sharedInstance.roster().removeDelegate(self)
     }
 
     func updateRoster() {
@@ -147,9 +159,20 @@ extension SummonerDialogViewController : UITextViewDelegate {
     }
 
     func setRosterNote() {
-        if let _ = roster {
-            XMPPService.sharedInstance.roster().setNote(roster!, note: rosterNote.text)
+        if let roster = self.roster {
+            if roster.note != rosterNote.text {
+                XMPPService.sharedInstance.roster().setNote(roster, note: rosterNote.text)
+            }
         }
     }
 
+}
+
+extension SummonerDialogViewController : RosterDelegate {
+    func didReceiveRosterUpdate(sender: RosterService, from: LeagueRoster) {
+        if from.userid == roster?.userid {
+            self.roster = from
+            updateRoster()
+        }
+    }
 }

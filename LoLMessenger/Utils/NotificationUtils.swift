@@ -38,10 +38,9 @@ class NotificationUtils {
     class func create(title: String, body: String) -> UILocalNotification {
         // create a corresponding local notification
         let notification = UILocalNotification()
+
         if #available(iOS 8.2, *) {
             notification.alertTitle = title
-        } else {
-            // Fallback on earlier versions
         }
         notification.alertBody = body
         notification.alertAction = "open"

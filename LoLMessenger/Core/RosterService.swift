@@ -143,7 +143,6 @@ class RosterService : NSObject {
             }
         }
     }
-    
 
 }
 
@@ -155,16 +154,11 @@ extension RosterService : XMPPStreamDelegate {
         }
 
         if let roster = rosterDictionary[presence.from().user] {
-//            var roster = rosterDictionary[presence.from().user]
-//            if roster == nil {
-//                roster = LeagueRoster(jid: presence.from(), nickname: nil, group: nil)
-//                rosterDictionary[presence.from().user] = roster
-//            }
             roster.parsePresence(presence)
             invokeDelegates {
                 delegate in delegate.didReceiveRosterUpdate(self, from: roster)
             }
-        } else if !isPopulated {
+        } else {
             Async.background(after: 1) {
                 self.xmppStream(sender, didReceivePresence: presence)
             }

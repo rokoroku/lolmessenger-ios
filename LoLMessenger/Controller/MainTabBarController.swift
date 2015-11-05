@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import STPopup
 
 class MainTabBarController : UITabBarController {
 
@@ -27,10 +28,12 @@ class MainTabBarController : UITabBarController {
         XMPPService.sharedInstance.chat().addDelegate(self)
     }
 
-    override func viewWillDisappear(animated: Bool) {
+    override func viewDidDisappear(animated: Bool) {
         // Called when the view is dismissed, covered or otherwise hidden.
-        XMPPService.sharedInstance.roster().removeDelegate(self)
-        XMPPService.sharedInstance.chat().addDelegate(self)
+        if let _ = UIApplication.topViewController() as? STPopupContainerViewController {
+            XMPPService.sharedInstance.chat().removeDelegate(self)
+            XMPPService.sharedInstance.roster().removeDelegate(self)
+        }
     }
 
     func updateRosterBadge(rosterService: RosterService) {
