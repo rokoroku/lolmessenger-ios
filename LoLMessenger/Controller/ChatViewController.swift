@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import STPopup
 import XMPPFramework
 import ChameleonFramework
 
@@ -133,8 +134,8 @@ class ChatViewController : UIViewController {
     }
 
     override func viewWillAppear(animated: Bool) {
-        XMPPService.sharedInstance.roster().addDelegate(self)
         XMPPService.sharedInstance.chat().addDelegate(self)
+        XMPPService.sharedInstance.roster().addDelegate(self)
     }
 
     override func viewWillDisappear(animated: Bool) {
@@ -148,11 +149,14 @@ class ChatViewController : UIViewController {
     }
 
     override func viewDidDisappear(animated: Bool) {
-        XMPPService.sharedInstance.chat().removeDelegate(self)
-        XMPPService.sharedInstance.roster().removeDelegate(self)
-
         if #available(iOS 9.0, *) {
             UILabel.appearanceWhenContainedInInstancesOfClasses([UILabel.self]).textColor = Theme.TextColorPrimary
+        }
+        if let topViewController = UIApplication.topViewController() {
+            if String(topViewController.dynamicType) != "STPopupContainerViewController" {
+                XMPPService.sharedInstance.chat().removeDelegate(self)
+                XMPPService.sharedInstance.roster().removeDelegate(self)
+            }
         }
     }
 
@@ -227,7 +231,6 @@ class ChatViewController : UIViewController {
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 
-        print(sender)
         // Get the cell that generated the segue.
         if let cell = sender as? ChatTableCell, let roster = cell.roster {
 

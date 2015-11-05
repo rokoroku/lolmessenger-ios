@@ -39,13 +39,13 @@ class LoginViewController: UIViewController {
         view.bringSubviewToFront(connectButton)
 
         // Restore User Credentials if available
-        let myJID = keychain.get(Constants.Key.Username)
-        let myPassword = keychain.get(Constants.Key.Password)
-        let myRegion = keychain.get(Constants.Key.Region)
+        let storedJID = keychain.get(Constants.Key.Username)
+        let storedPassword = keychain.get(Constants.Key.Password)
+        let storedRegion = keychain.get(Constants.Key.Region)
 
-        usernameField.text = myJID
-        passwordField.text = myPassword
-        selectedRegion = LeagueServer.forShorthand(myRegion ?? "KR")!
+        usernameField.text = storedJID
+        passwordField.text = storedPassword
+        selectedRegion = LeagueServer.forShorthand(storedRegion) ?? LeagueServer.byCurrentLocale()
         regionButton.setTitle(selectedRegion.name, forState: .Normal)
 
         if XMPPService.sharedInstance.isAuthenticated {
@@ -57,7 +57,13 @@ class LoginViewController: UIViewController {
 
     @IBAction
     func nextField(sender: AnyObject) {
-        passwordField.becomeFirstResponder()
+        if let textField = sender as? UITextField {
+            if textField == usernameField {
+                passwordField.becomeFirstResponder()
+            } else if textField == passwordField {
+                dismissKeyboard()
+            }
+        }
     }
 
     @IBAction
@@ -170,7 +176,7 @@ extension LoginViewController : XMPPConnectionDelegate {
     }
     
     func onAuthenticationFailed(sender: XMPPService) {
-        let alert = UIAlertController(title: "Error", message: "Authentication Failed", preferredStyle: UIAlertControllerStyle.Alert)
+        let alert = UIAlertController(title: "Error", message: "Authentication Failed, Check your credential and region", preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Cancel, handler: nil))
         UIApplication.sharedApplication().keyWindow!.rootViewController!.presentViewController(alert, animated: true, completion: nil)
         

@@ -51,4 +51,12 @@ struct LeagueServer {
         return nil
     }
 
+    static func byCurrentLocale() -> LeagueServer {
+        let locale = NSLocale.currentLocale()
+        var region: LeagueServer?
+        if let country = locale.objectForKey(NSLocaleCountryCode) as? String {
+            region = LeagueServer.forShorthand(country)
+        }
+        return region ?? LeagueServer.NA
+    }
 }

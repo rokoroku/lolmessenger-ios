@@ -474,7 +474,7 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="collapsed_arrow" translatesAutoresizingMaskIntoConstraints="NO" id="2R0-nC-ZM8">
                                                     <rect key="frame" x="16" y="14" width="16" height="16"/>
                                                     <animations/>
-                                                    <color key="tintColor" cocoaTouchSystemColor="lightTextColor"/>
+                                                    <color key="tintColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="16" id="T3O-AM-khV"/>
                                                         <constraint firstAttribute="width" constant="16" id="dw7-Js-Tp2"/>
@@ -634,7 +634,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VZE-bw-eK9" customClass="TKTransitionSubmitButton" customModule="TKSubmitTransition">
-                                <rect key="frame" x="200" y="456" width="200" height="44"/>
+                                <rect key="frame" x="200" y="460" width="200" height="44"/>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="WdI-Lq-Lwt"/>
@@ -696,7 +696,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gHb-4G-4J8">
-                                <rect key="frame" x="238" y="418" width="124" height="30"/>
+                                <rect key="frame" x="238" y="422" width="124" height="30"/>
                                 <animations/>
                                 <state key="normal" title="Need an account?"/>
                                 <connections>
@@ -714,7 +714,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES" secureTextEntry="YES"/>
                                 <connections>
-                                    <action selector="connect:" destination="Hdv-7M-9cr" eventType="primaryActionTriggered" id="Hiy-rH-p7R"/>
+                                    <action selector="nextField:" destination="Hdv-7M-9cr" eventType="primaryActionTriggered" id="ih6-81-VYM"/>
                                 </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oeT-qh-C6I">
@@ -746,7 +746,7 @@
                             <constraint firstItem="cy6-NX-DRT" firstAttribute="top" secondItem="L4Q-Qr-lPf" secondAttribute="bottom" constant="8" id="lny-3g-4sb"/>
                             <constraint firstItem="gHb-4G-4J8" firstAttribute="centerX" secondItem="BmG-EV-eTt" secondAttribute="centerX" id="t43-lJ-n6W"/>
                             <constraint firstItem="VZE-bw-eK9" firstAttribute="centerX" secondItem="BmG-EV-eTt" secondAttribute="centerX" id="w7V-eq-cwP"/>
-                            <constraint firstItem="g8X-sW-pjI" firstAttribute="top" secondItem="VZE-bw-eK9" secondAttribute="bottom" constant="100" id="zwM-Kn-nvL"/>
+                            <constraint firstItem="g8X-sW-pjI" firstAttribute="top" secondItem="VZE-bw-eK9" secondAttribute="bottom" constant="96" id="zwM-Kn-nvL"/>
                         </constraints>
                     </view>
                     <connections>
