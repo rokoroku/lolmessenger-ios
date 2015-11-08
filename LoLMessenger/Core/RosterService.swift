@@ -107,6 +107,16 @@ class RosterService : NSObject {
         }
     }
 
+    func addRoster(roster: LeagueRoster) {
+        xmppRoster.addUser(roster.jid(), withNickname: roster.username, groups: [roster.group])
+        xmppRoster.fetchRoster()
+    }
+
+    func removeRoster(roster: LeagueRoster) {
+        xmppRoster.removeUser(roster.jid())
+        xmppRoster.fetchRoster()
+    }
+
     func setNote(roster: LeagueRoster, note: String) {
         xmppRoster.setNote(note, forUser: roster.jid())
     }
@@ -153,14 +163,29 @@ extension RosterService : XMPPStreamDelegate {
             return
         }
 
-        if let roster = rosterDictionary[presence.from().user] {
-            roster.parsePresence(presence)
-            invokeDelegates {
-                delegate in delegate.didReceiveRosterUpdate(self, from: roster)
+        switch (presence.type()) {
+        case "subscribe":
+            break
+
+        case "unsubscribe":
+            if let roster = rosterDictionary.removeValueForKey(presence.from().user) {
+                roster.parsePresence(presence)
+                invokeDelegates {
+                    delegate in delegate.didReceiveRosterUpdate(self, from: roster)
+                }
             }
-        } else {
-            Async.background(after: 1) {
-                self.xmppStream(sender, didReceivePresence: presence)
+            break
+
+        default:
+            if let roster = rosterDictionary[presence.from().user] {
+                roster.parsePresence(presence)
+                invokeDelegates {
+                    delegate in delegate.didReceiveRosterUpdate(self, from: roster)
+                }
+            } else {
+                Async.background(after: 2) {
+                    self.xmppStream(sender, didReceivePresence: presence)
+                }
             }
         }
     }
@@ -168,9 +193,44 @@ extension RosterService : XMPPStreamDelegate {
 
 // MARK : XMPPRosterDelegate
 extension RosterService : XMPPRosterDelegate {
+
+    private func notifySubscriptionRequest(roster: LeagueRoster) {
+        if StoredProperties.Settings.notifySubscription.value {
+            Async.main(after: 1.5) {
+                let notification = NotificationUtils.create("Buddy Subscription Request",
+                    body: "The buddy \(roster.username) wants to add you to their list and see your presence online",
+                    category: Constants.Notification.Category.Subscribtion)
+
+                UIApplication.sharedApplication().scheduleLocalNotification(notification)
+
+                DialogUtils.alert("Buddy Subscription Request",
+                    message: "The buddy \(roster.username) wants to add you to their list and see your presence online",
+                    actions: [
+                        UIAlertAction(title: "OK", style: .Default, handler: { _ in self.addRoster(roster) }),
+                        UIAlertAction(title: "NO", style: .Cancel, handler: { _ in self.removeRoster(roster) })
+                    ])
+                self.invokeDelegates {
+                    delegate in delegate.didReceiveFriendSubscription(self, from: roster)
+                }
+            }
+        }
+    }
+
     @objc func xmppRoster(sender: XMPPRoster!, didReceivePresenceSubscriptionRequest presence: XMPPPresence!) {
         print("didReceivePresenceSubscriptionRequest: " + presence.description)
-        xmppService.updateBadge()
+        if let jid = presence.from() {
+            if let name = presence.attributeStringValueForName("name") {
+                let summoner = LeagueRoster(jid: jid, nickname: name)
+                notifySubscriptionRequest(summoner)
+
+            } else {
+                RiotAPI.getSummonerById(summonerId: jid.user, region: xmppService.region!) { summoner in
+                    if let summoner = summoner {
+                        self.notifySubscriptionRequest(summoner)
+                    }
+                }
+            }
+        }
     }
 
     @objc func xmppRosterDidBeginPopulating(sender: XMPPRoster!, withVersion version: String!) {
@@ -191,6 +251,7 @@ extension RosterService : XMPPRosterDelegate {
             rosterDictionary[received.userid] = received
         }
     }
+
     
 }
 

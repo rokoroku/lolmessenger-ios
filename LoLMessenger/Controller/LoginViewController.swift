@@ -47,13 +47,12 @@ class LoginViewController: UIViewController {
         passwordField.text = storedPassword
         selectedRegion = LeagueServer.forShorthand(storedRegion)
         regionButton.setTitle(selectedRegion?.name ?? "Select Region", forState: .Normal)
-    }
 
-    override func viewDidAppear(animated: Bool) {
         if XMPPService.sharedInstance.isAuthenticated {
             let viewController = self.storyboard!.instantiateViewControllerWithIdentifier("TabBarController") as UIViewController!
             UIApplication.topViewController()?.presentViewController(viewController, animated: true, completion: nil)
         }
+
     }
 
     @IBAction
@@ -159,9 +158,6 @@ extension LoginViewController: UIViewControllerTransitioningDelegate, UIPopoverP
         return TKFadeInAnimator(transitionDuration: 0.5, startingAlpha: 0.8)
     }
 
-    func prepareForPopoverPresentation(popoverPresentationController: UIPopoverPresentationController) {
-
-    }
 }
 
 // MARK : XMPPConnectionDelegate
@@ -178,9 +174,11 @@ extension LoginViewController : XMPPConnectionDelegate {
         keychain.set(passwordField.text!, forKey: Constants.Key.Password)
         connectButton.startFinishAnimation(0.5,
             completion: {
-                let viewController = self.storyboard!.instantiateViewControllerWithIdentifier("TabBarController") as UIViewController!
-                viewController.transitioningDelegate = self
-                UIApplication.topViewController()?.presentViewController(viewController, animated: true, completion: nil)
+                let tabBarController = self.storyboard!.instantiateViewControllerWithIdentifier("TabBarController") as UIViewController!
+                tabBarController.transitioningDelegate = self
+                UIApplication.topViewController()?.presentViewController(tabBarController, animated: true, completion: {
+                    UIApplication.sharedApplication().keyWindow?.rootViewController = tabBarController
+                })
         })
     }
     

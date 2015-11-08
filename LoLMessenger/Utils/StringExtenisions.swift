@@ -73,7 +73,11 @@ extension String {
         decodedString = decodedString.stringByReplacingOccurrencesOfString("&lt;", withString: "<")
         return decodedString
     }
-    
+
+    func encodeURL() -> String {
+        return self.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
+    }
+
     func parseDateTime() -> NSDate? {
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd hh:mm:ss"

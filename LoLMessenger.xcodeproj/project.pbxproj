@@ -18,12 +18,13 @@
 		F83FB1EB1BDFC8AA00FBDCCA /* MoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F83FB1E51BDFC8AA00FBDCCA /* MoreViewController.swift */; };
 		F83FB1EC1BDFC8AA00FBDCCA /* RecentChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F83FB1E61BDFC8AA00FBDCCA /* RecentChatViewController.swift */; };
 		F83FB1ED1BDFC8AA00FBDCCA /* RosterTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F83FB1E71BDFC8AA00FBDCCA /* RosterTableViewController.swift */; };
-		F83FB20D1BDFC96F00FBDCCA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F83FB2091BDFC96F00FBDCCA /* LaunchScreen.storyboard */; };
 		F83FB20E1BDFC96F00FBDCCA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F83FB20B1BDFC96F00FBDCCA /* Main.storyboard */; };
 		F84CB8F11BD78DD60054801F /* NotificationUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84CB8F01BD78DD60054801F /* NotificationUtils.swift */; };
 		F863677F1BE6953E0075B08B /* SummonerDialogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F863677E1BE6953E0075B08B /* SummonerDialogViewController.swift */; };
 		F86D4C751BCCF45C009E9083 /* RosterService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86D4C741BCCF45C009E9083 /* RosterService.swift */; };
 		F8803C191BDB6C59005AC9CA /* NavigationUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8803C181BDB6C59005AC9CA /* NavigationUtils.swift */; };
+		F88589501BEDD6CE00B39BED /* RiotAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F885894F1BEDD6CE00B39BED /* RiotAPIClient.swift */; };
+		F88589681BEF30FA00B39BED /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F88589661BEF30FA00B39BED /* LaunchScreen.storyboard */; };
 		F88676581BCF5F79006C6B6A /* RealmExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F88676571BCF5F79006C6B6A /* RealmExtensions.swift */; };
 		F886765A1BCF6313006C6B6A /* ChatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F88676591BCF6313006C6B6A /* ChatService.swift */; };
 		F8893D821BDCA97D0086DBED /* StoredProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8893D811BDCA97D0086DBED /* StoredProperties.swift */; };
@@ -77,12 +78,13 @@
 		F83FB1E51BDFC8AA00FBDCCA /* MoreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreViewController.swift; sourceTree = "<group>"; };
 		F83FB1E61BDFC8AA00FBDCCA /* RecentChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecentChatViewController.swift; sourceTree = "<group>"; };
 		F83FB1E71BDFC8AA00FBDCCA /* RosterTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RosterTableViewController.swift; sourceTree = "<group>"; };
-		F83FB20A1BDFC96F00FBDCCA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F83FB20C1BDFC96F00FBDCCA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		F84CB8F01BD78DD60054801F /* NotificationUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationUtils.swift; sourceTree = "<group>"; };
 		F863677E1BE6953E0075B08B /* SummonerDialogViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SummonerDialogViewController.swift; sourceTree = "<group>"; };
 		F86D4C741BCCF45C009E9083 /* RosterService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RosterService.swift; sourceTree = "<group>"; };
 		F8803C181BDB6C59005AC9CA /* NavigationUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationUtils.swift; sourceTree = "<group>"; };
+		F885894F1BEDD6CE00B39BED /* RiotAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RiotAPIClient.swift; sourceTree = "<group>"; };
+		F88589671BEF30FA00B39BED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F88676571BCF5F79006C6B6A /* RealmExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmExtensions.swift; sourceTree = "<group>"; };
 		F88676591BCF6313006C6B6A /* ChatService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatService.swift; sourceTree = "<group>"; };
 		F8893D811BDCA97D0086DBED /* StoredProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StoredProperties.swift; path = Utils/StoredProperties.swift; sourceTree = "<group>"; };
@@ -153,6 +155,7 @@
 				1B9CE8C2FE02512F6F35A153 /* XMPPService.swift */,
 				F86D4C741BCCF45C009E9083 /* RosterService.swift */,
 				F88676591BCF6313006C6B6A /* ChatService.swift */,
+				F885894F1BEDD6CE00B39BED /* RiotAPIClient.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -193,8 +196,8 @@
 		F83FB20F1BDFC98F00FBDCCA /* Layout */ = {
 			isa = PBXGroup;
 			children = (
-				F83FB2091BDFC96F00FBDCCA /* LaunchScreen.storyboard */,
 				F83FB20B1BDFC96F00FBDCCA /* Main.storyboard */,
+				F88589661BEF30FA00B39BED /* LaunchScreen.storyboard */,
 			);
 			name = Layout;
 			sourceTree = "<group>";
@@ -371,9 +374,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F88589681BEF30FA00B39BED /* LaunchScreen.storyboard in Resources */,
 				F83FB20E1BDFC96F00FBDCCA /* Main.storyboard in Resources */,
 				F8B55C691BB532FB005C759D /* Assets.xcassets in Resources */,
-				F83FB20D1BDFC96F00FBDCCA /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -528,6 +531,7 @@
 				F86D4C751BCCF45C009E9083 /* RosterService.swift in Sources */,
 				1B9CEB293029B3CA00B2797C /* Async.swift in Sources */,
 				F863677F1BE6953E0075B08B /* SummonerDialogViewController.swift in Sources */,
+				F88589501BEDD6CE00B39BED /* RiotAPIClient.swift in Sources */,
 				1B9CE3E8A357CD51DB730827 /* Constants.swift in Sources */,
 				F83FB1E81BDFC8AA00FBDCCA /* ChatViewController.swift in Sources */,
 				F89AB8C51BE25E9400B4571D /* Banner.swift in Sources */,
@@ -556,20 +560,20 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		F83FB2091BDFC96F00FBDCCA /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				F83FB20A1BDFC96F00FBDCCA /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
 		F83FB20B1BDFC96F00FBDCCA /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				F83FB20C1BDFC96F00FBDCCA /* Base */,
 			);
 			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		F88589661BEF30FA00B39BED /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F88589671BEF30FA00B39BED /* Base */,
+			);
+			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

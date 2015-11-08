@@ -51,6 +51,11 @@ class MoreViewController : FormViewController {
                 $0.value = StoredProperties.Settings.notifyMessage.value
                 $0.onChange { StoredProperties.Settings.notifyMessage.value = $0.value! as Bool }
             }
+            <<< SwitchRow() {
+                $0.title = "New Friend Request"
+                $0.value = StoredProperties.Settings.notifySubscription.value
+                $0.onChange { StoredProperties.Settings.notifySubscription.value = $0.value! as Bool }
+            }
             <<< MultipleSelectorRow<String>() {
                 $0.title = "Alert Type"
                 $0.options = ["Sound", "Vibrate"]

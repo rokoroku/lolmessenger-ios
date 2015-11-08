@@ -20,7 +20,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: UIApplicationDelegate    
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject:AnyObject]?) -> Bool {
         // Override point for customization after application launch.
-
         Fabric.with([Crashlytics.self])
 
         application.statusBarStyle = .LightContent
@@ -31,6 +30,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             categories: nil)
         application.registerUserNotificationSettings(settings)
 
+
+        if XMPPService.sharedInstance.isAuthenticated {
+            let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
+            let viewController = storyboard.instantiateViewControllerWithIdentifier("TabBarController")
+            self.window?.rootViewController = viewController;
+            self.window?.makeKeyAndVisible()
+        }
 
         return true
     }
@@ -70,8 +76,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
-        if let chatId = notification.userInfo?[Constants.Notification.ChatID] as? String,
-            let wasActive = notification.userInfo?[Constants.Notification.AppState] as? Bool {
+        if let chatId = notification.userInfo?[Constants.Notification.UserInfo.ChatID] as? String,
+            let wasActive = notification.userInfo?[Constants.Notification.UserInfo.AppState] as? Bool {
                 if wasActive {
                     if let roster = XMPPService.sharedInstance.roster().getRosterByJID(chatId) {
                         let banner = Banner(

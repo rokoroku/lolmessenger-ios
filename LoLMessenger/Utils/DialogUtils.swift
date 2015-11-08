@@ -20,4 +20,17 @@ class DialogUtils {
         
         UIApplication.sharedApplication().keyWindow!.rootViewController!.presentViewController(alert, animated: true, completion: nil)
     }
+
+    class func alert(title: String, message: String, actions: [UIAlertAction]) {
+        let alert = UIAlertController(
+            title: title,
+            message: message,
+            preferredStyle: UIAlertControllerStyle.Alert)
+
+        actions.forEach {
+            alert.addAction($0)
+        }
+
+        UIApplication.sharedApplication().keyWindow!.rootViewController!.presentViewController(alert, animated: true, completion: nil)
+    }
 }

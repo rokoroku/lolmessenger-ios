@@ -11,9 +11,6 @@ import UIKit
 class NotificationUtils {
     class func create(chat: LeagueChat, message: LeagueMessage) -> UILocalNotification {
 
-        // dismiss scheduled notifications
-        dismiss(Constants.Notification.ChatID, id: chat.id)
-
         // create a corresponding local notification
         let notification = UILocalNotification()
         if #available(iOS 8.2, *) {
@@ -28,14 +25,14 @@ class NotificationUtils {
         }
         notification.category = "message"
         notification.userInfo = [
-            Constants.Notification.ChatID: chat.id,
-            Constants.Notification.AppState: UIApplication.isActive()]
+            Constants.Notification.UserInfo.ChatID: chat.id,
+            Constants.Notification.UserInfo.AppState: UIApplication.isActive()]
         notification.applicationIconBadgeNumber = chat.unread
 
         return notification
     }
 
-    class func create(title: String, body: String) -> UILocalNotification {
+    class func create(title: String, body: String, category: String, userinfo: [String: AnyObject]? = nil) -> UILocalNotification {
         // create a corresponding local notification
         let notification = UILocalNotification()
 
@@ -43,16 +40,27 @@ class NotificationUtils {
             notification.alertTitle = title
         }
         notification.alertBody = body
-        notification.alertAction = "open"
+        notification.alertAction = "Open"
 
         if StoredProperties.Settings.notifyWithSound.value {
             notification.soundName = UILocalNotificationDefaultSoundName // play default sound
         }
 
-        notification.category = "lol_alert"
-        notification.userInfo = ["uid" : "alert"]
+        notification.category = category
+        notification.userInfo = userinfo
 
         return notification
+    }
+
+    class func dismissCategory(category: String) {
+        let application = UIApplication.sharedApplication()
+        if let scheduledNotifications = application.scheduledLocalNotifications {
+            scheduledNotifications.forEach { notification in
+                if notification.category == category {
+                    application.cancelLocalNotification(notification)
+                }
+            }
+        }
     }
 
     class func dismiss(key: String, id: String) {

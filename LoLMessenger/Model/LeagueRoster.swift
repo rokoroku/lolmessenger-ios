@@ -104,7 +104,17 @@ class LeagueRoster {
         self.note = rosterElement.getElementStringValue("note")
     }
 
-    init(jid: XMPPJID, nickname: String?, group: String?) {
+    init(id: String, nickname: String?, group: String? = nil) {
+        if id.containsString("sum") {
+            self.userid = id
+        } else {
+            self.userid = "sum" + id
+        }
+        self.username = nickname ?? Constants.XMPP.Unknown
+        self.group = group != nil ? group! : Constants.XMPP.DefaultGroup
+    }
+
+    init(jid: XMPPJID, nickname: String?, group: String? = nil) {
         self.userid = jid.user
         self.username = nickname ?? Constants.XMPP.Unknown
         self.group = group != nil ? group! : Constants.XMPP.DefaultGroup

@@ -7,10 +7,17 @@ import Foundation
 
 struct Constants {
     struct Notification {
-        static let Chat = "chat"
-        static let Subscription = "subscribe"
-        static let ChatID = "chatid"
-        static let AppState = "appstate"
+        struct Category {
+            static let Message = "message"
+            static let Subscribtion = "subscribe"
+            static let Connection = "connection"
+        }
+        struct UserInfo {
+            static let Chat = "chat"
+            static let Subscription = "subscribe"
+            static let ChatID = "chatid"
+            static let AppState = "appstate"
+        }
     }
 
     struct Key {

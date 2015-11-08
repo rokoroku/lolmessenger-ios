@@ -29,9 +29,10 @@ class XMPPService : NSObject {
     // and is thread safe by the definition of let.
     static let sharedInstance = XMPPService()
 
-    var rosterService: RosterService?
     var chatService: ChatService?
+    var rosterService: RosterService?
     var myRosterElement: LeagueRoster?
+    var region: LeagueServer?
 
     var realmConfig: Realm.Configuration {
         var config = Realm.Configuration()
@@ -152,9 +153,11 @@ class XMPPService : NSObject {
 
         } catch let error as NSError {
             print(error.description)
+            region = nil
             return false
         }
 
+        region = leagueServer
         return true;
     }
 
@@ -298,7 +301,7 @@ extension XMPPService : XMPPStreamDelegate {
         updateBadge()
 
         if error != nil {
-            let notification = NotificationUtils.create("Disconnected!", body: error.localizedFailureReason ?? "Undefined Error")
+            let notification = NotificationUtils.create("Disconnected!", body: error.localizedFailureReason ?? "Undefined Error", category: Constants.Notification.Category.Connection)
             UIApplication.sharedApplication().scheduleLocalNotification(notification)
         }
 
@@ -308,7 +311,6 @@ extension XMPPService : XMPPStreamDelegate {
     }
 
     @objc func xmppStream(sender: XMPPStream!, didReceiveIQ iq: XMPPIQ!) -> Bool {
-        print("didReceiveIQ: " + iq.description)
         if let session = iq.elementForName("session") {
             print("didReceiveSessionIQ!" + iq.description)
             let summonerName = session.getElementStringValue("summoner_name", defaultValue: "Unknown")!
@@ -366,7 +368,10 @@ extension XMPPService : XMPPStreamDelegate {
 extension XMPPService : XMPPReconnectDelegate {
     @objc func xmppReconnect(sender: XMPPReconnect!, didDetectAccidentalDisconnect connectionFlags: SCNetworkConnectionFlags) {
         print("didDetectAccidentalDisconnect \(connectionFlags.value)")
-        let notification = NotificationUtils.create("xmppReconnect", body: "didDetectAccidentalDisconnect (code: \(connectionFlags.value))")
+        let notification = NotificationUtils.create("xmppReconnect",
+            body: "Recovered from Accidental Disconnect (code: \(connectionFlags.description))",
+            category: Constants.Notification.Category.Connection)
+        NotificationUtils.dismissCategory(Constants.Notification.Category.Connection)
         UIApplication.sharedApplication().scheduleLocalNotification(notification)
     }
 }
