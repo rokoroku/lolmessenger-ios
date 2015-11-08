@@ -591,9 +591,16 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" systemItem="contacts" id="J2b-tJ-sg1"/>
-                    <navigationItem key="navigationItem" title="Friends" id="YJ3-tc-MRG"/>
+                    <navigationItem key="navigationItem" title="Friends" id="YJ3-tc-MRG">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="IMg-ab-1RK">
+                            <connections>
+                                <action selector="addAction:" destination="7qY-nS-FGq" id="cBq-ye-ORd"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
                     <connections>
+                        <outlet property="addButton" destination="IMg-ab-1RK" id="T6F-E1-mgT"/>
                         <outlet property="tableView" destination="0NG-aP-bKH" id="605-IF-Ngb"/>
                         <segue destination="Vrd-nV-eyh" kind="show" identifier="EnterChat" id="srB-Eq-LJ2"/>
                     </connections>

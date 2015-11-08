@@ -100,11 +100,19 @@ class LeagueRoster {
     init(rosterElement: DDXMLElement) {
         self.userid = XMPPJID.jidWithString(rosterElement.attributeStringValueForName("jid")).user
         self.username = rosterElement.attributeStringValueForName("name", withDefaultValue: Constants.XMPP.Unknown)
+        self.subscribed = rosterElement.attributeStringValueForName("subscription", withDefaultValue: "none") != "none"
         self.group = rosterElement.getElementStringValue("group", defaultValue: Constants.XMPP.DefaultGroup)!
         self.note = rosterElement.getElementStringValue("note")
     }
 
-    init(id: String, nickname: String?, group: String? = nil) {
+
+    init(numberId id: Int, nickname: String?, group: String? = nil) {
+        self.userid = "sum\(id)"
+        self.username = nickname ?? Constants.XMPP.Unknown
+        self.group = group != nil ? group! : Constants.XMPP.DefaultGroup
+    }
+
+    init(stringId id: String, nickname: String?, group: String? = nil) {
         if id.containsString("sum") {
             self.userid = id
         } else {
@@ -220,10 +228,20 @@ class LeagueRoster {
 
         show = xmppPresence.showType()
         switch (show) {
-            case .Chat: status = .Online; break;
-            case .Away: status = .Away; break;
-            case .Dnd: status = .InGame; break;
-            default: status = .Unknown;
+        case .Chat:
+            status = .Online
+            break
+        case .Away:
+            status = .Away
+            break
+        case .Dnd:
+            status = .InGame
+            break
+        default:
+            status = .Unknown
+        }
+        if show != .Unavailable {
+            subscribed = true
         }
 
         if let type = xmppPresence.type() {

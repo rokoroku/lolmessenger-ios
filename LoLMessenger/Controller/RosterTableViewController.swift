@@ -13,6 +13,7 @@ import ChameleonFramework
 class RosterTableViewController : UIViewController {
     
     @IBOutlet weak var tableView: YUTableView!
+    @IBOutlet weak var addButton: UIBarButtonItem!
 
     var closeOtherNodes = false
     var insertRowAnimation: UITableViewRowAnimation = .Fade
@@ -96,12 +97,36 @@ class RosterTableViewController : UIViewController {
         }
     }
 
+    @IBAction func addAction(sender: AnyObject) {
+        DialogUtils.input("Add New Buddy", message: "Please enter summoner name you want to add", placeholder: "summoner name") {
+            if let name = $0 {
+                RiotACS.getSummonerByName(summonerName: name, region: XMPPService.sharedInstance.region!) {
+                    if let summoner = $0 {
+//                        self.performSegueWithIdentifier("SummonerModal", sender: summoner)
+                        DialogUtils.alert("Add New Buddy", message: "Do you want to send a buddy request to \(summoner.username)?", handler: {
+                            _ in XMPPService.sharedInstance.roster().addRoster(summoner)
+                        })
+                    } else {
+                        DialogUtils.alert("Error", message: "Summoner named \(name) was not found")
+                    }
+                }
+            }
+        }
+    }
+
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 
         // Get the cell that generated the segue.
-        if let cell = sender as? RosterTableChildCell, let roster = cell.roster {
+        var roster: LeagueRoster!
 
+        if let param = sender as? LeagueRoster {
+            roster = param
+        } else if let cell = sender as? RosterTableChildCell, let param = cell.roster {
+            roster = param
+        }
+
+        if roster != nil {
             if let chatViewController = segue.destinationViewController as? ChatViewController,
                 let chat = XMPPService.sharedInstance.chat().getLeagueChatEntryByJID(roster.jid()) {
                     chatViewController.setInitialChatData(chat)
@@ -189,7 +214,16 @@ extension RosterTableViewController: YUTableViewDelegate {
             cell.indicator.rotate180Degrees()
         }
     }
-    
+
+    func didMoveNode(node: YUTableViewNode, fromGroup: YUTableViewNode, toGroup: YUTableViewNode) {
+        if let group = toGroup as? GroupNode, let groupName = group.data as? String {
+            if groupName == "Offline" {
+                reloadRosterNodes()
+            } else {
+
+            }
+        }
+    }
 }
 
 extension RosterTableViewController: RosterDelegate {

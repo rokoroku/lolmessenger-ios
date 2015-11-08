@@ -11,9 +11,9 @@ import SwiftyJSON
 
 class AccountInfo {
     var platformId: String;
-    var accountId: String;
+    var accountId: Int;
 
-    init(platformId: String, accountId: String) {
+    init(platformId: String, accountId: Int) {
         self.platformId = platformId;
         self.accountId = accountId;
     }
@@ -25,13 +25,16 @@ class RiotACS {
         Alamofire.request(.GET, "https://acs.leagueoflegends.com/v1/players",
             parameters: ["name": name, "region": region.shorthand])
             .responseJSON { response in
-                if let JSON = response.result.value as? [String: AnyObject],
-                    let platformId = JSON["platformId"] as? String,
-                    let accountId = JSON["accountId"] as? String {
-                        callback(AccountInfo(platformId: platformId, accountId: accountId))
-                } else {
-                    callback(nil)
+                debugPrint(response)
+                if let value = response.result.value {
+                    let object = JSON(value)
+                    if let platformId = object["platformId"].string,
+                        let accountId = object["accountId"].int {
+                            callback(AccountInfo(platformId: platformId, accountId: accountId))
+                            return
+                    }
                 }
+                callback(nil)
         }
     }
 
@@ -39,22 +42,44 @@ class RiotACS {
         Alamofire.request(.GET,
             "https://acs.leagueoflegends.com/v1/stats/player_history/\(info.platformId)/\(info.accountId)")
             .responseJSON { response in
-                if response.data != nil {
-                    let object = JSON(response.data!)
+                debugPrint(response)
+                if let value = response.result.value {
+                    let object = JSON(value)
                     let player = object["games"]["games"][0]["participantIdentities"][0]["player"]
-                    if let id = player["summonerId"].string,
+                    if let id = player["summonerId"].int,
                         let nick = player["summonerName"].string,
                         let icon = player["profileIcon"].int
                     {
-                        let roster = LeagueRoster(id: id, nickname: nick)
+                        let roster = LeagueRoster(numberId: id, nickname: nick)
                         roster.profileIcon = icon
                         callback(roster)
                         return
                     }
                 }
-
                 callback(nil)
         }
+    }
+
+    class func getSummonerByName(summonerName name: String, region: LeagueServer, callback: ((LeagueRoster?) -> Void)) {
+
+        let failback: ((LeagueRoster?) -> Void) = {
+            if let summoner = $0 {
+                callback(summoner)
+            } else {
+                RiotAPI.getSummonerByName(summonerName: name, region: region, callback: callback)
+            }
+        }
+
+        RiotACS.getAccountInfo(summonerName: name, region: region) {
+            if let info = $0 {
+                getSummonerByAccountInfo(accountInfo: info) { summoner in
+                    failback(summoner)
+                }
+            } else {
+                failback(nil)
+            }
+        }
+
     }
 }
 
@@ -78,7 +103,29 @@ class RiotAPI {
                     let icon = summoner["profileIconId"].int,
                     let level = summoner["summonerLevel"].int
                 {
-                    let roster = LeagueRoster(id: id, nickname: nick)
+                    let roster = LeagueRoster(stringId: id, nickname: nick)
+                    roster.profileIcon = icon
+                    roster.level = level
+                    callback(roster)
+                    return
+                }
+            }
+            callback(nil)
+        }
+    }
+
+    class func getSummonerByName(summonerName name: String, region: LeagueServer, callback: ((LeagueRoster?) -> Void)) {
+        let summonerName = name.stringByReplacingOccurrencesOfString(" ", withString: "")
+        let url = getBaseString(region) + "/v1.4/summoner/by-name/" + summonerName.encodeURL() + "?api_key=" + randomKey
+        Alamofire.request(.GET, url).responseJSON { response in
+            if let value = response.result.value {
+                let summoner = JSON(value)[summonerName]
+                if let id = summoner["id"].int,
+                    let nick = summoner["name"].string,
+                    let icon = summoner["profileIconId"].int,
+                    let level = summoner["summonerLevel"].int
+                {
+                    let roster = LeagueRoster(numberId: id, nickname: nick)
                     roster.profileIcon = icon
                     roster.level = level
                     callback(roster)

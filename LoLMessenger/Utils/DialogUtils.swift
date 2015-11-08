@@ -9,16 +9,36 @@
 import UIKit
 
 class DialogUtils {
-    class func alert(title: String, message: String) {
-        let alert = UIAlertController(
-            title: title,
+    class func alert(title: String, message: String, handler: ((UIAlertAction) -> Void)? = nil) {
+
+        var actions = [UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: handler)]
+        if handler != nil {
+            actions.append(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil))
+        }
+
+        DialogUtils.alert(title,
             message: message,
-            preferredStyle: UIAlertControllerStyle.Alert)
-        
+            actions: actions)
+    }
+
+    class func input(title: String, message: String, placeholder: String? = nil, callback: ((String?) -> Void)) {
+        let alert = UIAlertController(
+        title: title,
+        message: message,
+        preferredStyle: UIAlertControllerStyle.Alert)
+
+        alert.addTextFieldWithConfigurationHandler { textField in
+            textField.placeholder = placeholder
+            textField.textColor = Theme.TextColorBlack
+        }
         alert.addAction(
-            UIAlertAction(title: "Ok", style: UIAlertActionStyle.Cancel, handler: nil))
-        
+            UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { _ in
+                callback(alert.textFields?[0].text)
+            }))
+        alert.addAction(
+            UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil))
         UIApplication.sharedApplication().keyWindow!.rootViewController!.presentViewController(alert, animated: true, completion: nil)
+
     }
 
     class func alert(title: String, message: String, actions: [UIAlertAction]) {

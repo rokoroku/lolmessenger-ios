@@ -93,6 +93,22 @@ class SummonerDialogViewController : UIViewController {
                 masteryIcon.hidden = true
                 championScore.hidden = true
             }
+
+            if let buddy = XMPPService.sharedInstance.roster().getRosterByJID(roster.userid) {
+                if !buddy.subscribed {
+                    rosterNote.hidden = true
+                    chatButton.enabled = false
+                } else {
+                    rosterNote.hidden = false
+                    chatButton.enabled = true
+                }
+            } else {
+                rosterNote.hidden = true
+                chatButton.setTitle("Request Buddy", forState: .Normal)
+                chatButton.removeTarget(self, action: "enterChat", forControlEvents: UIControlEvents.TouchUpInside)
+                chatButton.addTarget(self, action: "addBuddy", forControlEvents: UIControlEvents.TouchUpInside)
+            }
+
             gameStatus.text = roster.getCurrentGameStatus() ?? roster.getDisplayStatus(false)
             gameStatus.textColor = roster.getDisplayColor()
             elapsedTime.textColor = gameStatus.textColor
@@ -147,6 +163,14 @@ class SummonerDialogViewController : UIViewController {
         if let chatId = roster?.userid {
             dismissWithCompletion {
                 NavigationUtils.navigateToChat(chatId: chatId)
+            }
+        }
+    }
+
+    func addBuddy() {
+        if let roster = roster {
+            dismissWithCompletion {
+                XMPPService.sharedInstance.roster().addRoster(roster)
             }
         }
     }
