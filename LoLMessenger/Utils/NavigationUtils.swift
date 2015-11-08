@@ -10,7 +10,6 @@ import UIKit
 
 class NavigationUtils {
     class func navigateToChat(viewController: UIViewController? = UIApplication.topViewController(), chatId: String) {
-        print(viewController)
         if let rootViewController = viewController,
             let chatViewController = rootViewController.storyboard?.instantiateViewControllerWithIdentifier("ChatViewController") as? ChatViewController,
             let chatEntry = XMPPService.sharedInstance.chat().getLeagueChatEntry(chatId) {

@@ -53,9 +53,6 @@ class LeagueChat : Object  {
         if !read {
             self.unread++
         }
-        if type == .Peer && !message.nick.isEmpty && message.nick != name {
-            self.name = message.nick
-        }
     }
 
     func clearUnread() {

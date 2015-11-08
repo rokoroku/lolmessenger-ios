@@ -69,10 +69,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
-    }
-
-    func application(application: UIApplication, didChangeStatusBarFrame oldStatusBarFrame: CGRect) {
-
+        print("applicationWillTerminate!")
+        if !UIApplication.topViewController()!.isKindOfClass(LoginViewController) {
+            let notification = NotificationUtils.create("Disconnected",
+                body: "Application is terminated in background.",
+                category: Constants.Notification.Category.Connection)
+            NotificationUtils.dismissCategory(Constants.Notification.Category.Connection)
+            UIApplication.sharedApplication().scheduleLocalNotification(notification)
+        }
     }
 
     func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {

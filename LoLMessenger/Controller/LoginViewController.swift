@@ -55,6 +55,10 @@ class LoginViewController: UIViewController {
 
     }
 
+    override func viewDidDisappear(animated: Bool) {
+        XMPPService.sharedInstance.removeDelegate(self)
+    }
+
     @IBAction
     func nextField(sender: AnyObject) {
         if let textField = sender as? UITextField {

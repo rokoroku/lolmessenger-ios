@@ -24,6 +24,12 @@ class SummonerDialogViewController : UIViewController {
     @IBOutlet weak var chatButton: UIButton!
     @IBOutlet weak var rosterNote: JVFloatLabeledTextView!
 
+    @IBOutlet weak var summonerLevel: UILabel!
+    @IBOutlet weak var summonerTierView: UIView!
+    @IBOutlet weak var summonerTierLabel: UILabel!
+    @IBOutlet weak var summonerTierImage: UIImageView!
+    @IBOutlet weak var summonerTierRing: UIImageView!
+
     var hidesBottomButtons:Bool = false
     private var timer: NSTimer?
 
@@ -50,6 +56,8 @@ class SummonerDialogViewController : UIViewController {
         championScore.textColor = UIColor.init(
             fromImage: masteryIcon.image!,
             atPoint: CGPointMake(masteryIcon.bounds.width/2, masteryIcon.bounds.height/2))
+        summonerTierLabel.textColor = championScore.textColor
+        summonerLevel.textColor = championScore.textColor
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "dismissKeyboard"))
         updateRoster()
 
@@ -60,7 +68,7 @@ class SummonerDialogViewController : UIViewController {
 
     override func viewWillLayoutSubviews() {
         if let _ = self.popupController {
-            self.view.layoutMargins = UIEdgeInsets(top: 4, left: 12, bottom: 4, right: 12)
+            self.view.layoutMargins = UIEdgeInsets(top: 0, left: 12, bottom: 4, right: 12)
         } else {
             chatButton.hidden = hidesBottomButtons
             closeButton.hidden = hidesBottomButtons
@@ -92,6 +100,30 @@ class SummonerDialogViewController : UIViewController {
             } else {
                 masteryIcon.hidden = true
                 championScore.hidden = true
+            }
+
+            if let tier = roster.rankedLeagueTier, let division = roster.rankedLeagueDivision,
+                let medalImage = UIImage(named: "medals_\(tier.lowercaseString)") {
+                    summonerTierImage.image = medalImage
+                    summonerTierLabel.text = division
+                    summonerTierRing.hidden = false
+                    summonerTierView.hidden = false
+                    summonerLevel.hidden = true
+
+                    if tier == "CHALLENGER" || tier == "MASTER" {
+                        summonerTierLabel.text = nil
+                        summonerTierLabel.hidden = true
+                    }
+
+            } else if roster.level ?? 0 > 0 {
+                summonerLevel.text = String(roster.level!)
+                summonerLevel.hidden = false
+                summonerTierView.hidden = true
+                summonerTierRing.hidden = false
+            } else {
+                summonerLevel.hidden = true
+                summonerTierView.hidden = true
+                summonerTierRing.hidden = true
             }
 
             if let buddy = XMPPService.sharedInstance.roster().getRosterByJID(roster.userid) {

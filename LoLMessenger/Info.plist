@@ -11,15 +11,17 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
+	<string>lolmessenger</string>
+	<key>CFBundleDisplayName</key>
 	<string>Messenger for LoL</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.3</string>
+	<string>0.5</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>5</string>
+	<string>7</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -57,6 +59,7 @@
 	<false/>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string>fetch</string>
 		<string>voip</string>
 	</array>
 	<key>UILaunchStoryboardName</key>

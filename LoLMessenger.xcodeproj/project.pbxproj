@@ -679,6 +679,7 @@
 				PROVISIONING_PROFILE = "";
 				STRIP_PNG_TEXT = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
+				VALID_ARCHS = "arm64 armv7";
 			};
 			name = Debug;
 		};
@@ -699,6 +700,7 @@
 				PROVISIONING_PROFILE = "";
 				STRIP_PNG_TEXT = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
+				VALID_ARCHS = "arm64 armv7";
 			};
 			name = Release;
 		};

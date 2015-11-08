@@ -12,7 +12,7 @@ import JVFloatLabeledTextField
 import ChameleonFramework
 
 struct Theme {
-    static let PrimaryColor = UIColor.flatTealColorDark().darkenByPercentage(0.2)
+    static let PrimaryColor = UIColor.flatTealColorDark().darkenByPercentage(0.15)
     static let SecondaryColor = Theme.PrimaryColor.lightenByPercentage(0.04)
     static let HighlightColor = UIColor.flatTealColor()
     static let AccentColor = UIColor.flatRedColor()

@@ -302,6 +302,7 @@ extension XMPPService : XMPPStreamDelegate {
 
         if error != nil {
             let notification = NotificationUtils.create("Disconnected!", body: error.localizedFailureReason ?? "Undefined Error", category: Constants.Notification.Category.Connection)
+            notification.fireDate = NSDate().dateByAddingTimeInterval(5)
             UIApplication.sharedApplication().scheduleLocalNotification(notification)
         }
 
@@ -350,6 +351,10 @@ extension XMPPService : XMPPStreamDelegate {
                 }
             }
         }
+    }
+
+    @objc func xmppStream(sender: XMPPStream!, alternativeResourceForConflictingResource conflictingResource: String!) -> String! {
+        return conflictingResource + "_conflict"
     }
 
     @objc func xmppStream(sender: XMPPStream!, didReceiveError error: DDXMLElement!) {

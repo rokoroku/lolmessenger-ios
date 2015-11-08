@@ -185,12 +185,22 @@ class ChatService : NSObject {
 extension ChatService : XMPPStreamDelegate {
     @objc func xmppStream(sender: XMPPStream!, didReceiveMessage message: XMPPMessage!) {
         print("didReceive \(message)")
+
         if message.from().domain == "sec.pvp.net" {
             // skip messages such as endgame2145955503@sec.pvp.net/User
             return
 
+        } else if message.isSentMessageCarbon() && message.from().isEqualToJID(sender.myJID, options: XMPPJIDCompareUser) {
+            // XEP-0280 SentMessageCarbon
+            // XEP-0297 ForwardedMessage
+            if let sentMessageCarbon = message.sentMessageCarbon(),
+                let forwardedMessage = sentMessageCarbon.forwardedMessage() {
+                    self.xmppStream(sender, didSendMessage: forwardedMessage)
+            }
+
         } else if let leagueChat = getLeagueChatEntryByJID(message.from()) {
-            if let leagueMessage = LeagueMessage(message: message, nick: leagueChat.name, isMine: false) {
+            let roster = xmppService.roster().getRosterByJID(message.from())
+            if let leagueMessage = LeagueMessage(message: message, nick: roster?.username ?? leagueChat.name, isMine: false) {
                 if message.type() == "error" {
                     if let lastMessage = leagueChat.messages.last {
                         if lastMessage.body == leagueMessage.body {
@@ -214,6 +224,11 @@ extension ChatService : XMPPStreamDelegate {
 
                     leagueChat.update {
                         leagueChat.addMessage(leagueMessage, read: isActiveChat)
+                        if let rosterName = roster?.username {
+                            if rosterName != leagueChat.name {
+                                leagueChat.name = rosterName
+                            }
+                        }
                     }
 
                     let rawChat = leagueChat.freeze()
@@ -231,14 +246,6 @@ extension ChatService : XMPPStreamDelegate {
                     }
                     xmppService.updateBadge()
                 }
-            }
-        }
-        else if message.isSentMessageCarbon() && message.from().isEqualToJID(sender.myJID, options: XMPPJIDCompareUser) {
-            // XEP-0280 SentMessageCarbon
-            // XEP-0297 ForwardedMessage
-            if let sentMessageCarbon = message.sentMessageCarbon(),
-                let forwardedMessage = sentMessageCarbon.forwardedMessage() {
-                    self.xmppStream(sender, didSendMessage: forwardedMessage)
             }
         }
     }
