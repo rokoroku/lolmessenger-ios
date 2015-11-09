@@ -28,12 +28,26 @@ class NavigationUtils {
                 }
         }
     }
+
+    class func navigateToLogin(viewController: UIViewController? = UIApplication.rootViewController()) {
+        let storyboard = viewController?.storyboard ?? UIStoryboard(name: "Main", bundle: nil)
+        if let loginController = storyboard.instantiateInitialViewController() {
+            loginController.modalTransitionStyle = .CrossDissolve
+            viewController?.presentViewController(loginController, animated: true) {
+                UIApplication.sharedApplication().keyWindow?.rootViewController = loginController
+            }
+        }
+    }
 }
 
 extension UIApplication {
 
     class func isActive() -> Bool {
         return UIApplication.sharedApplication().applicationState == .Active
+    }
+
+    class func rootViewController() -> UIViewController? {
+        return UIApplication.sharedApplication().keyWindow?.rootViewController
     }
     
     class func topViewController(base: UIViewController? = UIApplication.sharedApplication().keyWindow?.rootViewController) -> UIViewController? {

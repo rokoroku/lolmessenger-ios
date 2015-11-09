@@ -28,8 +28,6 @@ class LoginViewController: UIViewController {
         view.backgroundColor = Theme.PrimaryColor
         usernameField.backgroundColor = Theme.HighlightColor
         passwordField.backgroundColor = Theme.HighlightColor
-        //regionButton.backgroundColor = Theme.HighlightColor
-        //regionButton.layer.cornerRadius = 4
 
         connectButton.normalBackgroundColor = Theme.HighlightColor
         connectButton.highlightedBackgroundColor = Theme.HighlightColor.lightenByPercentage(0.1)
@@ -40,19 +38,21 @@ class LoginViewController: UIViewController {
 
         // Restore User Credentials if available
         let storedJID = keychain.get(Constants.Key.Username)
-        let storedPassword = keychain.get(Constants.Key.Password)
         let storedRegion = keychain.get(Constants.Key.Region)
 
         usernameField.text = storedJID
-        passwordField.text = storedPassword
         selectedRegion = LeagueServer.forShorthand(storedRegion)
-        regionButton.setTitle(selectedRegion?.name ?? "Select Region", forState: .Normal)
-
-        if XMPPService.sharedInstance.isAuthenticated {
-            let viewController = self.storyboard!.instantiateViewControllerWithIdentifier("TabBarController") as UIViewController!
-            UIApplication.topViewController()?.presentViewController(viewController, animated: true, completion: nil)
+        if storedJID != nil {
+            let storedPassword = keychain.get(Constants.Key.Password)
+            passwordField.text = storedPassword
         }
+        regionButton.setTitle(selectedRegion?.name ?? "Select Region", forState: .Normal)
+    }
 
+    override func viewDidAppear(animated: Bool) {
+        if XMPPService.sharedInstance.isAuthenticated {
+            self.onAuthenticated(XMPPService.sharedInstance)
+        }
     }
 
     override func viewDidDisappear(animated: Bool) {
@@ -73,9 +73,11 @@ class LoginViewController: UIViewController {
     @IBAction
     func connect(sender: AnyObject) {
         dismissKeyboard()
-        if let username = usernameField.text {
-            if let password = passwordField.text {
+        if usernameField.text?.isEmpty != true {
+            if passwordField.text?.isEmpty != true {
                 if let region = selectedRegion {
+                    let username = usernameField.text!
+                    let password = passwordField.text!
                     if !isConnecting {
                         isConnecting = true
                         connectButton.startLoadingAnimation()
@@ -83,8 +85,12 @@ class LoginViewController: UIViewController {
                             if !XMPPService.sharedInstance.isXmppConnected {
                                 XMPPService.sharedInstance.addDelegate(self)
                                 XMPPService.sharedInstance.connect(region)
-                            } else {
+                            } else if !XMPPService.sharedInstance.isAuthenticated {
                                 self.authenticate(username, password: password)
+                            } else {
+                                Async.main {
+                                    self.onAuthenticated(XMPPService.sharedInstance)
+                                }
                             }
                         })
                     }
@@ -178,11 +184,14 @@ extension LoginViewController : XMPPConnectionDelegate {
         keychain.set(passwordField.text!, forKey: Constants.Key.Password)
         connectButton.startFinishAnimation(0.5,
             completion: {
-                let tabBarController = self.storyboard!.instantiateViewControllerWithIdentifier("TabBarController") as UIViewController!
+                self.isConnecting = false
+                let storyboard = self.storyboard ?? UIStoryboard(name: "Main", bundle: nil)
+                let tabBarController = storyboard.instantiateViewControllerWithIdentifier("TabBarController") as UIViewController!
+                tabBarController.modalTransitionStyle = .CrossDissolve
                 tabBarController.transitioningDelegate = self
-                UIApplication.topViewController()?.presentViewController(tabBarController, animated: true, completion: {
+                self.presentViewController(tabBarController, animated: true) {
                     UIApplication.sharedApplication().keyWindow?.rootViewController = tabBarController
-                })
+                }
         })
     }
     

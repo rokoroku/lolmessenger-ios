@@ -10,23 +10,44 @@ import Eureka
 import ChameleonFramework
 
 class MoreViewController : FormViewController {
-    
+
+    lazy var logoutButton: UIButton = {
+        let button = UIButton(type: UIButtonType.System)
+        button.setTitle("Sign out", forState: .Normal)
+        button.sizeToFit()
+        button.addTarget(self, action: "confirmLogout", forControlEvents: .TouchUpInside)
+        return button
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.hidesNavigationBarHairline = true
+
         form +++ accountSection()
         form +++ notificationSection()
 //        form +++ friendSection()
 //        form +++ chatSection()
-        navigationController?.hidesNavigationBarHairline = true
+    }
+
+    func confirmLogout() {
+        DialogUtils.alert("Sign out", message: "Are you sure you want to sign out?", handler: { _ in
+            XMPPService.sharedInstance.disconnect()
+            NavigationUtils.navigateToLogin()
+        })
+
     }
 
     func accountSection() -> Section {
+
         return Section("Account")
             <<< FloatLabelRow() {
+
                 $0.title =  "Summoner Name"
                 $0.value = XMPPService.sharedInstance.myRosterElement?.username ?? "Unknown"
                 $0.disabled = true
+                $0.cell.accessoryView = self.logoutButton
             }
+
             <<< FloatLabelRow() {
                 $0.title =  "Status Message"
                 $0.value = XMPPService.sharedInstance.myRosterElement?.statusMsg
@@ -37,15 +58,26 @@ class MoreViewController : FormViewController {
                     }
                 }
             }
+            
+//            <<< LabelRow () {
+//                $0.title = "Display Status"
+//                $0.value = "Online"
+//                $0.onCellSelection {
+//                    if let detailTextLabel = $0.cell.detailTextLabel {
+//                        if detailTextLabel.text == "Online" {
+//                            detailTextLabel.text = "Away"
+//                            detailTextLabel.textColor = Theme.RedColor
+//                        } else {
+//                            detailTextLabel.text = "Online"
+//                            detailTextLabel.textColor = Theme.GreenColor
+//                        }
+//                    }
+//                }
+//            }
     }
 
     func notificationSection() -> Section {
         return Section("Notification")
-//            <<< SwitchRow() {
-//                $0.title = "Friend Subscription"
-//                $0.value = StoredProperties.Settings.notifySubscription.value
-//                $0.onChange { StoredProperties.Settings.notifySubscription.value = $0.value! as Bool }
-//            }
             <<< SwitchRow() {
                 $0.title = "New Message"
                 $0.value = StoredProperties.Settings.notifyMessage.value
@@ -75,7 +107,7 @@ class MoreViewController : FormViewController {
     func friendSection() -> Section {
         return Section("Friend List")
             <<< SwitchRow() {
-                $0.title = "Show Offline Group"
+                $0.title = "Separate Offline Group"
                 $0.value = true
             }
             <<< SwitchRow() {
@@ -99,15 +131,33 @@ class MoreViewController : FormViewController {
 
     override func viewWillLayoutSubviews() {
         let adjustForTabbarInsets = UIEdgeInsetsMake(self.topLayoutGuide.length, 0, self.bottomLayoutGuide.length, 0)
-        self.tableView!.contentInset = adjustForTabbarInsets
-        self.tableView!.scrollIndicatorInsets = adjustForTabbarInsets
+        self.tableView?.contentInset = adjustForTabbarInsets
+        self.tableView?.scrollIndicatorInsets = adjustForTabbarInsets
     }
 
     override func viewDidAppear(animated: Bool) {
-        self.tableView!.selectRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), animated: false, scrollPosition: .Top)
+        self.tableView?.selectRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), animated: false, scrollPosition: .Top)
     }
 
     func multipleSelectorDone(item:UIBarButtonItem) {
         navigationController?.popViewControllerAnimated(true)
+    }
+}
+
+extension MoreViewController {
+    func tableView(tableView: UITableView, didEndDisplayingHeaderView view: UIView, forSection section: Int) {
+//        if let headerView = view as? UITableViewHeaderFooterView {
+//            if headerView.textLabel?.text == "ACCOUNT" {
+//                if !headerView.subviews.contains(logoutButton) {
+//                    headerView.addSubview(logoutButton)
+//                }
+//                logoutButton.frame.origin.y = headerView.textLabel!.frame.origin.y - (logoutButton.frame.height - headerView.textLabel!.frame.height)/2
+//                logoutButton.frame.origin.x = headerView.frame.width - (headerView.textLabel?.frame.origin.x)! - logoutButton.frame.width
+//                headerView.layoutSubviews()
+//                
+//            } else if headerView.subviews.contains(logoutButton) {
+//                logoutButton.removeFromSuperview()
+//            }
+//        }
     }
 }

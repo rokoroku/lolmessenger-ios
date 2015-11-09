@@ -30,17 +30,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             categories: nil)
         application.registerUserNotificationSettings(settings)
 
-
-        if XMPPService.sharedInstance.isAuthenticated {
-            let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
-            let viewController = storyboard.instantiateViewControllerWithIdentifier("TabBarController")
-            self.window?.rootViewController = viewController;
-            self.window?.makeKeyAndVisible()
-        }
-
         return true
     }
-
 
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -69,13 +60,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
-        print("applicationWillTerminate!")
-        if !UIApplication.topViewController()!.isKindOfClass(LoginViewController) {
+        if UIApplication.topViewController()?.isKindOfClass(LoginViewController) == false {
             let notification = NotificationUtils.create("Disconnected",
-                body: "Application is terminated in background.",
+                body: "Application has been terminated.",
                 category: Constants.Notification.Category.Connection)
             NotificationUtils.dismissCategory(Constants.Notification.Category.Connection)
-            UIApplication.sharedApplication().scheduleLocalNotification(notification)
+            application.presentLocalNotificationNow(notification)
         }
     }
 

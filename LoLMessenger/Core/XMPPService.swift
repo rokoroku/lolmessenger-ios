@@ -49,6 +49,7 @@ class XMPPService : NSObject {
 
     private var xmppStream: XMPPStream?
     private var xmppReconnect: XMPPReconnect?
+    private var xmppAutoPing: XMPPAutoPing?
 
     private var customCertEvaluation: Bool?
     private var delegates: [XMPPConnectionDelegate] = []
@@ -105,15 +106,18 @@ class XMPPService : NSObject {
         xmppReconnect?.usesOldSchoolSecureConnect = true
         xmppReconnect?.addDelegate(self, delegateQueue: GCD.mainQueue())
 
+        xmppAutoPing = XMPPAutoPing()
+        xmppAutoPing?.addDelegate(self, delegateQueue: GCD.mainQueue())
+
         // Activate xmpp modules
-        xmppStream?.skipStartSession = false
-        xmppReconnect!.activate(xmppStream)
+        xmppReconnect?.activate(xmppStream)
+        xmppAutoPing?.activate(xmppStream)
 
         // Add ourself as a delegate to anything we may be interested in
-        xmppStream!.addDelegate(self, delegateQueue: GCD.mainQueue())
+        xmppStream?.addDelegate(self, delegateQueue: GCD.mainQueue())
         
         // You may need to alter these settings depending on the server you're connecting to
-        customCertEvaluation = true;
+        customCertEvaluation = true
 
         // Create submodule service
         rosterService = RosterService(xmppService: self)
@@ -121,17 +125,19 @@ class XMPPService : NSObject {
     }
 
     private func teardownStream() {
-        xmppStream!.removeDelegate(self)
+        xmppStream?.removeDelegate(self)
         
-        xmppReconnect!.deactivate()
-        rosterService!.deactivate()
-        chatService!.deactivate()
-        xmppStream!.disconnect()
+        xmppReconnect?.deactivate()
+        rosterService?.deactivate()
+        chatService?.deactivate()
+        xmppAutoPing?.deactivate()
+        xmppStream?.disconnect()
 
-        xmppStream = nil;
-        xmppReconnect = nil;
-        rosterService = nil;
-        chatService = nil;
+        xmppStream = nil
+        xmppAutoPing = nil
+        xmppReconnect = nil
+        rosterService = nil
+        chatService = nil
     }
 
     // MARK: Connect / Disconnect
@@ -173,12 +179,13 @@ class XMPPService : NSObject {
     }
 
     func disconnect() {
-        xmppStream?.disconnect()
+        if xmppStream != nil {
+            teardownStream()
+        }
     }
 
     func sendPresence(presence: XMPPPresence) {
         StoredProperties.Presences.put(xmppStream!.myJID.user, presence: presence)
-        print("myPresence: \(presence)")
         xmppStream?.sendElement(presence)
     }
 
@@ -269,7 +276,10 @@ extension XMPPService : XMPPStreamDelegate {
     }
 
     @objc func xmppStreamDidConnect(sender: XMPPStream!) {
-        print("xmppStreamDidConnected!")
+        #if DEBUG
+            print("xmppStreamDidConnected!")
+        #endif
+
         delegates.forEach {
             delegate in delegate.onConnected(self)
         };
@@ -282,38 +292,49 @@ extension XMPPService : XMPPStreamDelegate {
     }
     
     @objc func xmppStreamDidAuthenticate(sender: XMPPStream!) {
-        print("xmppStreamDidAuthenticated!")
+        #if DEBUG
+            print("xmppStreamDidAuthenticated!")
+        #endif
+
         delegates.forEach {
             delegate in delegate.onAuthenticated(self)
         }
     }
 
     @objc func xmppStream(sender: XMPPStream!, didNotAuthenticate error: DDXMLElement!) {
-        print("xmppStreamDidNotAuthenticated!")
+        #if DEBUG
+            print("xmppStreamDidNotAuthenticated!")
+        #endif
+
         delegates.forEach {
             delegate in delegate.onAuthenticationFailed(self)
         }
     }
 
     @objc func xmppStreamDidDisconnect(sender: XMPPStream!, withError error: NSError!) {
-        print("xmppStreamDidDisconnect!")
+        #if DEBUG
+            print("xmppStreamDidDisconnect!")
+        #endif
 
         updateBadge()
+
+        delegates.forEach {
+            delegate in delegate.onDisconnected(self, error: error)
+        }
 
         if error != nil {
             let notification = NotificationUtils.create("Disconnected!", body: error.localizedFailureReason ?? "Undefined Error", category: Constants.Notification.Category.Connection)
             notification.fireDate = NSDate().dateByAddingTimeInterval(5)
             UIApplication.sharedApplication().scheduleLocalNotification(notification)
-        }
-
-        delegates.forEach {
-            delegate in delegate.onDisconnected(self, error: error)
-        }
+        } 
     }
 
     @objc func xmppStream(sender: XMPPStream!, didReceiveIQ iq: XMPPIQ!) -> Bool {
         if let session = iq.elementForName("session") {
-            print("didReceiveSessionIQ!" + iq.description)
+            #if DEBUG
+                print("didReceiveSessionIQ! " + iq.description)
+            #endif
+
             let summonerName = session.getElementStringValue("summoner_name", defaultValue: "Unknown")!
             myRosterElement = LeagueRoster(jid: sender.myJID, nickname: summonerName, group: nil)
             if let storedPresence = StoredProperties.Presences.get(sender.myJID.user) {
@@ -354,29 +375,52 @@ extension XMPPService : XMPPStreamDelegate {
     }
 
     @objc func xmppStream(sender: XMPPStream!, alternativeResourceForConflictingResource conflictingResource: String!) -> String! {
-        return conflictingResource + "_conflict"
+        return conflictingResource + "(\(random()%10))"
     }
 
     @objc func xmppStream(sender: XMPPStream!, didReceiveError error: DDXMLElement!) {
-        print("xmppStreamDidReceiveError!" + error.description)
-    }
+        #if DEBUG
+            print("xmppStreamDidReceiveError!" + error.description)
 
-    @objc func xmppStream(sender: XMPPStream!, didReceiveCustomElement element: DDXMLElement!) {
-        print("xmppStreamDidReceiveCustomElement!" + element.description)
-    }
+            let notification = NotificationUtils.create("xmppStream",
+                body: "Did Receive Error (\(error.description))",
+                category: Constants.Notification.Category.Connection)
 
-    @objc func xmppStreamDidChangeMyJID(xmppStream: XMPPStream!) {
-        print("xmppStreamDidChangeMyJID: " + xmppStream!.myJID.description)
+            UIApplication.sharedApplication().scheduleLocalNotification(notification)
+        #endif
     }
 }
 
 extension XMPPService : XMPPReconnectDelegate {
     @objc func xmppReconnect(sender: XMPPReconnect!, didDetectAccidentalDisconnect connectionFlags: SCNetworkConnectionFlags) {
-        print("didDetectAccidentalDisconnect \(connectionFlags.value)")
-        let notification = NotificationUtils.create("xmppReconnect",
-            body: "Recovered from Accidental Disconnect (code: \(connectionFlags.description))",
-            category: Constants.Notification.Category.Connection)
         NotificationUtils.dismissCategory(Constants.Notification.Category.Connection)
-        UIApplication.sharedApplication().scheduleLocalNotification(notification)
+
+        #if DEBUG
+            print("didDetectAccidentalDisconnect! \(connectionFlags.value)")
+
+            let notification = NotificationUtils.create("xmppReconnect",
+                body: "Recovered from Accidental Disconnect (code: \(connectionFlags.description))",
+                category: Constants.Notification.Category.Connection)
+
+            UIApplication.sharedApplication().scheduleLocalNotification(notification)
+        #endif
+
+        Async.background(after: 1) {
+            self.xmppStream?.resendMyPresence()
+        }
+    }
+}
+
+extension XMPPService: XMPPAutoPingDelegate {
+    @objc func xmppAutoPingDidTimeout(sender: XMPPAutoPing!) {
+        #if DEBUG
+            print("xmppAutoPingDidTimeout!")
+
+            let notification = NotificationUtils.create("xmppAutoPing",
+                body: "xmppAutoPingDidTimeout!",
+                category: Constants.Notification.Category.Connection)
+
+            UIApplication.sharedApplication().scheduleLocalNotification(notification)
+        #endif
     }
 }
