@@ -13,6 +13,13 @@ import ChameleonFramework
 class RecentChatViewController : UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
+    @IBAction func addAction(sender: AnyObject) {
+        DialogUtils.input("Enter New Chat", message: "Please enter the room name you want to join", placeholder: "room name") {
+            if let name = $0, let chatEntry = XMPPService.sharedInstance.chat().joinRoom(name) {
+                NavigationUtils.navigateToChat(chatId: chatEntry.id)
+            }
+        }
+    }
 
     var chats = [LeagueChat]()
     var numOfRows: Int {
@@ -59,7 +66,7 @@ class RecentChatViewController : UIViewController {
     }
 
     func setSearchController() {
-        definesPresentationContext = true
+        //definesPresentationContext = true
         self.searchController = ({
             let controller = UISearchController(searchResultsController: nil)
             controller.searchResultsUpdater = self
@@ -73,7 +80,6 @@ class RecentChatViewController : UIViewController {
         
         self.tableView.reloadData()
     }
-
 
     override func viewWillAppear(animated: Bool) {
         // Load chats
@@ -160,7 +166,7 @@ extension RecentChatViewController : UITableViewDelegate, UITableViewDataSource 
     // Override to support conditional editing of the table view.
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
-        return !isSearching
+        return true
     }
 
     // Override to support editing the table view.

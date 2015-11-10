@@ -22,6 +22,7 @@ class RecentChatTableCell: UITableViewCell {
 
         // Initialization code
         badge.layer.masksToBounds = true
+        badge.backgroundColor = Theme.AccentColor
         badge.layer.cornerRadius = badge.frame.height / 2
     }
 

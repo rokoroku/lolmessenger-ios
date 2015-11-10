@@ -3,6 +3,7 @@
 // Copyright (c) 2015 rokoroku. All rights reserved.
 //
 
+import UIKit
 import Foundation
 
 struct Constants {
@@ -11,6 +12,7 @@ struct Constants {
             static let Message = "message"
             static let Subscribtion = "subscribe"
             static let Connection = "connection"
+            static let DebugConnection = "connection_debug"
         }
         struct UserInfo {
             static let Chat = "chat"
@@ -27,12 +29,18 @@ struct Constants {
         static func Presence(userid: String) -> String {
             return "presence_\(userid)"
         }
+        static func NotificationCategory(notification: UILocalNotification) -> String? {
+            if let category = notification.category {
+                return "noti_\(category)"
+            }
+            return nil
+        }
     }
 
     struct XMPP {
         struct Domain {
             static let User = "pvp.net"
-            static let Room = "conference.pvp.net"
+            static let Room = "lvl.pvp.net"
         }
         struct Resource {
             static let PC = "xiff"

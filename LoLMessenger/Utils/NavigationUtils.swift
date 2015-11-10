@@ -9,32 +9,44 @@
 import UIKit
 
 class NavigationUtils {
-    class func navigateToChat(viewController: UIViewController? = UIApplication.topViewController(), chatId: String) {
-        if let rootViewController = viewController,
-            let chatViewController = rootViewController.storyboard?.instantiateViewControllerWithIdentifier("ChatViewController") as? ChatViewController,
-            let chatEntry = XMPPService.sharedInstance.chat().getLeagueChatEntry(chatId) {
 
-                if let rootChatViewController = rootViewController as? ChatViewController {
-                    if rootChatViewController.chatJID?.user == chatId {
+    static func navigateToReconnect(viewController: UIViewController? = UIApplication.topViewController()) {
+
+        let storyboard = viewController?.storyboard ?? UIStoryboard(name: "Main", bundle: nil)
+        if let reconnectViewController = storyboard.instantiateViewControllerWithIdentifier("ReconnectViewController") as? ReconnectViewController {
+
+            reconnectViewController.modalTransitionStyle = .CrossDissolve
+
+            viewController?.presentViewController(reconnectViewController, animated: true) {
+                UIApplication.sharedApplication().keyWindow?.rootViewController = reconnectViewController
+            }
+        }
+    }
+
+    static func navigateToChat(viewController: UIViewController? = UIApplication.topViewController(), chatId: String) {
+
+        let storyboard = viewController?.storyboard ?? UIStoryboard(name: "Main", bundle: nil)
+        if let chatViewController = storyboard.instantiateViewControllerWithIdentifier("ChatViewController") as? ChatViewController, chatEntry = XMPPService.sharedInstance.chat().getLeagueChatEntry(chatId) {
+
+                if let currentChatViewController = viewController as? ChatViewController {
+                    if currentChatViewController.chatJID?.user == chatId {
                         return
                     }
                 }
 
                 chatViewController.setInitialChatData(chatEntry)
-                if let navigationController = rootViewController.navigationController {
-                    navigationController.pushViewController(chatViewController, animated: true)
-                } else {
-                    rootViewController.presentViewController(chatViewController, animated: true, completion: nil)
-                }
+                viewController?.navigationController?.pushViewController(chatViewController, animated: true)
         }
     }
 
-    class func navigateToLogin(viewController: UIViewController? = UIApplication.rootViewController()) {
+    static func navigateToLogin(viewController: UIViewController? = UIApplication.rootViewController()) {
         let storyboard = viewController?.storyboard ?? UIStoryboard(name: "Main", bundle: nil)
-        if let loginController = storyboard.instantiateInitialViewController() {
-            loginController.modalTransitionStyle = .CrossDissolve
-            viewController?.presentViewController(loginController, animated: true) {
-                UIApplication.sharedApplication().keyWindow?.rootViewController = loginController
+        if let loginViewController = storyboard.instantiateInitialViewController() as? LoginViewController {
+
+            loginViewController.modalTransitionStyle = .CrossDissolve
+
+            viewController?.presentViewController(loginViewController, animated: true) {
+                UIApplication.sharedApplication().keyWindow?.rootViewController = loginViewController
             }
         }
     }
@@ -52,6 +64,10 @@ extension UIApplication {
     
     class func topViewController(base: UIViewController? = UIApplication.sharedApplication().keyWindow?.rootViewController) -> UIViewController? {
 
+        if let side = base as? SideMenuController {
+            return topViewController(side.centerViewController)
+        }
+        
         if let nav = base as? UINavigationController {
             return topViewController(nav.visibleViewController)
         }

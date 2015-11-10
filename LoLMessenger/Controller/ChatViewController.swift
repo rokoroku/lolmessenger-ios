@@ -15,6 +15,7 @@ struct ChatData {
     var size: Int
     var offset: Int
     var messages: [LeagueMessage.RawData]
+    var occupants: [String: LeagueRoster]?
 
     init(chat: LeagueChat) {
         size = chat.messages.count
@@ -30,6 +31,17 @@ struct ChatData {
     mutating func append(message: LeagueMessage.RawData) {
         messages.append(message)
         size++
+    }
+
+    mutating func setOccupants(occupants input: [LeagueRoster]) {
+        if occupants == nil {
+            occupants = [String: LeagueRoster]()
+        } else {
+            occupants?.removeAll(keepCapacity: true)
+        }
+        input.forEach {
+            self.occupants?[$0.username] = $0
+        }
     }
 
     mutating func loadMore(chat: LeagueChat) -> Int {
@@ -65,6 +77,7 @@ class ChatViewController : UIViewController {
     var chatName: String?
     var chatData: ChatData?
     var hideInputBox: Bool = false
+    var sideViewController: SideMenuController?
 
     var numOfRows: Int {
         return chatData?.messages.count ?? 0
@@ -128,8 +141,28 @@ class ChatViewController : UIViewController {
             selector: "adjustKeyboardHeight:",
             name: UIKeyboardWillChangeFrameNotification,
             object: nil)
-        if let chatJID = self.chatJID {
-            updateTitle(XMPPService.sharedInstance.roster().getRosterByJID(chatJID))
+
+        if let chatJID = chatJID {
+            if chatJID.domain == Constants.XMPP.Domain.Room {
+                sideViewController = self.sideMenuController()
+                if sideViewController == nil {
+                    if let navigationController = self.navigationController {
+                        sideViewController = SideMenuController()
+                        sideViewController?.centerViewController = navigationController
+                        UIApplication.sharedApplication().keyWindow?.rootViewController = sideViewController
+                    }
+                }
+                if sideViewController?.sideViewController == nil {
+                    let occupantViewController = self.storyboard!.instantiateViewControllerWithIdentifier("OccupantViewController") as! ChatOccupantViewController
+                    occupantViewController.roomId = chatJID
+                    sideViewController?.addNewController(occupantViewController, forSegueType: .Side)
+                }
+            }
+            else if chatJID.domain == Constants.XMPP.Domain.User {
+                let roster = XMPPService.sharedInstance.roster().getRosterByJID(chatJID)
+                sideMenuController()?.removeSideController()
+                updateTitle(roster)
+            }
         }
     }
 
@@ -149,12 +182,16 @@ class ChatViewController : UIViewController {
     }
 
     override func viewDidDisappear(animated: Bool) {
-        if #available(iOS 9.0, *) {
-            UILabel.appearanceWhenContainedInInstancesOfClasses([UILabel.self]).textColor = Theme.TextColorPrimary
-        }
-        if let _ = UIApplication.topViewController() as? STPopupContainerViewController {
+        if UIApplication.topViewController()?.isKindOfClass(STPopupContainerViewController) == false {
             XMPPService.sharedInstance.chat().removeDelegate(self)
             XMPPService.sharedInstance.roster().removeDelegate(self)
+
+            let possibleSideController = sideViewController ?? sideMenuController()
+            possibleSideController?.removeSideController()
+
+            if #available(iOS 9.0, *) {
+                UILabel.appearanceWhenContainedInInstancesOfClasses([UILabel.self]).textColor = Theme.TextColorPrimary
+            }
         }
     }
 
@@ -275,7 +312,12 @@ extension ChatViewController : UITableViewDelegate, UITableViewDataSource {
         } else {
             let cellIdentifier = "BalloonOthers"
             let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! ChatTableCell
-            let roster = XMPPService.sharedInstance.roster().getRosterByJID(chatJID!)
+            var roster: LeagueRoster!
+            if chatJID?.domain == Constants.XMPP.Domain.User {
+                roster = XMPPService.sharedInstance.roster().getRosterByJID(chatJID!)
+            } else {
+                roster = chatData?.occupants?[message.nick]
+            }
             cell.setItem(roster, message: message)
             return cell
         }
@@ -378,6 +420,19 @@ extension ChatViewController : RosterDelegate, ChatDelegate {
         titleLabel.frame =  CGRectMake(0, 0, tempLabel.frame.width + 20, tempLabel.frame.height)
 
         navigationItem.titleView = titleLabel
+    }
+
+    func didReceiveOccupantUpdate(sender: ChatService, from: LeagueChat, occupant: LeagueRoster) {
+        if chatJID?.user == from.id {
+            if chatData?.occupants == nil {
+                if let occupantEntries = XMPPService.sharedInstance.chat().getOccupantsByJID(chatJID!) {
+                    chatData?.setOccupants(occupants: occupantEntries)
+                }
+            } else {
+                chatData?.occupants![occupant.username] = occupant
+            }
+            tableView.reloadData()
+        }
     }
 
     func didReceiveRosterUpdate(sender: RosterService, from: LeagueRoster) {

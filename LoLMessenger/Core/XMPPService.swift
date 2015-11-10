@@ -33,18 +33,35 @@ class XMPPService : NSObject {
     var rosterService: RosterService?
     var myRosterElement: LeagueRoster?
     var region: LeagueServer?
+    var isRealmUnlocked = false
 
-    var realmConfig: Realm.Configuration {
+    var realmConfig: Realm.Configuration? {
         var config = Realm.Configuration()
 
-        // Use the default directory, but replace the filename with the username
-        config.path = NSURL.fileURLWithPath(config.path!)
-            .URLByDeletingLastPathComponent?
-            .URLByAppendingPathComponent(xmppStream!.myJID.user)
-            .URLByAppendingPathExtension("realm")
-            .path
+        if let path = xmppStream?.myJID.user {
+            // Use the default directory, but replace the filename with the username
+            config.path = NSURL.fileURLWithPath(config.path!)
+                .URLByDeletingLastPathComponent?
+                .URLByAppendingPathComponent(path)
+                .URLByAppendingPathExtension("realm")
+                .path
 
-        return config
+            if !isRealmUnlocked {
+                let allRealmRelatedFiles = [
+                    config.path!,
+                    config.path!.stringByAppendingString(".lock"),
+                    config.path!.stringByAppendingString(".log"),
+                    config.path!.stringByAppendingString(".log_a"),
+                    config.path!.stringByAppendingString(".log_b")]
+
+                allRealmRelatedFiles.forEach {
+                    let _ = try? NSFileManager.defaultManager().setAttributes([NSFileProtectionKey: NSFileProtectionNone], ofItemAtPath: $0)
+                }
+                isRealmUnlocked = true
+            }
+            return config
+        }
+        return nil
     }
 
     private var xmppStream: XMPPStream?
@@ -215,12 +232,12 @@ class XMPPService : NSObject {
 
     func db() -> Realm? {
         assert(xmppStream != nil)
-        do {
-            return try Realm(configuration: realmConfig)
-        } catch _ {
-
+        if let config = realmConfig {
+            let db = try? Realm(configuration: config)
+            return db
+        } else {
+            return nil
         }
-        return nil
     }
 
     func addDelegate(delegate:XMPPConnectionDelegate) {
@@ -318,15 +335,19 @@ extension XMPPService : XMPPStreamDelegate {
 
         updateBadge()
 
+        if error != nil {
+            let notification = NotificationUtils.create(
+                title: "Disconnected!",
+                body: error.localizedFailureReason ?? "Undefined Error",
+                category: Constants.Notification.Category.Connection)
+
+            notification.fireDate = NSDate().dateByAddingTimeInterval(5)
+            NotificationUtils.schedule(notification)
+        } 
+
         delegates.forEach {
             delegate in delegate.onDisconnected(self, error: error)
         }
-
-        if error != nil {
-            let notification = NotificationUtils.create("Disconnected!", body: error.localizedFailureReason ?? "Undefined Error", category: Constants.Notification.Category.Connection)
-            notification.fireDate = NSDate().dateByAddingTimeInterval(5)
-            UIApplication.sharedApplication().scheduleLocalNotification(notification)
-        } 
     }
 
     @objc func xmppStream(sender: XMPPStream!, didReceiveIQ iq: XMPPIQ!) -> Bool {
@@ -380,31 +401,29 @@ extension XMPPService : XMPPStreamDelegate {
 
     @objc func xmppStream(sender: XMPPStream!, didReceiveError error: DDXMLElement!) {
         #if DEBUG
-            print("xmppStreamDidReceiveError!" + error.description)
-
-            let notification = NotificationUtils.create("xmppStream",
-                body: "Did Receive Error (\(error.description))",
-                category: Constants.Notification.Category.Connection)
-
-            UIApplication.sharedApplication().scheduleLocalNotification(notification)
+            if error != nil {
+                print("xmppStreamDidReceiveError!" + error.description)
+                NotificationUtils.schedule(NotificationUtils.create(
+                    title: "xmppStreamDidReceiveError",
+                    body: error.description,
+                    category: Constants.Notification.Category.DebugConnection))
+            }
         #endif
     }
 }
 
 extension XMPPService : XMPPReconnectDelegate {
     @objc func xmppReconnect(sender: XMPPReconnect!, didDetectAccidentalDisconnect connectionFlags: SCNetworkConnectionFlags) {
-        NotificationUtils.dismissCategory(Constants.Notification.Category.Connection)
-
         #if DEBUG
-            print("didDetectAccidentalDisconnect! \(connectionFlags.value)")
+            print("didDetectAccidentalDisconnect! \(connectionFlags.description)")
 
-            let notification = NotificationUtils.create("xmppReconnect",
+            NotificationUtils.schedule(NotificationUtils.create(
+                title: "xmppReconnect",
                 body: "Recovered from Accidental Disconnect (code: \(connectionFlags.description))",
-                category: Constants.Notification.Category.Connection)
-
-            UIApplication.sharedApplication().scheduleLocalNotification(notification)
+                category: Constants.Notification.Category.DebugConnection))
         #endif
 
+        NotificationUtils.dismiss(Constants.Notification.Category.Connection)
         Async.background(after: 1) {
             self.xmppStream?.resendMyPresence()
         }
@@ -416,11 +435,11 @@ extension XMPPService: XMPPAutoPingDelegate {
         #if DEBUG
             print("xmppAutoPingDidTimeout!")
 
-            let notification = NotificationUtils.create("xmppAutoPing",
-                body: "xmppAutoPingDidTimeout!",
-                category: Constants.Notification.Category.Connection)
+            NotificationUtils.schedule(NotificationUtils.create(
+                title: "xmppAutoPing",
+                body: "xmppAutoPingDidTimeout",
+                category: Constants.Notification.Category.DebugConnection))
 
-            UIApplication.sharedApplication().scheduleLocalNotification(notification)
         #endif
     }
 }

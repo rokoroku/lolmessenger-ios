@@ -26,6 +26,13 @@ class MainTabBarController : UITabBarController {
         // Called when the view is about to made visible.
         XMPPService.sharedInstance.roster().addDelegate(self)
         XMPPService.sharedInstance.chat().addDelegate(self)
+
+        if let presentedViewController = self.selectedViewController {
+            self.tabBarController(self, didSelectViewController: presentedViewController)
+        } else {
+            self.navigationItem.title = "Friendsss"
+        }
+
     }
 
     override func viewDidDisappear(animated: Bool) {
@@ -37,21 +44,25 @@ class MainTabBarController : UITabBarController {
     }
 
     func updateRosterBadge(rosterService: RosterService) {
-        for viewController in viewControllers! {
-            if viewController.restorationIdentifier == "RosterTableViewController" {
-                let value = rosterService.getNumOfSubscriptionRequests()
-                viewController.tabBarItem?.badgeValue = value > 0 ? String(value) : nil
-                return
+        if let viewControllers = viewControllers {
+            for viewController in viewControllers {
+                if viewController.restorationIdentifier == "RosterTableViewController" {
+                    let value = rosterService.getNumOfSubscriptionRequests()
+                    viewController.tabBarItem?.badgeValue = value > 0 ? String(value) : nil
+                    return
+                }
             }
         }
     }
 
     func updateChatBadge(chatService: ChatService) {
-        for viewController in viewControllers! {
-            if viewController.restorationIdentifier == "RecentChatViewController" {
-                let value = chatService.getNumOfUnreadMessages()
-                viewController.tabBarItem?.badgeValue = value > 0 ? String(value) : nil
-                return
+        if let viewControllers = viewControllers {
+            for viewController in viewControllers {
+                if viewController.restorationIdentifier == "RecentChatViewController" {
+                    let value = chatService.getNumOfUnreadMessages()
+                    viewController.tabBarItem?.badgeValue = value > 0 ? String(value) : nil
+                    return
+                }
             }
         }
     }
@@ -60,9 +71,11 @@ class MainTabBarController : UITabBarController {
 
 extension MainTabBarController : UITabBarControllerDelegate {
     func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
-//        if let tabBarItem = viewController.tabBarItem {
-//            tabBarItem.badgeValue = nil
-//        }
+        if let navigationItem: UINavigationItem = viewController.navigationItem {
+            self.navigationItem.title = navigationItem.title
+            self.navigationItem.leftBarButtonItems = navigationItem.leftBarButtonItems
+            self.navigationItem.rightBarButtonItems = navigationItem.rightBarButtonItems
+        }
     }
 }
 

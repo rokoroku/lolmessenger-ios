@@ -7,9 +7,42 @@
 //
 
 import UIKit
+import AVFoundation
 
 class NotificationUtils {
-    class func create(chat: LeagueChat, message: LeagueMessage) -> UILocalNotification {
+
+    static func schedule(notification: UILocalNotification) {
+        UIApplication.sharedApplication().scheduleLocalNotification(notification)
+        if let key = Constants.Key.NotificationCategory(notification) {
+            let notificationData = NSKeyedArchiver.archivedDataWithRootObject(notification)
+            NSUserDefaults.standardUserDefaults().setObject(notificationData, forKey: key)
+        }
+    }
+
+    static func dismiss(category: String) {
+        let key = "noti_\(category)"
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        let application = UIApplication.sharedApplication()
+        if let existingNotificationData = userDefaults.objectForKey(key) as? NSData,
+            existingNotification = NSKeyedUnarchiver.unarchiveObjectWithData(existingNotificationData) as? UILocalNotification {
+
+            // Cancel notification if scheduled, delete it from notification center if already delivered
+            application.cancelLocalNotification(existingNotification)
+
+            // Clean up
+            userDefaults.removeObjectForKey(key)
+        }
+
+        if let scheduledNotifications = application.scheduledLocalNotifications {
+            scheduledNotifications.forEach { notification in
+                if notification.category == category {
+                    application.cancelLocalNotification(notification)
+                }
+            }
+        }
+    }
+
+    static func create(chat: LeagueChat, message: LeagueMessage) -> UILocalNotification {
 
         // create a corresponding local notification
         let notification = UILocalNotification()
@@ -32,7 +65,7 @@ class NotificationUtils {
         return notification
     }
 
-    class func create(title: String, body: String, category: String, userinfo: [String: AnyObject]? = nil) -> UILocalNotification {
+    static func create(title title: String, body: String, action: String = "Open", category: String, userinfo: [String: AnyObject]? = nil) -> UILocalNotification {
         // create a corresponding local notification
         let notification = UILocalNotification()
 
@@ -52,27 +85,14 @@ class NotificationUtils {
         return notification
     }
 
-    class func dismissCategory(category: String) {
-        let application = UIApplication.sharedApplication()
-        if let scheduledNotifications = application.scheduledLocalNotifications {
-            scheduledNotifications.forEach { notification in
-                if notification.category == category {
-                    application.cancelLocalNotification(notification)
-                }
+    static func alert(vibrate: Bool = StoredProperties.Settings.notifyWithVibrate.value, sound: Bool = StoredProperties.Settings.notifyWithSound.value) {
+
+            if vibrate {
+                AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
             }
-        }
+            if sound {
+                AudioServicesPlaySystemSound(1002)
+            }
     }
 
-    class func dismiss(key: String, id: String) {
-        let application = UIApplication.sharedApplication()
-        if let scheduledNotifications = application.scheduledLocalNotifications {
-            scheduledNotifications.forEach { notification in
-                if let uid = notification.userInfo?[key] as? String {
-                    if uid == id {
-                        application.cancelLocalNotification(notification)
-                    }
-                }
-            }
-        }
-    }
 }

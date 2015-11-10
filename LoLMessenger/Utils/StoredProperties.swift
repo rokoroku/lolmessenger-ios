@@ -15,6 +15,7 @@ class StoredProperties {
         static let notifySubscription = StoredBoolProperty(key: "notifySubscription", defaultValue: true)
         static let notifyWithSound = StoredBoolProperty(key: "notifyWithSound", defaultValue: true)
         static let notifyWithVibrate = StoredBoolProperty(key: "notifyWithVibrate", defaultValue: true)
+        static let notifyBackgroundExpire = StoredBoolProperty(key: "notifyBackgroundExpiration", defaultValue: true)
     }
 
     class Presences {

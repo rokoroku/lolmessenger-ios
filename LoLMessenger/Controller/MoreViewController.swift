@@ -21,12 +21,16 @@ class MoreViewController : FormViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.hidesNavigationBarHairline = true
+        self.tableView?.backgroundColor = Theme.PrimaryColor
 
         form +++ accountSection()
+        form +++ backgroundSection()
         form +++ notificationSection()
+
 //        form +++ friendSection()
 //        form +++ chatSection()
+
+        navigationController?.hidesNavigationBarHairline = true
     }
 
     func confirmLogout() {
@@ -41,7 +45,6 @@ class MoreViewController : FormViewController {
 
         return Section("Account")
             <<< FloatLabelRow() {
-
                 $0.title =  "Summoner Name"
                 $0.value = XMPPService.sharedInstance.myRosterElement?.username ?? "Unknown"
                 $0.disabled = true
@@ -102,7 +105,17 @@ class MoreViewController : FormViewController {
             }.onPresent { from, to in
                 to.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target: from, action: "multipleSelectorDone:")
             }
+        }
+
+    func backgroundSection() -> Section {
+        return Section(header: "Background Session", footer: "Since the time of background task is limited to about 3 minutes by Apple, the connection will be closed until reopen the application.")
+            <<< SwitchRow() {
+                $0.title = "Expiration Warning"
+                $0.value = StoredProperties.Settings.notifySubscription.value
+                $0.onChange { StoredProperties.Settings.notifySubscription.value = $0.value! as Bool }
+        }
     }
+
 
     func friendSection() -> Section {
         return Section("Friend List")
@@ -144,8 +157,8 @@ class MoreViewController : FormViewController {
     }
 }
 
-extension MoreViewController {
-    func tableView(tableView: UITableView, didEndDisplayingHeaderView view: UIView, forSection section: Int) {
+//extension MoreViewController {
+//    func tableView(tableView: UITableView, didEndDisplayingHeaderView view: UIView, forSection section: Int) {
 //        if let headerView = view as? UITableViewHeaderFooterView {
 //            if headerView.textLabel?.text == "ACCOUNT" {
 //                if !headerView.subviews.contains(logoutButton) {
@@ -159,5 +172,5 @@ extension MoreViewController {
 //                logoutButton.removeFromSuperview()
 //            }
 //        }
-    }
-}
+//    }
+//}

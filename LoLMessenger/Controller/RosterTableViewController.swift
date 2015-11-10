@@ -50,7 +50,7 @@ class RosterTableViewController : UIViewController {
     }
 
     func setSearchController() {
-        definesPresentationContext = true
+        //definesPresentationContext = true
         self.searchController = ({
             let controller = UISearchController(searchResultsController: nil)
             controller.searchResultsUpdater = self
@@ -87,12 +87,8 @@ class RosterTableViewController : UIViewController {
         XMPPService.sharedInstance.roster().addDelegate(self)
     }
 
-    override func viewWillDisappear(animated: Bool) {
-        // Called when the view is dismissed, covered or otherwise hidden.
-    }
-
     override func viewDidDisappear(animated: Bool) {
-        if let _ = UIApplication.topViewController() as? STPopupContainerViewController {
+        if UIApplication.topViewController()?.isKindOfClass(STPopupContainerViewController) == false {
             XMPPService.sharedInstance.roster().removeDelegate(self)
         }
     }

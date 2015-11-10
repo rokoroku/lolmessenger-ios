@@ -197,18 +197,21 @@ extension RosterService : XMPPRosterDelegate {
     private func notifySubscriptionRequest(roster: LeagueRoster) {
         if StoredProperties.Settings.notifySubscription.value {
             Async.main(after: 1.5) {
-                let notification = NotificationUtils.create("Buddy Subscription Request",
+
+                let notification = NotificationUtils.create(
+                    title: "Buddy Subscription Request",
                     body: "The buddy \(roster.username) wants to add you to their list and see your presence online",
                     category: Constants.Notification.Category.Subscribtion)
+                NotificationUtils.schedule(notification)
 
-                UIApplication.sharedApplication().scheduleLocalNotification(notification)
-
-                DialogUtils.alert("Buddy Subscription Request",
+                DialogUtils.alert(
+                    "Buddy Subscription Request",
                     message: "The buddy \(roster.username) wants to add you to their list and see your presence online",
                     actions: [
                         UIAlertAction(title: "OK", style: .Default, handler: { _ in self.addRoster(roster) }),
                         UIAlertAction(title: "NO", style: .Cancel, handler: { _ in self.removeRoster(roster) })
                     ])
+
                 self.invokeDelegates {
                     delegate in delegate.didReceiveFriendSubscription(self, from: roster)
                 }

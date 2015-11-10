@@ -46,8 +46,13 @@ class LeagueMessage : Object {
         self.isSent = false
 
         if(message.type() == "groupchat") {
-            self.nick = message.from().resource
-
+            if message.from() != nil {
+                self.nick = message.from().resource
+            } else if nick != nil {
+                self.nick = nick!
+            } else {
+                return nil
+            }
         } else if nick != nil {
             self.nick = nick!
         }

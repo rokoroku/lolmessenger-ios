@@ -9,17 +9,19 @@
 import UIKit
 import Fabric
 import Crashlytics
-import AVFoundation
+import RealmSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
-    var audioPlayer: AVAudioPlayer?
+    var backgroundTask: UIBackgroundTaskIdentifier = UIBackgroundTaskInvalid
+    var backgroundTimer: NSTimer?
+    var didShowDisconnectionWarning = false
+    var shouldRedirectToReconnect = false
 
     // MARK: UIApplicationDelegate    
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject:AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
         Fabric.with([Crashlytics.self])
 
         application.statusBarStyle = .LightContent
@@ -39,8 +41,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationDidEnterBackground(application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        print("Application entered background state")
+
+        //todo: application badge update
+        didShowDisconnectionWarning = false
+        application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
+
+        backgroundTask = application.beginBackgroundTaskWithExpirationHandler {
+            Async.main {
+                print("Background Task Expired")
+                application.endBackgroundTask(self.backgroundTask)
+                self.backgroundTask = UIBackgroundTaskInvalid
+            }
+        }
+        backgroundTimer = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: "timerUpdate:", userInfo: nil, repeats: true)
     }
 
     func applicationWillEnterForeground(application: UIApplication) {
@@ -55,18 +69,73 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 mainTabBarController.updateChatBadge(XMPPService.sharedInstance.chat())
             }
         }
+
+        self.backgroundTimer?.invalidate()
+        self.backgroundTimer = nil
+        if (self.backgroundTask != UIBackgroundTaskInvalid) {
+            application.endBackgroundTask(self.backgroundTask)
+            self.backgroundTask = UIBackgroundTaskInvalid
+        }
+
+        NotificationUtils.dismiss(Constants.Notification.Category.Connection)
+
+        didShowDisconnectionWarning = false
+
+        if shouldRedirectToReconnect {
+            shouldRedirectToReconnect = false
+            NavigationUtils.navigateToReconnect()
+        }
+    }
+
+
+    func timerUpdate(timer: NSTimer) {
+
+        let application = UIApplication.sharedApplication()
+
+        #if DEBUG
+            print("timer update, background time left: %f", application.backgroundTimeRemaining)
+        #endif
+
+        if application.backgroundTimeRemaining < 60 && !didShowDisconnectionWarning {
+
+            NotificationUtils.dismiss(Constants.Notification.Category.Connection)
+            NotificationUtils.schedule(NotificationUtils.create(
+                title: "Warning",
+                body: "Background session will be expired in one minute.",
+                action: "Open",
+                category: Constants.Notification.Category.Connection))
+
+            didShowDisconnectionWarning = true
+        }
+
+        if application.backgroundTimeRemaining <= 10 && !shouldRedirectToReconnect {
+            // Clean up here
+            self.backgroundTimer?.invalidate()
+            self.backgroundTimer = nil
+
+            NotificationUtils.dismiss(Constants.Notification.Category.Connection)
+            NotificationUtils.schedule(NotificationUtils.create(
+                title: "Disconnected",
+                body: "Your presence has gone offline.",
+                action: "Reconnect",
+                category: Constants.Notification.Category.Connection))
+
+            XMPPService.sharedInstance.disconnect()
+            shouldRedirectToReconnect = true
+
+            application.endBackgroundTask(self.backgroundTask)
+            self.backgroundTask = UIBackgroundTaskInvalid
+        }
     }
     
     func applicationWillTerminate(application: UIApplication) {
-        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-        // Saves changes in the application's managed object context before the application terminates.
-        if UIApplication.topViewController()?.isKindOfClass(LoginViewController) == false {
-            let notification = NotificationUtils.create("Disconnected",
-                body: "Application has been terminated.",
-                category: Constants.Notification.Category.Connection)
-            NotificationUtils.dismissCategory(Constants.Notification.Category.Connection)
-            application.presentLocalNotificationNow(notification)
-        }
+//        if UIApplication.topViewController()?.isKindOfClass(LoginViewController) == false {
+//            NotificationUtils.dismiss(Constants.Notification.Category.Connection)
+//            NotificationUtils.schedule(NotificationUtils.create(
+//                title: "Disconnected",
+//                body: "Application has been terminated.",
+//                category: Constants.Notification.Category.Connection))
+//        }
     }
 
     func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
@@ -81,7 +150,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             backgroundColor: Theme.SecondaryColor,
                             didTapBlock: { NavigationUtils.navigateToChat(chatId: chatId) }
                         )
-                        alert()
+                        NotificationUtils.alert()
                         banner.show(duration: 3.0)
                     }
                 } else {
@@ -90,13 +159,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
-    func alert(vibrate: Bool = StoredProperties.Settings.notifyWithVibrate.value, sound: Bool = StoredProperties.Settings.notifyWithSound.value) {
-        if vibrate {
-            AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
-        }
-        if sound {
-            AudioServicesPlaySystemSound(1002)
-        }
-    }
 }
 

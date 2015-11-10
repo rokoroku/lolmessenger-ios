@@ -186,11 +186,15 @@ extension LoginViewController : XMPPConnectionDelegate {
             completion: {
                 self.isConnecting = false
                 let storyboard = self.storyboard ?? UIStoryboard(name: "Main", bundle: nil)
-                let tabBarController = storyboard.instantiateViewControllerWithIdentifier("TabBarController") as UIViewController!
-                tabBarController.modalTransitionStyle = .CrossDissolve
-                tabBarController.transitioningDelegate = self
-                self.presentViewController(tabBarController, animated: true) {
-                    UIApplication.sharedApplication().keyWindow?.rootViewController = tabBarController
+                let navController = storyboard.instantiateViewControllerWithIdentifier("MainNavController") as UIViewController!
+
+                let sideViewController = SideMenuController()
+                sideViewController.modalTransitionStyle = .CrossDissolve
+                sideViewController.transitioningDelegate = self
+                sideViewController.centerViewController = navController
+
+                self.presentViewController(sideViewController, animated: true) {
+                    UIApplication.sharedApplication().keyWindow?.rootViewController = sideViewController
                 }
         })
     }

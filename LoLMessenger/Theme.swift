@@ -26,8 +26,8 @@ struct Theme {
     static let TextColorBlack = UIColor.flatBlackColor()
     static let TextColorDisabled = UIColor.flatBlackColor().lightenByPercentage(0.4)
 
-    static let TransculentBy5 = UIColor.init(white: 1, alpha: 0.025)
-    static let TransculentBy10 = UIColor.init(white: 1, alpha: 0.075)
+    static let TransculentBy5 = UIColor.init(white: 1, alpha: 0.03)
+    static let TransculentBy10 = UIColor.init(white: 1, alpha: 0.08)
 
     static func applyGlobalTheme() {
 
@@ -42,7 +42,7 @@ struct Theme {
         searchBar.tintColor = Theme.TextColorPrimary
         searchBar.barTintColor = Theme.PrimaryColor
         searchBar.backgroundImage = UIImage()
-        searchBar.translucent = true
+        searchBar.translucent = false
 
         let tabBar = UITabBar.appearance()
         tabBar.tintColor = Theme.TextColorPrimary
@@ -53,16 +53,18 @@ struct Theme {
         tableView.backgroundColor = Theme.PrimaryColor
         tableView.separatorColor = Theme.PrimaryColor
 
-        let tableCell = UITableViewCell.appearance()
-        tableCell.tintColor = UIColor.lightGrayColor()
+//        let tableCell = UITableViewCell.appearance()
+//        tableCell.tintColor = UIColor.lightGrayColor()
+//        UITableViewHeaderFooterView.appearance().backgroundView?.backgroundColor = UIColor.clearColor()
 
-        RecentChatTableCell.appearance().backgroundColor = Theme.TransculentBy5
-        RosterTableChildCell.appearance().backgroundColor = Theme.TransculentBy5
-        RosterTableGroupCell.appearance().backgroundColor = Theme.TransculentBy10
+        RecentChatTableCell.appearance().backgroundColor = Theme.PrimaryColor.lightenByPercentage(0.03)
+        RosterTableChildCell.appearance().backgroundColor = Theme.PrimaryColor.lightenByPercentage(0.03)
+        RosterTableGroupCell.appearance().backgroundColor = Theme.PrimaryColor.lightenByPercentage(0.06)
 
         let label = UILabel.appearance()
         label.textColor = ContrastColorOf(PrimaryColor, true)
         label.tintColor = label.textColor
+        label.backgroundColor = UIColor.clearColor()
 
         let textField = UITextField.appearance()
         textField.textColor = Theme.TextColorPrimary
@@ -104,6 +106,7 @@ struct Theme {
         }
         SwitchRow.defaultCellUpdate = { cell, row in
             cell.textLabel?.textColor = Theme.TextColorPrimary
+            cell.textLabel?.backgroundColor = UIColor.clearColor()
             cell.detailTextLabel?.textColor = Theme.TextColorPrimary
         }
         CheckRow.defaultCellUpdate = { cell, row in
@@ -123,11 +126,12 @@ struct Theme {
             cell.textLabel?.textColor = Theme.TextColorPrimary
             cell.detailTextLabel?.textColor = Theme.TextColorPrimary
         }
-        BaseCell.appearance().backgroundColor = Theme.TransculentBy5
+        BaseCell.appearance().backgroundColor = Theme.PrimaryColor.lightenByPercentage(0.03)
         BaseCell.appearance().textLabel?.textColor = Theme.TextColorPrimary
         FloatLabelCell.appearance().textLabel?.textColor = Theme.TextColorPrimary
         FloatLabelTextField.appearance().textColor = Theme.TextColorPrimary
         FloatLabelTextField.appearance().tintColor = Theme.HighlightColor.lightenByPercentage(0.4)
+
     }
 
 }
