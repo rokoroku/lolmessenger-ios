@@ -54,15 +54,15 @@ class ChatService : NSObject {
     func activate() {
         assert(!isActivated, "XMPPStream should not be activated")
         
-        let xmppStream = xmppService.stream()
+        if let xmppStream = xmppService.stream() {
+            xmppMessageDeliveryRecipts = XMPPMessageDeliveryReceipts(dispatchQueue: xmppService.dispatchQueue)
+            xmppMessageDeliveryRecipts!.autoSendMessageDeliveryReceipts = true
+            xmppMessageDeliveryRecipts!.autoSendMessageDeliveryRequests = true
+            xmppMessageDeliveryRecipts!.activate(xmppStream)
 
-        xmppMessageDeliveryRecipts = XMPPMessageDeliveryReceipts(dispatchQueue: GCD.backgroundQueue())
-        xmppMessageDeliveryRecipts!.autoSendMessageDeliveryReceipts = true
-        xmppMessageDeliveryRecipts!.autoSendMessageDeliveryRequests = true
-        xmppMessageDeliveryRecipts!.activate(xmppStream)
-
-        xmppStream.addDelegate(self, delegateQueue: GCD.backgroundQueue())
-        isActivated = true
+            xmppStream.addDelegate(self, delegateQueue: xmppService.dispatchQueue)
+            isActivated = true
+        }
     }
     
     func deactivate() {
@@ -71,7 +71,7 @@ class ChatService : NSObject {
                 xmppRoom.removeDelegate(self)
                 xmppRoom.deactivate()
             }
-            xmppService.stream().removeDelegate(self)
+            xmppService.stream()?.removeDelegate(self)
             xmppService = nil
             isActivated = false
         }
@@ -95,39 +95,43 @@ class ChatService : NSObject {
         var room = roomDictionary[roomId.user]
         if room == nil {
             room = XMPPRoom(roomStorage: XMPPRoomMemoryStorage(), jid: roomId)
-            room?.addDelegate(self, delegateQueue: GCD.backgroundQueue())
+            room?.addDelegate(self, delegateQueue: xmppService.dispatchQueue)
             room?.activate(xmppService.stream())
             roomDictionary[roomId.user] = room
         }
-        if room!.isJoined == false {
-            room!.joinRoomUsingNickname(xmppService.stream().myPresence.nick(), history: nil)
-            if let presence = try? XMPPPresence(XMLString: xmppService.stream().myPresence.XMLString()) {
+        if room!.isJoined == false && xmppService.myRosterElement != nil {
+            let userElement = xmppService.myRosterElement!
+            let nickname = userElement.username
+            room!.joinRoomUsingNickname(nickname, history: nil)
+            if let presence = try? XMPPPresence(XMLString: userElement.getPresenceElement().XMLString()) {
                 presence.addAttributeWithName("to", stringValue: room!.roomJID.full())
-                xmppService.stream().sendElement(presence)
+                xmppService.stream()?.sendElement(presence)
             }
         }
     }
 
     func leaveRoom(roomJid: XMPPJID) -> Bool {
-        if let room = roomDictionary[roomJid.user] {
-            room.leaveRoom()
+        if let room = roomDictionary.removeValueForKey(roomJid.user) {
             room.removeDelegate(self)
+            room.leaveRoom()
             room.deactivate()
+            getLeagueChatEntryByJID(roomJid)?.remove()
             return true
         }
         return false
     }
 
     func sendMessage(to: XMPPJID, msg: String) {
-        let xmppStream = xmppService.stream()
-        var message: XMPPMessage
-        if to.domain == Constants.XMPP.Domain.Room {
-            message = XMPPMessage(type: "groupchat", to: to)
-        } else {
-            message = XMPPMessage(type: "chat", to: to)
+        if let xmppStream = xmppService.stream() {
+            var message: XMPPMessage
+            if to.domain == Constants.XMPP.Domain.Room {
+                message = XMPPMessage(type: "groupchat", to: to)
+            } else {
+                message = XMPPMessage(type: "chat", to: to)
+            }
+            message.addBody(msg)
+            xmppStream.sendElement(message)
         }
-        message.addBody(msg)
-        xmppStream.sendElement(message)
     }
 
     
@@ -161,13 +165,13 @@ class ChatService : NSObject {
     }
 
     func getLeagueChatEntry(jid: String, named: String? = nil) -> LeagueChat? {
-        if let realm = xmppService.db() {
+        if let realm = xmppService.DB() {
             let result = realm.objects(LeagueChat.self).filter("id = '\(jid)'")
             if let storedChat = result.first {
                 let _ = storedChat.messages.count
                 return storedChat
 
-            } else if let roster = xmppService.roster().getRosterByJID(jid) {
+            } else if let roster = xmppService.roster()?.getRosterByJID(jid) {
                 do {
                     realm.beginWrite()
                     let createdChat = realm.create(LeagueChat.self, value: LeagueChat(chatId: jid, name: roster.username))
@@ -199,7 +203,7 @@ class ChatService : NSObject {
     }
 
     func getNumOfUnreadMessages() -> Int {
-        if let realm = xmppService.db() {
+        if let realm = xmppService.DB() {
             return realm.objects(LeagueChat.self).reduce(0) { $0 + $1.unread }
         }
         return 0
@@ -210,7 +214,7 @@ class ChatService : NSObject {
     }
 
     func getLeagueChatEntries() -> [LeagueChat]? {
-        if let realm = xmppService.db() {
+        if let realm = xmppService.DB() {
             return realm.objects(LeagueChat.self).sorted("timestamp", ascending: false).filter{ $0.lastMessage != nil }
         }
         return nil
@@ -221,7 +225,7 @@ class ChatService : NSObject {
 
 extension ChatService : XMPPStreamDelegate {
     @objc func xmppStreamDidAuthenticate(sender: XMPPStream!) {
-        Async.background(after: 1) {
+        Async.background(after: 2.5) {
             self.getLeagueChatEntries()?.forEach { leagueChat in
                 if leagueChat.type == .Room {
                     let id = leagueChat.id
@@ -259,7 +263,7 @@ extension ChatService : XMPPStreamDelegate {
             }
 
         } else if let leagueChat = getLeagueChatEntryByJID(message.from()) {
-            let roster = xmppService.roster().getRosterByJID(message.from())
+            let roster = xmppService.roster()?.getRosterByJID(message.from())
             if let leagueMessage = LeagueMessage(message: message, nick: roster?.username ?? leagueChat.name, isMine: false) {
                 if message.type() == "error" {
                     if let lastMessage = leagueChat.messages.last {
@@ -358,11 +362,6 @@ extension ChatService: XMPPRoomDelegate {
             print("xmppRoomDidLeave: " + sender.debugDescription)
         #endif
         roomDictionary.removeValueForKey(sender.roomJID.user)
-        if let chatEntry = getLeagueChatEntryByJID(sender.roomJID)?.freeze() {
-            invokeDelegates {
-                delegate in delegate.didEnterChatRoom(self, from: chatEntry)
-            }
-        }
     }
 
     @objc func xmppRoom(sender: XMPPRoom!, occupantDidJoin occupantJID: XMPPJID!, withPresence presence: XMPPPresence!) {
@@ -398,9 +397,6 @@ extension ChatService: XMPPRoomDelegate {
     }
 
     @objc func xmppRoom(sender: XMPPRoom!, didReceiveMessage message: XMPPMessage!, fromOccupant occupantJID: XMPPJID!) {
-        #if DEBUG
-            print("xmppRoom didReceiveMessage: " + message.description)
-        #endif
         if let chatEntry = getLeagueChatEntryByJID(sender.roomJID), let message = LeagueMessage(message: message) {
             if occupantJID.resource != xmppService.myRosterElement?.username {
 
@@ -439,7 +435,9 @@ extension XMPPRoom {
                 if let occupant = object as? XMPPRoomOccupant {
                     let roster = LeagueRoster(jid: occupant.roomJID(), nickname: occupant.nickname())
                     roster.parsePresence(occupant.presence())
-                    roster.available = true
+                    if roster.show == .Unavailable {
+                        roster.show = .Chat
+                    }
                     return roster
                 }
                 return nil

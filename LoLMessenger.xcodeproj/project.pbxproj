@@ -30,6 +30,7 @@
 		F88676581BCF5F79006C6B6A /* RealmExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F88676571BCF5F79006C6B6A /* RealmExtensions.swift */; };
 		F886765A1BCF6313006C6B6A /* ChatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F88676591BCF6313006C6B6A /* ChatService.swift */; };
 		F8893D821BDCA97D0086DBED /* StoredProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8893D811BDCA97D0086DBED /* StoredProperties.swift */; };
+		F891A01F1BF20A840043DC62 /* Weak.swift in Sources */ = {isa = PBXBuildFile; fileRef = F891A01E1BF20A840043DC62 /* Weak.swift */; };
 		F894016A1BDFDAEA00635D36 /* LeagueChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = F894015D1BDFDAEA00635D36 /* LeagueChat.swift */; };
 		F894016B1BDFDAEA00635D36 /* LeagueMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F894015E1BDFDAEA00635D36 /* LeagueMessage.swift */; };
 		F894016C1BDFDAEA00635D36 /* LeagueRoster.swift in Sources */ = {isa = PBXBuildFile; fileRef = F894015F1BDFDAEA00635D36 /* LeagueRoster.swift */; };
@@ -95,6 +96,7 @@
 		F88676571BCF5F79006C6B6A /* RealmExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmExtensions.swift; sourceTree = "<group>"; };
 		F88676591BCF6313006C6B6A /* ChatService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatService.swift; sourceTree = "<group>"; };
 		F8893D811BDCA97D0086DBED /* StoredProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StoredProperties.swift; path = Utils/StoredProperties.swift; sourceTree = "<group>"; };
+		F891A01E1BF20A840043DC62 /* Weak.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Weak.swift; sourceTree = "<group>"; };
 		F894015D1BDFDAEA00635D36 /* LeagueChat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeagueChat.swift; sourceTree = "<group>"; };
 		F894015E1BDFDAEA00635D36 /* LeagueMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeagueMessage.swift; sourceTree = "<group>"; };
 		F894015F1BDFDAEA00635D36 /* LeagueRoster.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeagueRoster.swift; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 		1B9CE04F74350E72105E61A5 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				F891A01E1BF20A840043DC62 /* Weak.swift */,
 				1B9CEE337FAA5E2BE4A6D0DC /* Async.swift */,
 				F8E22BD01BBE5C1900C03773 /* StringExtenisions.swift */,
 				F8E8C09F1BF0C55B00024462 /* DigestExtensions.swift */,
@@ -522,6 +525,7 @@
 				F894016C1BDFDAEA00635D36 /* LeagueRoster.swift in Sources */,
 				F822E5101BF1ADFB00C45C8F /* PopupSegue.swift in Sources */,
 				F83FB1EA1BDFC8AA00FBDCCA /* MainTabBarController.swift in Sources */,
+				F891A01F1BF20A840043DC62 /* Weak.swift in Sources */,
 				F83FB1E91BDFC8AA00FBDCCA /* LoginViewController.swift in Sources */,
 				F8893D821BDCA97D0086DBED /* StoredProperties.swift in Sources */,
 				F8E22BD11BBE5C1900C03773 /* StringExtenisions.swift in Sources */,

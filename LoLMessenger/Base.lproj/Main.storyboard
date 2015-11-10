@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Hdv-7M-9cr">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="9Rc-Tp-yc3">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
@@ -414,21 +414,21 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Status" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cXe-AK-emW">
-                                            <rect key="frame" x="60" y="33" width="46.5" height="19.5"/>
+                                            <rect key="frame" x="57.5" y="33" width="46.5" height="19.5"/>
                                             <animations/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Summoner Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AeS-Ur-qOt" userLabel="Name">
-                                            <rect key="frame" x="60" y="7" width="128.5" height="19.5"/>
+                                            <rect key="frame" x="57.5" y="7" width="128.5" height="19.5"/>
                                             <animations/>
                                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vMf-KK-LIe">
-                                            <rect key="frame" x="8" y="8" width="44" height="44"/>
+                                            <rect key="frame" x="8" y="9" width="41.5" height="41.5"/>
                                             <animations/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="vMf-KK-LIe" secondAttribute="height" multiplier="1:1" id="S8G-D4-mCx"/>
@@ -446,13 +446,13 @@
                                     <animations/>
                                     <constraints>
                                         <constraint firstItem="1kP-xp-aPJ" firstAttribute="top" secondItem="AeS-Ur-qOt" secondAttribute="top" id="1CA-Oa-Pnb"/>
-                                        <constraint firstAttribute="bottomMargin" secondItem="vMf-KK-LIe" secondAttribute="bottom" id="3F2-Hy-Hr2"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="vMf-KK-LIe" secondAttribute="bottom" constant="1" id="3F2-Hy-Hr2"/>
                                         <constraint firstItem="cXe-AK-emW" firstAttribute="leading" secondItem="vMf-KK-LIe" secondAttribute="trailing" constant="8" id="HJE-ZW-bL4"/>
                                         <constraint firstItem="AeS-Ur-qOt" firstAttribute="top" secondItem="4z5-5v-fDv" secondAttribute="topMargin" constant="-1" id="KY7-FO-5dt"/>
                                         <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="cXe-AK-emW" secondAttribute="trailing" constant="4" id="Mkk-dE-7yg"/>
                                         <constraint firstItem="AeS-Ur-qOt" firstAttribute="leading" secondItem="vMf-KK-LIe" secondAttribute="trailing" constant="8" id="eUe-hr-CCx"/>
                                         <constraint firstItem="vMf-KK-LIe" firstAttribute="leading" secondItem="4z5-5v-fDv" secondAttribute="leadingMargin" id="r47-fd-9AT"/>
-                                        <constraint firstItem="vMf-KK-LIe" firstAttribute="top" secondItem="4z5-5v-fDv" secondAttribute="topMargin" id="vW4-ng-22R"/>
+                                        <constraint firstItem="vMf-KK-LIe" firstAttribute="top" secondItem="4z5-5v-fDv" secondAttribute="topMargin" constant="1" id="vW4-ng-22R"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="cXe-AK-emW" secondAttribute="bottom" constant="-1" id="x1H-Ga-Fug"/>
                                         <constraint firstItem="1kP-xp-aPJ" firstAttribute="trailing" secondItem="4z5-5v-fDv" secondAttribute="trailingMargin" id="x2p-jA-E8H"/>
                                     </constraints>
@@ -481,7 +481,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Z3-W5-IVe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3392" y="-1867"/>
+            <point key="canvasLocation" x="3428" y="-1867"/>
         </scene>
         <!--Tab Controller-->
         <scene sceneID="6dv-fz-prM">
@@ -513,18 +513,18 @@
                         <viewControllerLayoutGuide type="bottom" id="c0B-CO-QZL"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="ATb-yf-txW">
-                        <rect key="frame" x="0.0" y="0.0" width="240" height="240"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Reconnecting...." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RoV-O3-Mpu">
-                                <rect key="frame" x="54" y="164" width="131" height="21.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Connecting...." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RoV-O3-Mpu">
+                                <rect key="frame" x="244" y="344" width="113" height="21.5"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yx2-9Y-roy" customClass="TKTransitionSubmitButton" customModule="TKSubmitTransition">
-                                <rect key="frame" x="90" y="90" width="60" height="60"/>
+                                <rect key="frame" x="270" y="270" width="60" height="60"/>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="60" id="2Y9-Xt-plM"/>
@@ -541,15 +541,13 @@
                             <constraint firstItem="RoV-O3-Mpu" firstAttribute="top" secondItem="yx2-9Y-roy" secondAttribute="bottom" constant="14" id="kOr-gp-Gbf"/>
                         </constraints>
                     </view>
-                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="240" height="240"/>
                     <connections>
                         <outlet property="progress" destination="yx2-9Y-roy" id="HdH-MM-SYT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="38I-co-ney" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1279" y="-1826"/>
+            <point key="canvasLocation" x="805" y="-2014"/>
         </scene>
         <!--Main Navigation Controller-->
         <scene sceneID="d8A-0W-3bD">
@@ -739,7 +737,7 @@
         <!--Login View Controller-->
         <scene sceneID="dfc-sS-xiF">
             <objects>
-                <viewController id="Hdv-7M-9cr" customClass="LoginViewController" customModule="Messenger_for_League_of_Legends" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Hdv-7M-9cr" customClass="LoginViewController" customModule="Messenger_for_League_of_Legends" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Wcj-J0-hDj"/>
                         <viewControllerLayoutGuide type="bottom" id="g8X-sW-pjI"/>
@@ -874,7 +872,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GSc-Dr-eq4" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="805" y="-2006"/>
+            <point key="canvasLocation" x="1459" y="-2014"/>
         </scene>
         <!--Summoner Dialog-->
         <scene sceneID="onz-wl-F9Z">

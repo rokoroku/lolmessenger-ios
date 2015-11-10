@@ -284,8 +284,10 @@ class SideMenuController: UIViewController, UIGestureRecognizerDelegate {
         if let _ = self.sideViewController {
             sideViewController!.view.removeFromSuperview()
             sideViewController!.removeFromParentViewController()
-            self.sidePanel.hidden = true
-            self.sideViewController = nil
+            sidePanel.hidden = true
+            sideViewController = nil
+            panRecognizer.enabled = false
+            tapRecognizer.enabled = false
         }
     }
 
@@ -294,13 +296,14 @@ class SideMenuController: UIViewController, UIGestureRecognizerDelegate {
             sideViewController = controller
 
             sideViewController.view.frame = self.sidePanel.bounds
+            panRecognizer.enabled = true
+            tapRecognizer.enabled = true
 
-            self.sidePanel.addSubview(sideViewController.view)
+            sidePanel.addSubview(sideViewController.view)
 
-            self.addChildViewController(sideViewController)
+            addChildViewController(sideViewController)
             sideViewController.didMoveToParentViewController(self)
-
-            self.sidePanel.hidden = true
+            sidePanel.hidden = true
         }
     }
 

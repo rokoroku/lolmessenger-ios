@@ -84,26 +84,30 @@ class RosterTableViewController : UIViewController {
     override func viewWillAppear(animated: Bool) {
         // Called when the view is about to made visible. 
         reloadRosterNodes()
-        XMPPService.sharedInstance.roster().addDelegate(self)
+        XMPPService.sharedInstance.roster()?.addDelegate(self)
     }
 
     override func viewDidDisappear(animated: Bool) {
         if UIApplication.topViewController()?.isKindOfClass(STPopupContainerViewController) == false {
-            XMPPService.sharedInstance.roster().removeDelegate(self)
+            XMPPService.sharedInstance.roster()?.removeDelegate(self)
         }
     }
 
     @IBAction func addAction(sender: AnyObject) {
-        DialogUtils.input("Add New Buddy", message: "Please enter summoner name you want to add", placeholder: "summoner name") {
+        DialogUtils.input("Add a Friend", message: "Please enter summoner name you want to add", placeholder: "summoner name") {
             if let name = $0 {
                 RiotACS.getSummonerByName(summonerName: name, region: XMPPService.sharedInstance.region!) {
                     if let summoner = $0 {
-//                        self.performSegueWithIdentifier("SummonerModal", sender: summoner)
-                        DialogUtils.alert("Add New Buddy", message: "Do you want to send a buddy request to \(summoner.username)?", handler: {
-                            _ in XMPPService.sharedInstance.roster().addRoster(summoner)
+                        DialogUtils.alert(
+                            "Add as Friend",
+                            message: "Do you want to send a buddy request to \(summoner.username)?",
+                            handler: { _ in
+                                XMPPService.sharedInstance.roster()?.addRoster(summoner)
+                                DialogUtils.alert("Add New Buddy", message: "Request Sent!")
                         })
                     } else {
-                        DialogUtils.alert("Error", message: "Summoner named \(name) was not found")
+                        DialogUtils.alert(
+                            "Error", message: "Summoner named \(name) was not found")
                     }
                 }
             }
@@ -124,7 +128,7 @@ class RosterTableViewController : UIViewController {
 
         if roster != nil {
             if let chatViewController = segue.destinationViewController as? ChatViewController,
-                let chat = XMPPService.sharedInstance.chat().getLeagueChatEntryByJID(roster.jid()) {
+                let chat = XMPPService.sharedInstance.chat()?.getLeagueChatEntryByJID(roster.jid()) {
                     chatViewController.setInitialChatData(chat)
             }
 
@@ -153,7 +157,7 @@ extension RosterTableViewController {
 
         let offlineGroup = GroupNode(name: "Offline")
         let rosterService = XMPPService.sharedInstance.roster()
-        if let rosterList = rosterService.getRosterList() {
+        if let rosterList = rosterService?.getRosterList() {
             for roster in rosterList {
                 let rosterNode = RosterNode(roster: roster)
                 var groupNode: GroupNode = getGroupNode(roster.group)

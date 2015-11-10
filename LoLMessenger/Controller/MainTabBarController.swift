@@ -18,19 +18,23 @@ class MainTabBarController : UITabBarController {
         self.delegate = self
         self.view.autoresizingMask = UIViewAutoresizing.FlexibleHeight
 
-        updateRosterBadge(XMPPService.sharedInstance.roster())
-        updateChatBadge(XMPPService.sharedInstance.chat())
+        if let roster = XMPPService.sharedInstance.roster() {
+            updateRosterBadge(roster)
+        }
+        if let chat = XMPPService.sharedInstance.chat() {
+            updateChatBadge(chat)
+        }
     }
 
     override func viewWillAppear(animated: Bool) {
         // Called when the view is about to made visible.
-        XMPPService.sharedInstance.roster().addDelegate(self)
-        XMPPService.sharedInstance.chat().addDelegate(self)
+        XMPPService.sharedInstance.roster()?.addDelegate(self)
+        XMPPService.sharedInstance.chat()?.addDelegate(self)
 
         if let presentedViewController = self.selectedViewController {
             self.tabBarController(self, didSelectViewController: presentedViewController)
         } else {
-            self.navigationItem.title = "Friendsss"
+            self.navigationItem.title = "Friends"
         }
 
     }
@@ -38,8 +42,8 @@ class MainTabBarController : UITabBarController {
     override func viewDidDisappear(animated: Bool) {
         // Called when the view is dismissed, covered or otherwise hidden.
         if let _ = UIApplication.topViewController() as? STPopupContainerViewController {
-            XMPPService.sharedInstance.chat().removeDelegate(self)
-            XMPPService.sharedInstance.roster().removeDelegate(self)
+            XMPPService.sharedInstance.chat()?.removeDelegate(self)
+            XMPPService.sharedInstance.roster()?.removeDelegate(self)
         }
     }
 

@@ -25,7 +25,9 @@ class ReconnectViewController : UIViewController {
 
         progress.normalBackgroundColor = Theme.HighlightColor
         progress.highlightedBackgroundColor = Theme.HighlightColor.lightenByPercentage(0.1)
+    }
 
+    override func viewWillAppear(animated: Bool) {
         // Restore User Credentials if available
         let keychain = KeychainSwift()
         if let storedUsername = keychain.get(Constants.Key.Username),

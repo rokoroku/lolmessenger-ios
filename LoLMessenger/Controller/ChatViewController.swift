@@ -92,7 +92,7 @@ class ChatViewController : UIViewController {
     }
 
     func reloadChats() {
-        if let chatId = self.chatJID, let chat = XMPPService.sharedInstance.chat().getLeagueChatEntryByJID(chatId) {
+        if let chatId = self.chatJID, let chat = XMPPService.sharedInstance.chat()?.getLeagueChatEntryByJID(chatId) {
             setInitialChatData(chat)
             tableView.reloadData()
         }
@@ -159,7 +159,7 @@ class ChatViewController : UIViewController {
                 }
             }
             else if chatJID.domain == Constants.XMPP.Domain.User {
-                let roster = XMPPService.sharedInstance.roster().getRosterByJID(chatJID)
+                let roster = XMPPService.sharedInstance.roster()?.getRosterByJID(chatJID)
                 sideMenuController()?.removeSideController()
                 updateTitle(roster)
             }
@@ -167,13 +167,13 @@ class ChatViewController : UIViewController {
     }
 
     override func viewWillAppear(animated: Bool) {
-        XMPPService.sharedInstance.chat().addDelegate(self)
-        XMPPService.sharedInstance.roster().addDelegate(self)
+        XMPPService.sharedInstance.chat()?.addDelegate(self)
+        XMPPService.sharedInstance.roster()?.addDelegate(self)
     }
 
     override func viewWillDisappear(animated: Bool) {
         NSNotificationCenter.defaultCenter().removeObserver(self)
-        if let jid = chatJID, let chat = XMPPService.sharedInstance.chat().getLeagueChatEntryByJID(jid) {
+        if let jid = chatJID, let chat = XMPPService.sharedInstance.chat()?.getLeagueChatEntryByJID(jid) {
             chat.update {
                 chat.clearUnread()
             }
@@ -183,8 +183,8 @@ class ChatViewController : UIViewController {
 
     override func viewDidDisappear(animated: Bool) {
         if UIApplication.topViewController()?.isKindOfClass(STPopupContainerViewController) == false {
-            XMPPService.sharedInstance.chat().removeDelegate(self)
-            XMPPService.sharedInstance.roster().removeDelegate(self)
+            XMPPService.sharedInstance.chat()?.removeDelegate(self)
+            XMPPService.sharedInstance.roster()?.removeDelegate(self)
 
             let possibleSideController = sideViewController ?? sideMenuController()
             possibleSideController?.removeSideController()
@@ -257,7 +257,7 @@ class ChatViewController : UIViewController {
         if let jid = chatJID, let body = textField.text {
             if !body.isEmpty() {
                 textField.text = nil
-                XMPPService.sharedInstance.chat().sendMessage(jid, msg: body)
+                XMPPService.sharedInstance.chat()?.sendMessage(jid, msg: body)
             }
         }
     }
@@ -270,7 +270,7 @@ class ChatViewController : UIViewController {
         if let cell = sender as? ChatTableCell, let roster = cell.roster {
 
             if let chatViewController = segue.destinationViewController as? ChatViewController,
-                let chat = XMPPService.sharedInstance.chat().getLeagueChatEntryByJID(roster.jid()) {
+                let chat = XMPPService.sharedInstance.chat()?.getLeagueChatEntryByJID(roster.jid()) {
                     chatViewController.setInitialChatData(chat)
             }
 
@@ -314,7 +314,7 @@ extension ChatViewController : UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! ChatTableCell
             var roster: LeagueRoster!
             if chatJID?.domain == Constants.XMPP.Domain.User {
-                roster = XMPPService.sharedInstance.roster().getRosterByJID(chatJID!)
+                roster = XMPPService.sharedInstance.roster()?.getRosterByJID(chatJID!)
             } else {
                 roster = chatData?.occupants?[message.nick]
             }
@@ -325,7 +325,7 @@ extension ChatViewController : UITableViewDelegate, UITableViewDataSource {
 
     func scrollViewDidScroll(scrollView: UIScrollView) {
         if tableView.contentOffset.y <= -100 && chatJID != nil && !isFetching {
-            if let chat = XMPPService.sharedInstance.chat().getLeagueChatEntryByJID(chatJID!) {
+            if let chat = XMPPService.sharedInstance.chat()?.getLeagueChatEntryByJID(chatJID!) {
                 self.isFetching = true
                 let loadedRows = chatData?.loadMore(chat)
                 if loadedRows > 0 {
@@ -425,7 +425,7 @@ extension ChatViewController : RosterDelegate, ChatDelegate {
     func didReceiveOccupantUpdate(sender: ChatService, from: LeagueChat, occupant: LeagueRoster) {
         if chatJID?.user == from.id {
             if chatData?.occupants == nil {
-                if let occupantEntries = XMPPService.sharedInstance.chat().getOccupantsByJID(chatJID!) {
+                if let occupantEntries = XMPPService.sharedInstance.chat()?.getOccupantsByJID(chatJID!) {
                     chatData?.setOccupants(occupants: occupantEntries)
                 }
             } else {

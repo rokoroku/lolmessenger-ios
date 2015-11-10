@@ -10,27 +10,31 @@ import RealmSwift
 
 typealias realm_dispatch_block = ((realm: Realm) -> Void)
 
-class DedicatedRealm {
+class RealmWrapper {
     // Create a separate thread (with a serial dispatch queue) for Realm writes
     // From Realm docs: "Please note that writes block each other, and will block the thread they are made on if other writes are in progress. This is similar to any other persistence solution, so we do recommend that you use the usual best-practices for that situation, namely offloading your writes to a separate thread"
 
-    var defaultRealm: Realm?
-    var defaultConfiguration: Realm.Configuration
-    let defaultQueue = dispatch_queue_create("default-realm-write-queue", nil)
+    private var realm: Realm?
+    private var configuration: Realm.Configuration
+    private let dedicatedQueue = dispatch_queue_create("default-realm-write-queue", nil)
 
-    init(configuration: Realm.Configuration) {
-        defaultConfiguration = configuration
-        dispatch_async(defaultQueue) {
-            if self.defaultRealm != nil {
-                self.defaultRealm?.invalidate()
-            }
-            self.defaultRealm = try? Realm(configuration: configuration)
+    init(configuration config: Realm.Configuration) {
+        configuration = config
+
+        dispatch_async(dedicatedQueue) {
+            self.realm = try? Realm(configuration: config)
+        }
+    }
+
+    deinit {
+        dispatch_async(dedicatedQueue) {
+            self.realm?.invalidate()
         }
     }
 
     func read(block: realm_dispatch_block) -> Bool {
-        if let realm = defaultRealm {
-            dispatch_async(defaultQueue, {
+        if let realm = realm {
+            dispatch_async(dedicatedQueue, {
                 block(realm: realm)
             })
             return true
@@ -39,8 +43,8 @@ class DedicatedRealm {
     }
 
     func write(block: realm_dispatch_block) -> Bool {
-        if let realm = defaultRealm {
-            dispatch_async(defaultQueue, {
+        if let realm = realm {
+            dispatch_async(dedicatedQueue, {
                 block(realm: realm)
             })
             return true

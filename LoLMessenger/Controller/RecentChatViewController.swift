@@ -15,7 +15,7 @@ class RecentChatViewController : UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBAction func addAction(sender: AnyObject) {
         DialogUtils.input("Enter New Chat", message: "Please enter the room name you want to join", placeholder: "room name") {
-            if let name = $0, let chatEntry = XMPPService.sharedInstance.chat().joinRoom(name) {
+            if let name = $0, let chatEntry = XMPPService.sharedInstance.chat()?.joinRoom(name) {
                 NavigationUtils.navigateToChat(chatId: chatEntry.id)
             }
         }
@@ -48,7 +48,7 @@ class RecentChatViewController : UIViewController {
     }
 
     func reloadChats() {
-        if let chatEntries = XMPPService.sharedInstance.chat().getLeagueChatEntries() {
+        if let chatEntries = XMPPService.sharedInstance.chat()?.getLeagueChatEntries() {
             chats = chatEntries
         }
         tableView.reloadData()
@@ -86,8 +86,8 @@ class RecentChatViewController : UIViewController {
         reloadChats()
 
         // Add delegates
-        XMPPService.sharedInstance.roster().addDelegate(self)
-        XMPPService.sharedInstance.chat().addDelegate(self)
+        XMPPService.sharedInstance.roster()?.addDelegate(self)
+        XMPPService.sharedInstance.chat()?.addDelegate(self)
 
     }
 
@@ -95,8 +95,8 @@ class RecentChatViewController : UIViewController {
     override func viewDidDisappear(animated: Bool) {
         // Remove delegates
         if let _ = UIApplication.topViewController() as? STPopupContainerViewController {
-            XMPPService.sharedInstance.chat().removeDelegate(self)
-            XMPPService.sharedInstance.roster().removeDelegate(self)
+            XMPPService.sharedInstance.chat()?.removeDelegate(self)
+            XMPPService.sharedInstance.roster()?.removeDelegate(self)
         }
     }
 
@@ -117,13 +117,14 @@ class RecentChatViewController : UIViewController {
             }
         }
     }
+
 }
 
 extension RecentChatViewController : UINavigationControllerDelegate {
     func navigationController(navigationController: UINavigationController, willShowViewController viewController: UIViewController, animated: Bool) {
         if viewController == self {
-            if let mainTabBarController = tabBarController as? MainTabBarController {
-                mainTabBarController.updateChatBadge(XMPPService.sharedInstance.chat())
+            if let mainTabBarController = tabBarController as? MainTabBarController, chatService = XMPPService.sharedInstance.chat() {
+                mainTabBarController.updateChatBadge(chatService)
             }
         }
     }
@@ -152,7 +153,7 @@ extension RecentChatViewController : UITableViewDelegate, UITableViewDataSource 
         let chat = activeNodes[indexPath.row]
         switch(chat.type) {
         case .Peer:
-            let roster = XMPPService.sharedInstance.roster().getRosterByJID(chat.id)
+            let roster = XMPPService.sharedInstance.roster()?.getRosterByJID(chat.id)
             cell.setItem(chat, roster: roster)
             break
 

@@ -17,8 +17,10 @@ class NavigationUtils {
 
             reconnectViewController.modalTransitionStyle = .CrossDissolve
 
-            viewController?.presentViewController(reconnectViewController, animated: true) {
-                UIApplication.sharedApplication().keyWindow?.rootViewController = reconnectViewController
+            if viewController?.isKindOfClass(ReconnectViewController) == false {
+                viewController?.presentViewController(reconnectViewController, animated: true) {
+                    UIApplication.sharedApplication().keyWindow?.rootViewController = reconnectViewController
+                }
             }
         }
     }
@@ -26,7 +28,7 @@ class NavigationUtils {
     static func navigateToChat(viewController: UIViewController? = UIApplication.topViewController(), chatId: String) {
 
         let storyboard = viewController?.storyboard ?? UIStoryboard(name: "Main", bundle: nil)
-        if let chatViewController = storyboard.instantiateViewControllerWithIdentifier("ChatViewController") as? ChatViewController, chatEntry = XMPPService.sharedInstance.chat().getLeagueChatEntry(chatId) {
+        if let chatViewController = storyboard.instantiateViewControllerWithIdentifier("ChatViewController") as? ChatViewController, chatEntry = XMPPService.sharedInstance.chat()?.getLeagueChatEntry(chatId) {
 
                 if let currentChatViewController = viewController as? ChatViewController {
                     if currentChatViewController.chatJID?.user == chatId {
@@ -39,14 +41,16 @@ class NavigationUtils {
         }
     }
 
-    static func navigateToLogin(viewController: UIViewController? = UIApplication.rootViewController()) {
+    static func navigateToLogin(viewController: UIViewController? = UIApplication.topViewController()) {
         let storyboard = viewController?.storyboard ?? UIStoryboard(name: "Main", bundle: nil)
-        if let loginViewController = storyboard.instantiateInitialViewController() as? LoginViewController {
+        if let loginViewController = storyboard.instantiateViewControllerWithIdentifier("LoginViewController") as? LoginViewController {
 
             loginViewController.modalTransitionStyle = .CrossDissolve
 
-            viewController?.presentViewController(loginViewController, animated: true) {
-                UIApplication.sharedApplication().keyWindow?.rootViewController = loginViewController
+            if viewController?.isKindOfClass(LoginViewController) == false {
+                viewController?.presentViewController(loginViewController, animated: true) {
+                    UIApplication.sharedApplication().keyWindow?.rootViewController = loginViewController
+                }
             }
         }
     }

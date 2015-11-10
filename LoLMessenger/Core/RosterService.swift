@@ -69,18 +69,18 @@ class RosterService : NSObject {
     func activate() {
         assert(!isActivated, "XMPPStream should not be activated")
 
-        let xmppStream = xmppService.stream()
+        if let xmppStream = xmppService.stream() {
+            xmppRoster.activate(xmppStream)
+            xmppStream.addDelegate(self, delegateQueue: xmppService.dispatchQueue)
+            xmppRoster.addDelegate(self, delegateQueue: xmppService.dispatchQueue)
 
-        xmppRoster.activate(xmppStream)
-        xmppStream.addDelegate(self, delegateQueue: GCD.backgroundQueue())
-        xmppRoster.addDelegate(self, delegateQueue: GCD.backgroundQueue())
-
-        isActivated = true
+            isActivated = true
+        }
     }
 
     func deactivate() {
         if isActivated {
-            xmppService.stream().removeDelegate(self)
+            xmppService.stream()?.removeDelegate(self)
             xmppService = nil
             isActivated = false
         }

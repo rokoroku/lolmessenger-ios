@@ -76,7 +76,7 @@ class SummonerDialogViewController : UIViewController {
     }
 
     override func viewWillAppear(animated: Bool) {
-        XMPPService.sharedInstance.roster().addDelegate(self)
+        XMPPService.sharedInstance.roster()?.addDelegate(self)
     }
 
     override func viewWillDisappear(animated: Bool) {
@@ -85,7 +85,7 @@ class SummonerDialogViewController : UIViewController {
     }
 
     override func viewDidDisappear(animated: Bool) {
-        XMPPService.sharedInstance.roster().removeDelegate(self)
+        XMPPService.sharedInstance.roster()?.removeDelegate(self)
     }
 
     func updateRoster() {
@@ -126,7 +126,7 @@ class SummonerDialogViewController : UIViewController {
                 summonerTierRing.hidden = true
             }
 
-            if let buddy = XMPPService.sharedInstance.roster().getRosterByJID(roster.userid) {
+            if let buddy = XMPPService.sharedInstance.roster()?.getRosterByJID(roster.userid) {
                 if !buddy.subscribed {
                     rosterNote.hidden = true
                     chatButton.enabled = false
@@ -136,7 +136,7 @@ class SummonerDialogViewController : UIViewController {
                 }
             } else {
                 rosterNote.hidden = true
-                chatButton.setTitle("Request Buddy", forState: .Normal)
+                chatButton.setTitle("Add Friend", forState: .Normal)
                 chatButton.removeTarget(self, action: "enterChat", forControlEvents: UIControlEvents.TouchUpInside)
                 chatButton.addTarget(self, action: "addBuddy", forControlEvents: UIControlEvents.TouchUpInside)
             }
@@ -200,9 +200,28 @@ class SummonerDialogViewController : UIViewController {
     }
 
     func addBuddy() {
-        if let roster = roster {
-            dismissWithCompletion {
-                XMPPService.sharedInstance.roster().addRoster(roster)
+        if let summoner = roster {
+            if summoner.jid().user.containsString("sum") {
+                DialogUtils.alert(
+                    "Add as Friend",
+                    message: "Do you want to send a friend request to \(summoner.username)?",
+                    handler: { _ in
+                        XMPPService.sharedInstance.roster()?.addRoster(summoner)
+                        DialogUtils.alert("Add as Friend", message: "Request Sent!")
+                })
+            } else {
+                RiotACS.getSummonerByName(summonerName: summoner.username, region: XMPPService.sharedInstance.region!) {
+                    if let summoner = $0 {
+                        DialogUtils.alert(
+                            "Add as Friend",
+                            message: "Do you want to send a buddy request to \(summoner.username)?",
+                            handler: { _ in XMPPService.sharedInstance.roster()?.addRoster(summoner) })
+                    } else {
+                        DialogUtils.alert(
+                            "Error",
+                            message: "Summoner named \(summoner.username) was not found")
+                    }
+                }
             }
         }
     }
@@ -217,7 +236,7 @@ extension SummonerDialogViewController : UITextViewDelegate {
     func setRosterNote() {
         if let roster = self.roster {
             if roster.note != rosterNote.text {
-                XMPPService.sharedInstance.roster().setNote(roster, note: rosterNote.text)
+                XMPPService.sharedInstance.roster()?.setNote(roster, note: rosterNote.text)
             }
         }
     }

@@ -80,7 +80,7 @@ extension String {
 
     func parseDateTime() -> NSDate? {
         let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd hh:mm:ss"
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         dateFormatter.timeZone = NSTimeZone(name: "UTC")
         if let date = dateFormatter.dateFromString(self) {
             return date

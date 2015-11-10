@@ -256,7 +256,7 @@ class LeagueRoster {
         if let statusElement = xmppPresence.elementForName("status") {
             available = true
             do {
-                let element = try DDXMLElement(XMLString: statusElement.stringValue().decodeXML())
+                let element = try DDXMLElement(XMLString: statusElement.stringValue())
                 level = element.getElementIntValue("level")
                 profileIcon = element.getElementIntValue("profileIcon")
                 championMasteryScore = element.getElementIntValue("championMasteryScore")
@@ -272,7 +272,9 @@ class LeagueRoster {
                 gameStatus = element.getElementStringValue("gameStatus")
                 timeStamp = element.getElementIntValue("timeStamp")
             } catch _ {
-
+                #if DEBUG
+                    debugPrint(xmppPresence)
+                #endif
             }
         }
 

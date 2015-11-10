@@ -63,12 +63,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-        if let mainTabBarController = UIApplication.topViewController()?.tabBarController as? MainTabBarController {
-            if XMPPService.sharedInstance.isAuthenticated {
-                mainTabBarController.updateRosterBadge(XMPPService.sharedInstance.roster())
-                mainTabBarController.updateChatBadge(XMPPService.sharedInstance.chat())
-            }
-        }
 
         self.backgroundTimer?.invalidate()
         self.backgroundTimer = nil
@@ -78,13 +72,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         NotificationUtils.dismiss(Constants.Notification.Category.Connection)
-
         didShowDisconnectionWarning = false
 
         if shouldRedirectToReconnect {
-            shouldRedirectToReconnect = false
             NavigationUtils.navigateToReconnect()
+            shouldRedirectToReconnect = false
         }
+
+
     }
 
 
@@ -93,10 +88,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let application = UIApplication.sharedApplication()
 
         #if DEBUG
-            print("timer update, background time left: %f", application.backgroundTimeRemaining)
+            print("timer update, background time left: \(application.backgroundTimeRemaining)")
         #endif
-
-        if application.backgroundTimeRemaining < 60 && !didShowDisconnectionWarning {
+ 
+        let isConnected = XMPPService.sharedInstance.isAuthenticated
+        if application.backgroundTimeRemaining < 60 && !didShowDisconnectionWarning && isConnected {
 
             NotificationUtils.dismiss(Constants.Notification.Category.Connection)
             NotificationUtils.schedule(NotificationUtils.create(
@@ -107,8 +103,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             didShowDisconnectionWarning = true
         }
-
-        if application.backgroundTimeRemaining <= 10 && !shouldRedirectToReconnect {
+        else if (application.backgroundTimeRemaining <= 5 && !shouldRedirectToReconnect) || !isConnected {
             // Clean up here
             self.backgroundTimer?.invalidate()
             self.backgroundTimer = nil
@@ -142,7 +137,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let chatId = notification.userInfo?[Constants.Notification.UserInfo.ChatID] as? String,
             let wasActive = notification.userInfo?[Constants.Notification.UserInfo.AppState] as? Bool {
                 if wasActive {
-                    if let roster = XMPPService.sharedInstance.roster().getRosterByJID(chatId) {
+                    if let roster = XMPPService.sharedInstance.roster()?.getRosterByJID(chatId) {
                         let banner = Banner(
                             title: roster.username,
                             subtitle: try! notification.alertBody!.split(" : ")[1],
@@ -153,7 +148,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         NotificationUtils.alert()
                         banner.show(duration: 3.0)
                     }
-                } else {
+                } else if XMPPService.sharedInstance.isAuthenticated {
                     NavigationUtils.navigateToChat(chatId: chatId)
                 }
         }

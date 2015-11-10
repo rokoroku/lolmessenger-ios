@@ -29,15 +29,17 @@ class XMPPService : NSObject {
     // and is thread safe by the definition of let.
     static let sharedInstance = XMPPService()
 
-    var chatService: ChatService?
-    var rosterService: RosterService?
-    var myRosterElement: LeagueRoster?
     var region: LeagueServer?
-    var isRealmUnlocked = false
+    var myRosterElement: LeagueRoster?
 
-    var realmConfig: Realm.Configuration? {
+    private var chatService: ChatService?
+    private var rosterService: RosterService?
+
+    private var realmUnlocked = false
+    private var dedicatedRealm: RealmWrapper?
+    private var realmCache = [Int: Weak<Realm>]()
+    private var realmConfig: Realm.Configuration? {
         var config = Realm.Configuration()
-
         if let path = xmppStream?.myJID.user {
             // Use the default directory, but replace the filename with the username
             config.path = NSURL.fileURLWithPath(config.path!)
@@ -46,7 +48,8 @@ class XMPPService : NSObject {
                 .URLByAppendingPathExtension("realm")
                 .path
 
-            if !isRealmUnlocked {
+            if !realmUnlocked && UIApplication.sharedApplication().applicationState == .Background {
+                // unlock realm lock file so that realm can be accessible in background
                 let allRealmRelatedFiles = [
                     config.path!,
                     config.path!.stringByAppendingString(".lock"),
@@ -57,8 +60,9 @@ class XMPPService : NSObject {
                 allRealmRelatedFiles.forEach {
                     let _ = try? NSFileManager.defaultManager().setAttributes([NSFileProtectionKey: NSFileProtectionNone], ofItemAtPath: $0)
                 }
-                isRealmUnlocked = true
-            }
+                realmUnlocked = true
+            } 
+
             return config
         }
         return nil
@@ -78,6 +82,11 @@ class XMPPService : NSObject {
     var isAuthenticated: Bool {
         return isXmppConnected && xmppStream?.isAuthenticated() ?? false
     }
+
+    lazy var dispatchQueue: dispatch_queue_t = {
+        let attr = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_BACKGROUND, 0);
+        return dispatch_queue_create("xmpp-service-queue", attr)
+    }()
 
     // MARK: Constructor
     override init() {
@@ -208,33 +217,57 @@ class XMPPService : NSObject {
 
     func updateBadge() {
         if isAuthenticated {
-            let badge = chat().getNumOfUnreadMessages() + roster().getNumOfSubscriptionRequests()
+            let badge = chat()!.getNumOfUnreadMessages() + roster()!.getNumOfSubscriptionRequests()
             UIApplication.sharedApplication().applicationIconBadgeNumber = badge
         } else {
             UIApplication.sharedApplication().applicationIconBadgeNumber = 0
         }
     }
 
-    func roster() -> RosterService {
-        assert(rosterService != nil)
-        return rosterService!
+    func roster() -> RosterService? {
+        return rosterService
     }
     
-    func chat() -> ChatService {
-        assert(chatService != nil)
-        return chatService!
+    func chat() -> ChatService? {
+        return chatService
     }
     
-    func stream() -> XMPPStream {
-        assert(xmppStream != nil)
-        return xmppStream!
+    func stream() -> XMPPStream? {
+        return xmppStream
     }
 
-    func db() -> Realm? {
+    func DB() -> Realm? {
         assert(xmppStream != nil)
+
+        let hash = NSThread.currentThread().hash
+        if let cached = realmCache[hash] {
+            if cached.value != nil {
+                return cached.value
+            } else {
+                realmCache.removeValueForKey(hash)
+                //realmCache.filter{(_, value) in value.value != nil}
+            }
+        }
+
         if let config = realmConfig {
-            let db = try? Realm(configuration: config)
-            return db
+            //config.readOnly = true
+            if let realm = try? Realm(configuration: config) {
+                realmCache[hash] = Weak(value: realm)
+                return realm
+            }
+        }
+        return nil
+    }
+
+    func writableDB() -> RealmWrapper? {
+        assert(xmppStream != nil)
+        if dedicatedRealm != nil {
+            return dedicatedRealm
+
+        } else if let config = realmConfig {
+            dedicatedRealm = RealmWrapper(configuration: config)
+            return dedicatedRealm
+
         } else {
             return nil
         }
