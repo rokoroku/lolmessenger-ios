@@ -16,7 +16,7 @@ class MainTabBarController : UITabBarController {
 
         // Do any additional setup after loading the view, typically from a nib.
         self.delegate = self
-        self.view.autoresizingMask = UIViewAutoresizing.FlexibleHeight
+        self.view.autoresizingMask = UIViewAutoresizing.None
 
         if let roster = XMPPService.sharedInstance.roster() {
             updateRosterBadge(roster)
@@ -85,10 +85,14 @@ extension MainTabBarController : UITabBarControllerDelegate {
 
 extension MainTabBarController : ChatDelegate, RosterDelegate {
     func didReceiveFriendSubscription(sender: RosterService, from: LeagueRoster) {
-        updateRosterBadge(sender)
+        if selectedViewController?.isKindOfClass(RosterTableViewController) == false {
+            updateRosterBadge(sender)
+        }
     }
 
     func didReceiveNewMessage(sender: ChatService, from: LeagueChat, message: LeagueMessage.RawData) {
-        updateChatBadge(sender)
+        if selectedViewController?.isKindOfClass(RecentChatViewController) == false {
+            updateChatBadge(sender)
+        }
     }
 }

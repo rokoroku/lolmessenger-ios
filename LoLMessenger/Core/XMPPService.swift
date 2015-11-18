@@ -236,7 +236,7 @@ class XMPPService : NSObject {
         return xmppStream
     }
 
-    func DB() -> Realm? {
+    func DB(readOnly: Bool = false) -> Realm? {
         assert(xmppStream != nil)
 
         let hash = NSThread.currentThread().hash
@@ -249,8 +249,8 @@ class XMPPService : NSObject {
             }
         }
 
-        if let config = realmConfig {
-            //config.readOnly = true
+        if var config = realmConfig {
+            config.readOnly = readOnly
             if let realm = try? Realm(configuration: config) {
                 realmCache[hash] = Weak(value: realm)
                 return realm
@@ -394,11 +394,13 @@ extension XMPPService : XMPPStreamDelegate {
             if let storedPresence = StoredProperties.Presences.get(sender.myJID.user) {
                 myRosterElement!.parsePresence(storedPresence)
             } else {
-                myRosterElement?.statusMsg = Constants.XMPP.DefaultStatus
+                myRosterElement!.statusMsg = Constants.XMPP.DefaultStatus
             }
             myRosterElement!.show = .Chat
+            myRosterElement!.available = true
             Async.background(after: 0.3, block: {
-                self.sendPresence(self.myRosterElement!.getPresenceElement())
+                let presence = self.myRosterElement!.getPresenceElement()
+                self.sendPresence(presence)
             })
         }
         return true

@@ -111,8 +111,8 @@ class MoreViewController : FormViewController {
         return Section(header: "Background Session", footer: "Since the time of background task is limited to about 3 minutes by Apple, the connection will be closed until reopen the application.")
             <<< SwitchRow() {
                 $0.title = "Expiration Warning"
-                $0.value = StoredProperties.Settings.notifySubscription.value
-                $0.onChange { StoredProperties.Settings.notifySubscription.value = $0.value! as Bool }
+                $0.value = StoredProperties.Settings.notifyBackgroundExpire.value
+                $0.onChange { StoredProperties.Settings.notifyBackgroundExpire.value = $0.value! as Bool }
         }
     }
 

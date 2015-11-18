@@ -77,7 +77,7 @@ class ChatService : NSObject {
         }
     }
 
-    func checkDidEnterRoom(roomId id: String) -> Bool {
+    func isRoomJoined(roomId id: String) -> Bool {
         if let room = roomDictionary[id] {
             return room.isJoined
         }
@@ -94,7 +94,7 @@ class ChatService : NSObject {
     func joinRoomByJID(roomId: XMPPJID) {
         var room = roomDictionary[roomId.user]
         if room == nil {
-            room = XMPPRoom(roomStorage: XMPPRoomMemoryStorage(), jid: roomId)
+            room = XMPPRoom(roomStorage: XMPPRoomLeagueRosterStorage(), jid: roomId)
             room?.addDelegate(self, delegateQueue: xmppService.dispatchQueue)
             room?.activate(xmppService.stream())
             roomDictionary[roomId.user] = room
@@ -103,10 +103,6 @@ class ChatService : NSObject {
             let userElement = xmppService.myRosterElement!
             let nickname = userElement.username
             room!.joinRoomUsingNickname(nickname, history: nil)
-            if let presence = try? XMPPPresence(XMLString: userElement.getPresenceElement().XMLString()) {
-                presence.addAttributeWithName("to", stringValue: room!.roomJID.full())
-                xmppService.stream()?.sendElement(presence)
-            }
         }
     }
 
@@ -193,6 +189,10 @@ class ChatService : NSObject {
             }
         }
         return nil
+    }
+
+    func getRoomByJID(roomId: XMPPJID) -> XMPPRoom? {
+        return roomDictionary[roomId.user]
     }
 
     func getOccupantsByJID(roomId: XMPPJID) -> [LeagueRoster]? {
@@ -348,7 +348,7 @@ extension ChatService: XMPPRoomDelegate {
         #if DEBUG
             print("xmppRoomDidJoin: " + sender.roomJID.debugDescription)
         #endif
-
+        xmppService.stream()?.resendMyPresence()
         roomDictionary[sender.roomJID.user] = sender
         if let chatEntry = getLeagueChatEntryByJID(sender.roomJID)?.freeze() {
             invokeDelegates {
@@ -429,19 +429,36 @@ extension ChatService: XMPPRoomDelegate {
 }
 
 extension XMPPRoom {
+
+    func getNumOfOccupants() -> Int {
+        if let storage = self.xmppRoomStorage as? XMPPRoomLeagueRosterStorage {
+            return storage.numOfOccupants()
+        }
+        return 0
+    }
+
+    func getOccupantByName(name: String) -> LeagueRoster? {
+        if let storage = self.xmppRoomStorage as? XMPPRoomLeagueRosterStorage {
+            return storage.rosterByName(name)
+        }
+        return nil
+    }
+
     func getOccupants() -> [LeagueRoster]? {
-        if let storage = self.xmppRoomStorage as? XMPPRoomMemoryStorage {
-            return storage.occupants().flatMap { object -> LeagueRoster? in
-                if let occupant = object as? XMPPRoomOccupant {
-                    let roster = LeagueRoster(jid: occupant.roomJID(), nickname: occupant.nickname())
-                    roster.parsePresence(occupant.presence())
-                    if roster.show == .Unavailable {
-                        roster.show = .Chat
-                    }
-                    return roster
-                }
-                return nil
-            }
+        if let storage = self.xmppRoomStorage as? XMPPRoomLeagueRosterStorage {
+            return storage.rosterList()
+
+//            return storage.occupants().flatMap { object -> LeagueRoster? in
+//                if let occupant = object as? XMPPRoomOccupant {
+//                    let roster = LeagueRoster(jid: occupant.roomJID(), nickname: occupant.nickname())
+//                    roster.parsePresence(occupant.presence())
+//                    if roster.show == .Unavailable {
+//                        roster.show = .Chat
+//                    }
+//                    return roster
+//                }
+//                return nil
+//            }
         }
         return nil
     }

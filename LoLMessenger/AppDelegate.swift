@@ -93,13 +93,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
  
         let isConnected = XMPPService.sharedInstance.isAuthenticated
         if application.backgroundTimeRemaining < 60 && !didShowDisconnectionWarning && isConnected {
-
-            NotificationUtils.dismiss(Constants.Notification.Category.Connection)
-            NotificationUtils.schedule(NotificationUtils.create(
-                title: "Warning",
-                body: "Background session will be expired in one minute.",
-                action: "Open",
-                category: Constants.Notification.Category.Connection))
+            if StoredProperties.Settings.notifyBackgroundExpire.value {
+                NotificationUtils.dismiss(Constants.Notification.Category.Connection)
+                NotificationUtils.schedule(NotificationUtils.create(
+                    title: "Warning",
+                    body: "Background session will be expired in one minute.",
+                    action: "Open",
+                    category: Constants.Notification.Category.Connection))
+            }
 
             didShowDisconnectionWarning = true
         }
@@ -124,13 +125,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationWillTerminate(application: UIApplication) {
-//        if UIApplication.topViewController()?.isKindOfClass(LoginViewController) == false {
-//            NotificationUtils.dismiss(Constants.Notification.Category.Connection)
-//            NotificationUtils.schedule(NotificationUtils.create(
-//                title: "Disconnected",
-//                body: "Application has been terminated.",
-//                category: Constants.Notification.Category.Connection))
-//        }
+
     }
 
     func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {

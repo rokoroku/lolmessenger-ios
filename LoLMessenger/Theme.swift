@@ -12,7 +12,7 @@ import JVFloatLabeledTextField
 import ChameleonFramework
 
 struct Theme {
-    static let PrimaryColor = UIColor.flatTealColorDark().darkenByPercentage(0.15)
+    static let PrimaryColor = UIColor.flatTealColorDark().darkenByPercentage(0.18)
     static let SecondaryColor = Theme.PrimaryColor.lightenByPercentage(0.04)
     static let HighlightColor = UIColor.flatTealColor()
     static let AccentColor = UIColor.flatRedColor()
@@ -58,6 +58,7 @@ struct Theme {
 //        UITableViewHeaderFooterView.appearance().backgroundView?.backgroundColor = UIColor.clearColor()
 
         RecentChatTableCell.appearance().backgroundColor = Theme.PrimaryColor.lightenByPercentage(0.03)
+        GroupChatTableCell.appearance().backgroundColor = Theme.PrimaryColor.lightenByPercentage(0.03)
         RosterTableChildCell.appearance().backgroundColor = Theme.PrimaryColor.lightenByPercentage(0.03)
         RosterTableGroupCell.appearance().backgroundColor = Theme.PrimaryColor.lightenByPercentage(0.06)
 

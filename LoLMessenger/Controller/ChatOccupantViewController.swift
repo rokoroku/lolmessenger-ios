@@ -54,7 +54,7 @@ class ChatOccupantViewController: UITableViewController {
         let adjustInsets = UIEdgeInsetsMake(16, 0, 0, 0)
         tableView.contentInset = adjustInsets;
         tableView.scrollIndicatorInsets = adjustInsets;
-        setSearchController()
+        //setSearchController()
     }
 
     func setSearchController() {
@@ -79,9 +79,6 @@ class ChatOccupantViewController: UITableViewController {
 
         // Add delegates
         XMPPService.sharedInstance.chat()?.addDelegate(self)
-        if roomId != nil {
-            XMPPService.sharedInstance.chat()?.joinRoomByJID(roomId!)
-        }
     }
 
 
@@ -152,6 +149,7 @@ extension ChatOccupantViewController {
         // Fetches the appropriate meal for the data source layout.
         let occupant = activeNodes[indexPath.row]
         cell.setData(occupant)
+        cell.backgroundColor = UIColor.clearColor()
 
         return cell
     }

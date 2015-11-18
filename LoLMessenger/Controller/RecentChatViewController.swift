@@ -51,6 +51,10 @@ class RecentChatViewController : UIViewController {
         if let chatEntries = XMPPService.sharedInstance.chat()?.getLeagueChatEntries() {
             chats = chatEntries
         }
+        let unreads = chats.reduce(0) { return $0 + $1.unread }
+        if tabBarItem != nil {
+            tabBarItem.badgeValue = unreads > 0 ? String(unreads) : nil
+        }
         tableView.reloadData()
     }
 
@@ -103,7 +107,7 @@ class RecentChatViewController : UIViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if let chatViewController = segue.destinationViewController as? ChatViewController {
             // Get the cell that generated this segue.
-            if let selectedCell = sender as? RecentChatTableCell {
+            if let selectedCell = sender as? UITableViewCell {
                 let indexPath = tableView.indexPathForCell(selectedCell)!
                 let selectedChat = activeNodes[indexPath.row]
                 chatViewController.setInitialChatData(selectedChat)
@@ -122,10 +126,8 @@ class RecentChatViewController : UIViewController {
 
 extension RecentChatViewController : UINavigationControllerDelegate {
     func navigationController(navigationController: UINavigationController, willShowViewController viewController: UIViewController, animated: Bool) {
-        if viewController == self {
-            if let mainTabBarController = tabBarController as? MainTabBarController, chatService = XMPPService.sharedInstance.chat() {
-                mainTabBarController.updateChatBadge(chatService)
-            }
+        if viewController == self.tabBarController {
+            reloadChats()
         }
     }
 }
@@ -145,23 +147,26 @@ extension RecentChatViewController : UITableViewDelegate, UITableViewDataSource 
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        // Table view cells are reused and should be dequeued using a cell identifier.
-        let cellIdentifier = "RecentChatTableCell"
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! RecentChatTableCell
 
-        // Fetches the appropriate meal for the data source layout.
+        // Fetches the appropriate chat for the data source layout.
         let chat = activeNodes[indexPath.row]
         switch(chat.type) {
         case .Peer:
+            let cellIdentifier = "RecentChatTableCell"
+            let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! RecentChatTableCell
+
             let roster = XMPPService.sharedInstance.roster()?.getRosterByJID(chat.id)
             cell.setItem(chat, roster: roster)
-            break
+            return cell
 
         case .Room:
-            cell.setItem(chat, roster: nil)
-        }
+            let cellIdentifier = "GroupChatTableCell"
+            let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! GroupChatTableCell
 
-        return cell
+            let participants = XMPPService.sharedInstance.chat()?.getRoomByJID(chat.jid)?.getNumOfOccupants() ?? 0
+            cell.setItem(chat, numParticipants: participants)
+            return cell
+        }
     }
 
     // Override to support conditional editing of the table view.

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="9Rc-Tp-yc3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="9Rc-Tp-yc3">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -99,6 +99,7 @@
                                                 <constraint firstItem="H1W-qe-N1u" firstAttribute="leading" secondItem="mVn-FS-RFJ" secondAttribute="trailing" constant="4" id="gIu-GE-7Dd"/>
                                                 <constraint firstItem="H1W-qe-N1u" firstAttribute="centerY" secondItem="mVn-FS-RFJ" secondAttribute="centerY" constant="-1" id="hEb-Em-EdL"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="huc-bR-xBP" secondAttribute="bottom" constant="2" id="rK3-jX-u0T"/>
+                                                <constraint firstItem="k8b-OE-E3i" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="huc-bR-xBP" secondAttribute="trailing" constant="4" id="vzW-ZX-Mcd"/>
                                             </constraints>
                                             <edgeInsets key="layoutMargins" top="6" left="12" bottom="6" right="12"/>
                                         </tableViewCellContentView>
@@ -116,6 +117,120 @@
                                             </segue>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="GroupChatTableCell" selectionStyle="none" indentationWidth="10" reuseIdentifier="GroupChatTableCell" id="JBY-Zw-PcK" customClass="GroupChatTableCell" customModule="Messenger_for_League_of_Legends" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="150" width="600" height="58"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JBY-Zw-PcK" id="aTE-wX-yeK">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="57.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0AK-eX-di0" userLabel="Name">
+                                                    <rect key="frame" x="12" y="6" width="43.5" height="19.5"/>
+                                                    <animations/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="44" id="U8E-CF-zHb"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="U8E-CF-zHb"/>
+                                                        </mask>
+                                                    </variation>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Message" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xlI-ln-wwY" userLabel="Message">
+                                                    <rect key="frame" x="12" y="30" width="65" height="19.5"/>
+                                                    <animations/>
+                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="hh:mm" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t54-MO-R32" userLabel="Timestamp">
+                                                    <rect key="frame" x="543" y="6" width="45" height="18.5"/>
+                                                    <animations/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="45" id="tG4-7s-Ucb"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eQd-3P-MvA" userLabel="Badge">
+                                                    <rect key="frame" x="568" y="30" width="20" height="19.5"/>
+                                                    <animations/>
+                                                    <color key="backgroundColor" red="0.85043728350000003" green="0.21816034619999999" blue="0.15920260550000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="20" id="L5u-pm-mP3"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LMa-eL-tHv">
+                                                    <rect key="frame" x="59" y="9" width="27" height="14"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vTw-Sl-dVV">
+                                                            <rect key="frame" x="16" y="0.0" width="20.5" height="14.5"/>
+                                                            <animations/>
+                                                            <fontDescription key="fontDescription" type="system" weight="light" pointSize="11"/>
+                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Conference Call Filled-50" translatesAutoresizingMaskIntoConstraints="NO" id="C8W-6g-Sby" userLabel="StateIcon">
+                                                            <rect key="frame" x="4" y="2" width="10" height="10"/>
+                                                            <animations/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="10" id="Llw-Tw-Lsm"/>
+                                                                <constraint firstAttribute="height" constant="10" id="Sab-qA-b52"/>
+                                                            </constraints>
+                                                        </imageView>
+                                                    </subviews>
+                                                    <animations/>
+                                                    <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <constraints>
+                                                        <constraint firstItem="C8W-6g-Sby" firstAttribute="centerY" secondItem="LMa-eL-tHv" secondAttribute="centerY" id="3zf-N4-Wap"/>
+                                                        <constraint firstAttribute="height" constant="14" id="CwW-jD-gcB"/>
+                                                        <constraint firstItem="vTw-Sl-dVV" firstAttribute="leading" secondItem="C8W-6g-Sby" secondAttribute="trailing" constant="2" id="DiD-gg-cPs"/>
+                                                        <constraint firstItem="C8W-6g-Sby" firstAttribute="leading" secondItem="LMa-eL-tHv" secondAttribute="leading" constant="4" id="KJq-e3-44U"/>
+                                                        <constraint firstAttribute="trailing" secondItem="vTw-Sl-dVV" secondAttribute="trailing" constant="4" id="QiQ-f3-LZ7"/>
+                                                        <constraint firstItem="vTw-Sl-dVV" firstAttribute="centerY" secondItem="LMa-eL-tHv" secondAttribute="centerY" id="oWo-xw-Mye"/>
+                                                    </constraints>
+                                                </view>
+                                            </subviews>
+                                            <animations/>
+                                            <constraints>
+                                                <constraint firstItem="t54-MO-R32" firstAttribute="top" secondItem="aTE-wX-yeK" secondAttribute="topMargin" id="1NJ-Gx-DsR"/>
+                                                <constraint firstItem="eQd-3P-MvA" firstAttribute="trailing" secondItem="t54-MO-R32" secondAttribute="trailing" id="5Er-ch-M5n"/>
+                                                <constraint firstItem="eQd-3P-MvA" firstAttribute="centerY" secondItem="xlI-ln-wwY" secondAttribute="centerY" id="Byq-ad-RSD"/>
+                                                <constraint firstItem="xlI-ln-wwY" firstAttribute="leading" secondItem="aTE-wX-yeK" secondAttribute="leadingMargin" id="On5-2X-MhH"/>
+                                                <constraint firstItem="t54-MO-R32" firstAttribute="centerY" secondItem="0AK-eX-di0" secondAttribute="centerY" id="W6M-bB-g4Y"/>
+                                                <constraint firstItem="LMa-eL-tHv" firstAttribute="centerY" secondItem="0AK-eX-di0" secondAttribute="centerY" id="eyN-69-Fvx"/>
+                                                <constraint firstItem="LMa-eL-tHv" firstAttribute="leading" secondItem="0AK-eX-di0" secondAttribute="trailing" constant="4" id="g3b-FC-URs"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="t54-MO-R32" secondAttribute="trailing" id="lcp-yk-OQS"/>
+                                                <constraint firstItem="0AK-eX-di0" firstAttribute="leading" secondItem="aTE-wX-yeK" secondAttribute="leadingMargin" id="mFn-jc-TY0"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="xlI-ln-wwY" secondAttribute="bottom" constant="2" id="oj9-dg-bkg"/>
+                                                <constraint firstItem="eQd-3P-MvA" firstAttribute="bottom" secondItem="xlI-ln-wwY" secondAttribute="bottom" id="oyw-sX-myf"/>
+                                                <constraint firstItem="0AK-eX-di0" firstAttribute="top" secondItem="aTE-wX-yeK" secondAttribute="topMargin" id="wFZ-x6-YRR"/>
+                                                <constraint firstItem="eQd-3P-MvA" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="xlI-ln-wwY" secondAttribute="trailing" constant="4" id="yqM-6Q-cvA"/>
+                                            </constraints>
+                                            <edgeInsets key="layoutMargins" top="6" left="12" bottom="6" right="12"/>
+                                        </tableViewCellContentView>
+                                        <animations/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <connections>
+                                            <outlet property="badge" destination="eQd-3P-MvA" id="K9h-EW-JVe"/>
+                                            <outlet property="groupIndicator" destination="LMa-eL-tHv" id="R8S-aF-wsi"/>
+                                            <outlet property="icon" destination="C8W-6g-Sby" id="Zff-iu-5rn"/>
+                                            <outlet property="message" destination="xlI-ln-wwY" id="Tqe-Fm-Fl8"/>
+                                            <outlet property="name" destination="0AK-eX-di0" id="md1-dF-9jX"/>
+                                            <outlet property="participants" destination="vTw-Sl-dVV" id="bgz-BM-h3v"/>
+                                            <outlet property="timestamp" destination="t54-MO-R32" id="RsX-FR-saW"/>
+                                            <segue destination="Vrd-nV-eyh" kind="show" identifier="EnterChat" id="raS-Dc-Aue">
+                                                <segue key="commit" inheritsFrom="parent" id="rwT-oV-Bj9"/>
+                                                <segue key="preview" destination="Vrd-nV-eyh" identifier="PreviewChat" id="Kee-rh-zRM"/>
+                                            </segue>
+                                        </connections>
+                                    </tableViewCell>
                                 </prototypes>
                             </tableView>
                         </subviews>
@@ -127,7 +242,7 @@
                             <constraint firstAttribute="bottom" secondItem="m1L-V7-qt9" secondAttribute="bottom" id="vig-nx-biu"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" systemItem="recents" id="ymL-rZ-Ajp"/>
+                    <tabBarItem key="tabBarItem" title="Chat" image="Speech Bubble-50" selectedImage="Speech Bubble Filled-50" id="ymL-rZ-Ajp"/>
                     <navigationItem key="navigationItem" title="Chat" id="P0i-es-On4">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="wbX-tH-puz">
                             <connections>
@@ -156,7 +271,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                     </view>
-                    <tabBarItem key="tabBarItem" selectedImage="expand_arrow" systemItem="more" id="RDb-QO-B78"/>
+                    <tabBarItem key="tabBarItem" title="Settings" image="Settings-50" selectedImage="Settings Filled-50" id="RDb-QO-B78"/>
                     <navigationItem key="navigationItem" title="More" id="g5u-Gy-Pmn"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lXK-I4-VCu" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -520,7 +635,7 @@
                                 <rect key="frame" x="244" y="344" width="113" height="21.5"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yx2-9Y-roy" customClass="TKTransitionSubmitButton" customModule="TKSubmitTransition">
@@ -715,7 +830,7 @@
                             <constraint firstAttribute="trailing" secondItem="0NG-aP-bKH" secondAttribute="trailing" id="ygc-t8-Kqc"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" systemItem="contacts" id="J2b-tJ-sg1"/>
+                    <tabBarItem key="tabBarItem" title="Friends" image="Conference Call-50" selectedImage="Conference Call Filled-50" id="J2b-tJ-sg1"/>
                     <navigationItem key="navigationItem" title="Friends" id="YJ3-tc-MRG">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="IMg-ab-1RK">
                             <connections>
@@ -1146,15 +1261,20 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Conference Call Filled-50" width="25" height="25"/>
+        <image name="Conference Call-50" width="25" height="25"/>
+        <image name="Settings Filled-50" width="25" height="25"/>
+        <image name="Settings-50" width="25" height="25"/>
+        <image name="Speech Bubble Filled-50" width="25" height="25"/>
+        <image name="Speech Bubble-50" width="25" height="25"/>
         <image name="collapsed_arrow" width="50" height="50"/>
-        <image name="expand_arrow" width="50" height="50"/>
         <image name="medals_challenger" width="133" height="135"/>
         <image name="profile_icon_ring" width="144" height="144"/>
         <image name="profile_matsery_icon" width="32" height="28"/>
         <image name="profile_tier_ring" width="48" height="48"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="srB-Eq-LJ2"/>
-        <segue reference="6o9-BX-tWh"/>
+        <segue reference="raS-Dc-Aue"/>
+        <segue reference="wgZ-7i-U7E"/>
     </inferredMetricsTieBreakers>
 </document>

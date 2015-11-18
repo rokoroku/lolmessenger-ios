@@ -46,6 +46,7 @@ class RosterTableViewController : UIViewController {
         super.viewDidLoad()
         setTableProperties()
         setSearchController()
+        navigationController?.delegate = self
         navigationController?.hidesNavigationBarHairline = true
     }
 
@@ -146,6 +147,14 @@ class RosterTableViewController : UIViewController {
                     }
                 }
             }
+        }
+    }
+}
+
+extension RosterTableViewController : UINavigationControllerDelegate {
+    func navigationController(navigationController: UINavigationController, willShowViewController viewController: UIViewController, animated: Bool) {
+        if viewController == self.tabBarController {
+            reloadRosterNodes()
         }
     }
 }

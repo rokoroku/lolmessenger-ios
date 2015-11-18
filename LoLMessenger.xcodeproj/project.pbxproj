@@ -21,6 +21,7 @@
 		F83FB1EC1BDFC8AA00FBDCCA /* RecentChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F83FB1E61BDFC8AA00FBDCCA /* RecentChatViewController.swift */; };
 		F83FB1ED1BDFC8AA00FBDCCA /* RosterTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F83FB1E71BDFC8AA00FBDCCA /* RosterTableViewController.swift */; };
 		F83FB20E1BDFC96F00FBDCCA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F83FB20B1BDFC96F00FBDCCA /* Main.storyboard */; };
+		F840B1091BF3CB5900E0FE89 /* GroupChatTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F840B1081BF3CB5900E0FE89 /* GroupChatTitleView.swift */; };
 		F84CB8F11BD78DD60054801F /* NotificationUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84CB8F01BD78DD60054801F /* NotificationUtils.swift */; };
 		F863677F1BE6953E0075B08B /* SummonerDialogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F863677E1BE6953E0075B08B /* SummonerDialogViewController.swift */; };
 		F86D4C751BCCF45C009E9083 /* RosterService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86D4C741BCCF45C009E9083 /* RosterService.swift */; };
@@ -46,9 +47,10 @@
 		F89AB8C51BE25E9400B4571D /* Banner.swift in Sources */ = {isa = PBXBuildFile; fileRef = F89AB8C41BE25E9400B4571D /* Banner.swift */; };
 		F8A489081BC50E1C00D7409B /* MulticastDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A489071BC50E1C00D7409B /* MulticastDelegate.swift */; };
 		F8B55C5F1BB532FB005C759D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B55C5E1BB532FB005C759D /* AppDelegate.swift */; };
-		F8B55C691BB532FB005C759D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F8B55C681BB532FB005C759D /* Assets.xcassets */; };
 		F8B55C771BB532FB005C759D /* LoLMessengerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B55C761BB532FB005C759D /* LoLMessengerTests.swift */; };
 		F8D63D101BEA38F000BB8DEB /* UIExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8D63D0F1BEA38F000BB8DEB /* UIExtensions.swift */; };
+		F8E0CD601BFC32AD00E64FDF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F8E0CD5F1BFC32AD00E64FDF /* Assets.xcassets */; };
+		F8E0CD621BFC563E00E64FDF /* XMPPRoomLeagueRosterStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8E0CD611BFC563E00E64FDF /* XMPPRoomLeagueRosterStorage.swift */; };
 		F8E22BD11BBE5C1900C03773 /* StringExtenisions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8E22BD01BBE5C1900C03773 /* StringExtenisions.swift */; };
 		F8E22BD31BBE668700C03773 /* XMPPExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8E22BD21BBE668700C03773 /* XMPPExtensions.swift */; };
 		F8E8C0A01BF0C55B00024462 /* DigestExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8E8C09F1BF0C55B00024462 /* DigestExtensions.swift */; };
@@ -87,6 +89,7 @@
 		F83FB1E61BDFC8AA00FBDCCA /* RecentChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecentChatViewController.swift; sourceTree = "<group>"; };
 		F83FB1E71BDFC8AA00FBDCCA /* RosterTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RosterTableViewController.swift; sourceTree = "<group>"; };
 		F83FB20C1BDFC96F00FBDCCA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		F840B1081BF3CB5900E0FE89 /* GroupChatTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupChatTitleView.swift; sourceTree = "<group>"; };
 		F84CB8F01BD78DD60054801F /* NotificationUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationUtils.swift; sourceTree = "<group>"; };
 		F863677E1BE6953E0075B08B /* SummonerDialogViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SummonerDialogViewController.swift; sourceTree = "<group>"; };
 		F86D4C741BCCF45C009E9083 /* RosterService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RosterService.swift; sourceTree = "<group>"; };
@@ -113,12 +116,13 @@
 		F8A489071BC50E1C00D7409B /* MulticastDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MulticastDelegate.swift; sourceTree = "<group>"; };
 		F8B55C5B1BB532FB005C759D /* Messenger for League of Legends.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Messenger for League of Legends.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8B55C5E1BB532FB005C759D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		F8B55C681BB532FB005C759D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F8B55C6D1BB532FB005C759D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F8B55C721BB532FB005C759D /* LoLMessengerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LoLMessengerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8B55C761BB532FB005C759D /* LoLMessengerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoLMessengerTests.swift; sourceTree = "<group>"; };
 		F8B55C781BB532FB005C759D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F8D63D0F1BEA38F000BB8DEB /* UIExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIExtensions.swift; sourceTree = "<group>"; };
+		F8E0CD5F1BFC32AD00E64FDF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F8E0CD611BFC563E00E64FDF /* XMPPRoomLeagueRosterStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMPPRoomLeagueRosterStorage.swift; sourceTree = "<group>"; };
 		F8E22BD01BBE5C1900C03773 /* StringExtenisions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtenisions.swift; sourceTree = "<group>"; };
 		F8E22BD21BBE668700C03773 /* XMPPExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMPPExtensions.swift; sourceTree = "<group>"; };
 		F8E8C09F1BF0C55B00024462 /* DigestExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DigestExtensions.swift; sourceTree = "<group>"; };
@@ -172,6 +176,7 @@
 				F86D4C741BCCF45C009E9083 /* RosterService.swift */,
 				F88676591BCF6313006C6B6A /* ChatService.swift */,
 				F885894F1BEDD6CE00B39BED /* RiotAPIClient.swift */,
+				F8E0CD611BFC563E00E64FDF /* XMPPRoomLeagueRosterStorage.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -244,6 +249,7 @@
 				F89AB8C41BE25E9400B4571D /* Banner.swift */,
 				F89401681BDFDAEA00635D36 /* YUTableView.swift */,
 				F89401691BDFDAEA00635D36 /* YUTableViewNode.swift */,
+				F840B1081BF3CB5900E0FE89 /* GroupChatTitleView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -271,6 +277,7 @@
 		F8B55C5D1BB532FB005C759D /* LoLMessenger */ = {
 			isa = PBXGroup;
 			children = (
+				F8E0CD5F1BFC32AD00E64FDF /* Assets.xcassets */,
 				F8B55C6D1BB532FB005C759D /* Info.plist */,
 				F8E8C0A11BF0C7A300024462 /* LoLMessenger-Bridging-Header.h */,
 				F8B55C5E1BB532FB005C759D /* AppDelegate.swift */,
@@ -283,7 +290,6 @@
 				F83FB1E11BDFC8AA00FBDCCA /* Controller */,
 				1B9CEEE137174461372BD352 /* Core */,
 				1B9CE04F74350E72105E61A5 /* Utils */,
-				F8B55C681BB532FB005C759D /* Assets.xcassets */,
 			);
 			path = LoLMessenger;
 			sourceTree = "<group>";
@@ -395,8 +401,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				F88589681BEF30FA00B39BED /* LaunchScreen.storyboard in Resources */,
+				F8E0CD601BFC32AD00E64FDF /* Assets.xcassets in Resources */,
 				F83FB20E1BDFC96F00FBDCCA /* Main.storyboard in Resources */,
-				F8B55C691BB532FB005C759D /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -526,6 +532,7 @@
 				F822E5101BF1ADFB00C45C8F /* PopupSegue.swift in Sources */,
 				F83FB1EA1BDFC8AA00FBDCCA /* MainTabBarController.swift in Sources */,
 				F891A01F1BF20A840043DC62 /* Weak.swift in Sources */,
+				F840B1091BF3CB5900E0FE89 /* GroupChatTitleView.swift in Sources */,
 				F83FB1E91BDFC8AA00FBDCCA /* LoginViewController.swift in Sources */,
 				F8893D821BDCA97D0086DBED /* StoredProperties.swift in Sources */,
 				F8E22BD11BBE5C1900C03773 /* StringExtenisions.swift in Sources */,
@@ -536,6 +543,7 @@
 				F894016D1BDFDAEA00635D36 /* LeagueServer.swift in Sources */,
 				F894016A1BDFDAEA00635D36 /* LeagueChat.swift in Sources */,
 				F894016E1BDFDAEA00635D36 /* ChatTableCell.swift in Sources */,
+				F8E0CD621BFC563E00E64FDF /* XMPPRoomLeagueRosterStorage.swift in Sources */,
 				F8A489081BC50E1C00D7409B /* MulticastDelegate.swift in Sources */,
 				F88676581BCF5F79006C6B6A /* RealmExtensions.swift in Sources */,
 				F8E22BD31BBE668700C03773 /* XMPPExtensions.swift in Sources */,

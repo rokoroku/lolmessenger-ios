@@ -15,7 +15,6 @@ struct ChatData {
     var size: Int
     var offset: Int
     var messages: [LeagueMessage.RawData]
-    var occupants: [String: LeagueRoster]?
 
     init(chat: LeagueChat) {
         size = chat.messages.count
@@ -31,17 +30,6 @@ struct ChatData {
     mutating func append(message: LeagueMessage.RawData) {
         messages.append(message)
         size++
-    }
-
-    mutating func setOccupants(occupants input: [LeagueRoster]) {
-        if occupants == nil {
-            occupants = [String: LeagueRoster]()
-        } else {
-            occupants?.removeAll(keepCapacity: true)
-        }
-        input.forEach {
-            self.occupants?[$0.username] = $0
-        }
     }
 
     mutating func loadMore(chat: LeagueChat) -> Int {
@@ -81,6 +69,12 @@ class ChatViewController : UIViewController {
 
     var numOfRows: Int {
         return chatData?.messages.count ?? 0
+    }
+    var room: XMPPRoom? {
+        if chatJID != nil {
+            return XMPPService.sharedInstance.chat()?.getRoomByJID(chatJID!)
+        }
+        return nil
     }
 
     var isFetching = false
@@ -157,11 +151,16 @@ class ChatViewController : UIViewController {
                     occupantViewController.roomId = chatJID
                     sideViewController?.addNewController(occupantViewController, forSegueType: .Side)
                 }
+
+                updateChatRoomTitle(chatName ?? Constants.XMPP.Unknown,
+                    isJoined: room?.isJoined ?? false,
+                    numOfOccupants: room?.getNumOfOccupants() ?? 0)
+
             }
             else if chatJID.domain == Constants.XMPP.Domain.User {
                 let roster = XMPPService.sharedInstance.roster()?.getRosterByJID(chatJID)
                 sideMenuController()?.removeSideController()
-                updateTitle(roster)
+                updatePeerTitle(roster)
             }
         }
     }
@@ -169,6 +168,10 @@ class ChatViewController : UIViewController {
     override func viewWillAppear(animated: Bool) {
         XMPPService.sharedInstance.chat()?.addDelegate(self)
         XMPPService.sharedInstance.roster()?.addDelegate(self)
+
+//        if roomId != nil {
+//            XMPPService.sharedInstance.chat()?.joinRoomByJID(roomId!)
+//        }
     }
 
     override func viewWillDisappear(animated: Bool) {
@@ -316,7 +319,7 @@ extension ChatViewController : UITableViewDelegate, UITableViewDataSource {
             if chatJID?.domain == Constants.XMPP.Domain.User {
                 roster = XMPPService.sharedInstance.roster()?.getRosterByJID(chatJID!)
             } else {
-                roster = chatData?.occupants?[message.nick]
+                roster = room?.getOccupantByName(message.nick)
             }
             cell.setItem(roster, message: message)
             return cell
@@ -395,7 +398,30 @@ extension ChatViewController : UITextFieldDelegate {
 
 extension ChatViewController : RosterDelegate, ChatDelegate {
 
-    func updateTitle(roster: LeagueRoster?) {
+    func updateChatRoomTitle(name: String, isJoined: Bool = true, numOfOccupants: Int = 0) {
+
+        var groupChatTitleView: GroupChatTitleView! = navigationItem.titleView as? GroupChatTitleView
+        if groupChatTitleView == nil {
+            groupChatTitleView = GroupChatTitleView(title: name)
+        }
+
+        groupChatTitleView.titleLabel.text = name
+        groupChatTitleView.titleLabel.textColor = Theme.TextColorPrimary
+
+        if isJoined {
+            groupChatTitleView.detailLabel.text = "\(numOfOccupants) occupants"
+            groupChatTitleView.detailLabel.textColor = Theme.TextColorSecondary
+        } else {
+            groupChatTitleView.detailLabel.text = "Not connected to chat room"
+            groupChatTitleView.detailLabel.textColor = Theme.TextColorDisabled
+        }
+
+        groupChatTitleView.sizeToFit()
+        navigationItem.titleView = groupChatTitleView
+        navigationController?.navigationBar.setNeedsLayout()
+    }
+
+    func updatePeerTitle(roster: LeagueRoster?) {
 
         let titleLabel = IconLabel()
         titleLabel.imageSize = CGSizeMake(14, 14)
@@ -417,27 +443,25 @@ extension ChatViewController : RosterDelegate, ChatDelegate {
         tempLabel.font = UIFont.boldSystemFontOfSize(16.0)
         tempLabel.sizeToFit()
 
-        titleLabel.frame =  CGRectMake(0, 0, tempLabel.frame.width + 20, tempLabel.frame.height)
+        titleLabel.frame = CGRectMake(0, 0, tempLabel.frame.width + 20, tempLabel.frame.height)
 
         navigationItem.titleView = titleLabel
     }
 
     func didReceiveOccupantUpdate(sender: ChatService, from: LeagueChat, occupant: LeagueRoster) {
         if chatJID?.user == from.id {
-            if chatData?.occupants == nil {
-                if let occupantEntries = XMPPService.sharedInstance.chat()?.getOccupantsByJID(chatJID!) {
-                    chatData?.setOccupants(occupants: occupantEntries)
-                }
-            } else {
-                chatData?.occupants![occupant.username] = occupant
-            }
+
+            updateChatRoomTitle(chatName ?? Constants.XMPP.Unknown,
+                isJoined: room?.isJoined ?? false,
+                numOfOccupants: room?.getNumOfOccupants() ?? 0)
+
             tableView.reloadData()
         }
     }
 
     func didReceiveRosterUpdate(sender: RosterService, from: LeagueRoster) {
         if from.jid().isEqualToJID(chatJID, options: XMPPJIDCompareUser) {
-            updateTitle(from)
+            updatePeerTitle(from)
         }
     }
 
