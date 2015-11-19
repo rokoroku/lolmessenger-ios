@@ -16,6 +16,34 @@ class StoredProperties {
         static let notifyWithSound = StoredBoolProperty(key: "notifyWithSound", defaultValue: true)
         static let notifyWithVibrate = StoredBoolProperty(key: "notifyWithVibrate", defaultValue: true)
         static let notifyBackgroundExpire = StoredBoolProperty(key: "notifyBackgroundExpiration", defaultValue: true)
+        static let backgroundEnabled: Bool = {
+            if let path = NSBundle.mainBundle().pathForResource("Info", ofType: "plist"),
+                dict = NSDictionary(contentsOfFile: path) as? [String: AnyObject],
+                backgroundModes = dict["UIBackgroundModes"] as? [String] {
+                    return backgroundModes.contains("voip") ?? false
+            }
+            return false
+        }()
+    }
+
+    class AlarmDisabledJIDs {
+        class func set(userid: String, disable: Bool) {
+            if disable {
+                NSUserDefaults.standardUserDefaults().setBool(disable, forKey: Constants.Key.Alarm(userid))
+            } else {
+                NSUserDefaults.standardUserDefaults().removeObjectForKey(Constants.Key.Alarm(userid))
+            }
+            NSUserDefaults.standardUserDefaults().synchronize()
+        }
+
+        class func contains(userid: String) -> Bool {
+            let key = Constants.Key.Alarm(userid)
+            if let _ = NSUserDefaults.standardUserDefaults().objectForKey(key) {
+                return NSUserDefaults.standardUserDefaults().boolForKey(key)
+            } else {
+                return false
+            }
+        }
     }
 
     class Presences {
@@ -60,9 +88,9 @@ class StoredBoolProperty {
 }
 
 
-class StoredProperty<T: AnyObject> {
+class StoredProperty {
     var key: String
-    var value: T {
+    var value: String? {
         get {
             return storedValue
         }
@@ -72,11 +100,11 @@ class StoredProperty<T: AnyObject> {
             self.storedValue = newValue
         }
     }
-    private var storedValue: T
+    private var storedValue: String?
 
-    init(key: String, defaultValue: T) {
+    init(key: String, defaultValue: String? = nil) {
         self.key = key
-        if let value = NSUserDefaults.standardUserDefaults().objectForKey(key) as? T {
+        if let value = NSUserDefaults.standardUserDefaults().objectForKey(key) as? String {
             self.storedValue = value
         } else {
             self.storedValue = defaultValue

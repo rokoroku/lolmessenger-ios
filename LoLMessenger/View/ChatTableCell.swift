@@ -71,7 +71,6 @@ class ChatTableCell: UITableViewCell {
             profileIcon.userInteractionEnabled = true
             profileIcon.addGestureRecognizer(singleTapRecognizer)
         }
-
     }
 
     func openSummonerDialog() {
@@ -82,28 +81,43 @@ class ChatTableCell: UITableViewCell {
         super.prepareForReuse()
         body.text = nil
         body.sizeToFit()
-        balloonImage.invalidateIntrinsicContentSize()
         balloonImage.setNeedsDisplay()
+        balloonImage.invalidateIntrinsicContentSize()
     }
 
     func setItem(roster: LeagueRoster?, message: LeagueMessage.RawData) {
         self.roster = roster
+        let isActive = roster?.available ?? false
 
         if profileIcon != nil {
-            profileIcon.image = roster?.getProfileIcon() ?? UIImage(named: "profile_unknown")
+            if let iconId = roster?.profileIcon {
+                LeagueAssetManager.drawProfileIcon(iconId, view: self.profileIcon)
+            } else {
+                self.profileIcon.image = UIImage(named: "profile_unknown")
+            }
             profileIcon.tag = roster?.getNumericUserId() ?? -1
         }
+
         if name != nil {
             name.text = message.nick
-            if roster?.show != .Unavailable {
+            if isActive {
                 name.textColor = Theme.TextColorPrimary
             } else {
                 name.textColor = Theme.TextColorDisabled
             }
         }
-        body.text = message.body
-        timestamp.text = message.timestamp.format("HH:mm")
-        balloonImage.type = message.isMine ? .Right : .Left
-    }
 
+        body.text = message.body
+        let datestr = message.timestamp.format("MMM d")
+        let today = NSDate().format("MMM d")
+        if datestr == today {
+            timestamp.text = message.timestamp.format("HH:mm")
+        } else {
+            timestamp.text = message.timestamp.format("MMM d\nHH:mm")
+        }
+        body.sizeToFit()
+        balloonImage.type = message.isMine ? .Right : .Left
+        balloonImage.setNeedsDisplay()
+        balloonImage.invalidateIntrinsicContentSize()
+    }
 }

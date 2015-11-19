@@ -48,6 +48,7 @@ class GroupChatTitleView: UIView {
         label.numberOfLines = 1
         label.textAlignment = .Center
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.userInteractionEnabled = true
         return label
     }()
 
@@ -57,6 +58,7 @@ class GroupChatTitleView: UIView {
         label.numberOfLines = 1
         label.textAlignment = .Center
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.userInteractionEnabled = true
         return label
     }()
 

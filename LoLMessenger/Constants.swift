@@ -29,6 +29,9 @@ struct Constants {
         static func Presence(userid: String) -> String {
             return "presence_\(userid)"
         }
+        static func Alarm(userid: String) -> String {
+            return "alarm_\(userid)"
+        }
         static func NotificationCategory(notification: UILocalNotification) -> String? {
             if let category = notification.category {
                 return "noti_\(category)"

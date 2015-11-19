@@ -126,7 +126,27 @@ class ChatViewController : UIViewController {
         if let title = chatName {
             navigationItem.title = title
         }
-        //navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Alarm", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
+
+        updateAlarmItem()
+    }
+
+    func toggleAlarm(sender: AnyObject?) {
+        if let id = chatJID?.user {
+            let prevSetting = StoredProperties.AlarmDisabledJIDs.contains(id)
+            StoredProperties.AlarmDisabledJIDs.set(id, disable: !prevSetting)
+            updateAlarmItem()
+        }
+    }
+
+    func updateAlarmItem() {
+        if let id = chatJID?.user {
+            let isDisabled = StoredProperties.AlarmDisabledJIDs.contains(id)
+            navigationItem.rightBarButtonItem = UIBarButtonItem(
+                image: UIImage(named: !isDisabled ? "Reminders" : "Reminders Disabled"),
+                style: .Plain,
+                target: self,
+                action: "toggleAlarm:")
+        }
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -203,6 +223,10 @@ class ChatViewController : UIViewController {
         self.inputBox.hidden = hideInputBox
         self.tableView!.contentInset = adjustForTabbarInsets;
         self.tableView!.scrollIndicatorInsets = adjustForTabbarInsets;
+    }
+
+    func toggleSidebar() {
+        sideViewController?.toggleSidePanel()
     }
 
     func scrollToBottom(animate:Bool = false) {
@@ -313,21 +337,23 @@ extension ChatViewController : UITableViewDelegate, UITableViewDataSource {
             return cell
 
         } else {
-            let cellIdentifier = "BalloonOthers"
-            let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! ChatTableCell
-            var roster: LeagueRoster!
+            var roster: LeagueRoster?
             if chatJID?.domain == Constants.XMPP.Domain.User {
                 roster = XMPPService.sharedInstance.roster()?.getRosterByJID(chatJID!)
             } else {
                 roster = room?.getOccupantByName(message.nick)
             }
+
+            let isActiveRoster = roster?.available ?? false
+            let cellIdentifier = isActiveRoster ? "BalloonOthers" : "BalloonUnknown"
+            let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! ChatTableCell
             cell.setItem(roster, message: message)
             return cell
         }
     }
 
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        if tableView.contentOffset.y <= -100 && chatJID != nil && !isFetching {
+        if tableView.contentOffset.y <= -80 && chatJID != nil && !isFetching {
             if let chat = XMPPService.sharedInstance.chat()?.getLeagueChatEntryByJID(chatJID!) {
                 self.isFetching = true
                 let loadedRows = chatData?.loadMore(chat)
@@ -403,6 +429,9 @@ extension ChatViewController : RosterDelegate, ChatDelegate {
         var groupChatTitleView: GroupChatTitleView! = navigationItem.titleView as? GroupChatTitleView
         if groupChatTitleView == nil {
             groupChatTitleView = GroupChatTitleView(title: name)
+            let tapRecognizer = UITapGestureRecognizer(target: self, action: Selector("toggleSidebar"))
+            groupChatTitleView.userInteractionEnabled = true
+            groupChatTitleView.addGestureRecognizer(tapRecognizer)
         }
 
         groupChatTitleView.titleLabel.text = name
@@ -417,6 +446,7 @@ extension ChatViewController : RosterDelegate, ChatDelegate {
         }
 
         groupChatTitleView.sizeToFit()
+
         navigationItem.titleView = groupChatTitleView
         navigationController?.navigationBar.setNeedsLayout()
     }

@@ -45,6 +45,7 @@ class LeagueChat : Object  {
         self.init()
         self.id = chatId
         self.name = name
+        self.timestamp = NSDate()
     }
 
     func addMessage(message: LeagueMessage, read: Bool = false) {

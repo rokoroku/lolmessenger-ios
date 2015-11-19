@@ -90,7 +90,11 @@ class SummonerDialogViewController : UIViewController {
 
     func updateRoster() {
         if let roster = roster {
-            profileIcon.image = roster.getProfileIcon()
+            if let iconId = roster.profileIcon {
+                LeagueAssetManager.drawProfileIcon(iconId, view: self.profileIcon)
+            } else {
+                self.profileIcon.image = UIImage(named: "profile_unknown")
+            }
             summonerName.text = roster.username
             statusMessage.text = roster.statusMsg
             if let score = roster.championMasteryScore {

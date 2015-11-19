@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import TKSubmitTransition
 import KeychainSwift
 
 class ReconnectViewController : UIViewController {
@@ -50,6 +49,14 @@ class ReconnectViewController : UIViewController {
                         }
                     }
                 })
+        } else {
+            performSegueWithIdentifier("Login", sender: self)
+        }
+    }
+
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if let targetController = segue.destinationViewController as? UINavigationController {
+            targetController.transitioningDelegate = self
         }
     }
 }
@@ -71,46 +78,27 @@ extension ReconnectViewController: XMPPConnectionDelegate {
     }
 
     func onAuthenticated(sender: XMPPService) {
-        progress.startFinishAnimation(0.5,
-            completion: {
-                let storyboard = self.storyboard ?? UIStoryboard(name: "Main", bundle: nil)
-                let navController = storyboard.instantiateViewControllerWithIdentifier("MainNavController") as UIViewController!
+        progress.startFinishAnimation(0.5) {
 
-                navController.modalTransitionStyle = .CrossDissolve
-                navController.transitioningDelegate = self
+            let storyboard = self.storyboard ?? UIStoryboard(name: "Main", bundle: nil)
+            if let mainNavController = storyboard.instantiateViewControllerWithIdentifier("MainNavController") as? UINavigationController {
 
-                self.presentViewController(navController, animated: true) {
-                    UIApplication.sharedApplication().keyWindow?.rootViewController = navController
+                mainNavController.modalTransitionStyle = .CrossDissolve
+                mainNavController.transitioningDelegate = self
+
+                self.presentViewController(mainNavController, animated: true) {
+                    UIApplication.sharedApplication().keyWindow?.rootViewController = mainNavController
                 }
-        })
+            }
+
+        }
     }
 
     func onDisconnected(sender: XMPPService, error: ErrorType?) {
-        let storyboard = self.storyboard ?? UIStoryboard(name: "Main", bundle: nil)
-        let loginController = storyboard.instantiateInitialViewController()
-
-        loginController?.modalTransitionStyle = .CrossDissolve
-
-        self.presentViewController(loginController!, animated: true) {
-            UIApplication.sharedApplication().keyWindow?.rootViewController = loginController
-            if let _ = error {
-                DialogUtils.alert("Error", message: error.debugDescription)
-            }
-        }
+        performSegueWithIdentifier("Login", sender: self)
     }
 
     func onAuthenticationFailed(sender: XMPPService) {
-        let storyboard = self.storyboard ?? UIStoryboard(name: "Main", bundle: nil)
-        let loginController = storyboard.instantiateInitialViewController()
-
-        loginController?.modalTransitionStyle = .CrossDissolve
-
-        self.presentViewController(loginController!, animated: true) {
-            UIApplication.sharedApplication().keyWindow?.rootViewController = loginController
-
-            DialogUtils.alert("Error", message: "Authentication Failed, Check your credential and region")
-
-        }
+        performSegueWithIdentifier("Login", sender: self)
     }
-    
 }

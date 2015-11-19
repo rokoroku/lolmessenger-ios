@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import TKSubmitTransition
 import KeychainSwift
 
 class LoginViewController: UIViewController {
@@ -57,6 +56,12 @@ class LoginViewController: UIViewController {
 
     override func viewDidDisappear(animated: Bool) {
         XMPPService.sharedInstance.removeDelegate(self)
+    }
+
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if let targetController = segue.destinationViewController as? UINavigationController {
+            targetController.transitioningDelegate = self
+        }
     }
 
     @IBAction
@@ -185,17 +190,7 @@ extension LoginViewController : XMPPConnectionDelegate {
         connectButton.startFinishAnimation(0.5,
             completion: {
                 self.isConnecting = false
-                let storyboard = self.storyboard ?? UIStoryboard(name: "Main", bundle: nil)
-                let navController = storyboard.instantiateViewControllerWithIdentifier("MainNavController") as UIViewController!
-
-                let sideViewController = SideMenuController()
-                sideViewController.modalTransitionStyle = .CrossDissolve
-                sideViewController.transitioningDelegate = self
-                sideViewController.centerViewController = navController
-
-                self.presentViewController(sideViewController, animated: true) {
-                    UIApplication.sharedApplication().keyWindow?.rootViewController = sideViewController
-                }
+                self.performSegueWithIdentifier("Authenticated", sender: self)
         })
     }
     

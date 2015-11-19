@@ -14,7 +14,7 @@ class RecentChatViewController : UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     @IBAction func addAction(sender: AnyObject) {
-        DialogUtils.input("Enter New Chat", message: "Please enter the room name you want to join", placeholder: "room name") {
+        DialogUtils.input("Enter New Chat", message: "Please enter the name of chat room you want to join", placeholder: "room name") {
             if let name = $0, let chatEntry = XMPPService.sharedInstance.chat()?.joinRoom(name) {
                 NavigationUtils.navigateToChat(chatId: chatEntry.id)
             }
@@ -67,6 +67,12 @@ class RecentChatViewController : UIViewController {
         tableView.backgroundView = UIView()
         tableView.backgroundView?.backgroundColor = Theme.PrimaryColor
         setSearchController()
+    }
+
+    override func viewWillLayoutSubviews() {
+        let adjustForTabbarInsets = UIEdgeInsetsMake(self.topLayoutGuide.length, 0, self.bottomLayoutGuide.length, 0)
+        self.tableView!.contentInset = adjustForTabbarInsets;
+        self.tableView!.scrollIndicatorInsets = adjustForTabbarInsets;
     }
 
     func setSearchController() {
@@ -179,7 +185,11 @@ extension RecentChatViewController : UITableViewDelegate, UITableViewDataSource 
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
             // Delete the row from the data source
-            chats.removeAtIndex(indexPath.row).remove()
+            let leagueChat = chats.removeAtIndex(indexPath.row)
+            if leagueChat.type == .Room {
+                XMPPService.sharedInstance.chat()?.getRoomByJID(leagueChat.jid)?.leaveRoom()
+            }
+            leagueChat.remove()
             tableView.deleteRowsAtIndexPaths(
                 [NSIndexPath(forRow: indexPath.row, inSection: 0)],
                 withRowAnimation: .Fade)

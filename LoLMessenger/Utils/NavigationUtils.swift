@@ -10,7 +10,7 @@ import UIKit
 
 class NavigationUtils {
 
-    static func navigateToReconnect(viewController: UIViewController? = UIApplication.topViewController()) {
+    static func navigateToReconnect(viewController: UIViewController? = UIApplication.topViewController(), block: dispatch_block_t? = nil) {
 
         let storyboard = viewController?.storyboard ?? UIStoryboard(name: "Main", bundle: nil)
         if let reconnectViewController = storyboard.instantiateViewControllerWithIdentifier("ReconnectViewController") as? ReconnectViewController {
@@ -20,6 +20,23 @@ class NavigationUtils {
             if viewController?.isKindOfClass(ReconnectViewController) == false {
                 viewController?.presentViewController(reconnectViewController, animated: true) {
                     UIApplication.sharedApplication().keyWindow?.rootViewController = reconnectViewController
+                    block?()
+                }
+            }
+        }
+    }
+
+    static func navigateToMain(viewController: UIViewController? = UIApplication.topViewController(), block: dispatch_block_t? = nil) {
+
+        let storyboard = viewController?.storyboard ?? UIStoryboard(name: "Main", bundle: nil)
+        if let reconnectViewController = storyboard.instantiateViewControllerWithIdentifier("MainNavController") as? UINavigationController {
+
+            reconnectViewController.modalTransitionStyle = .CrossDissolve
+
+            if viewController?.isKindOfClass(ReconnectViewController) == false {
+                viewController?.presentViewController(reconnectViewController, animated: true) {
+                    UIApplication.sharedApplication().keyWindow?.rootViewController = reconnectViewController
+                    block?()
                 }
             }
         }

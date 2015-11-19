@@ -45,16 +45,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         //todo: application badge update
         didShowDisconnectionWarning = false
-        application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
 
-        backgroundTask = application.beginBackgroundTaskWithExpirationHandler {
-            Async.main {
-                print("Background Task Expired")
-                application.endBackgroundTask(self.backgroundTask)
-                self.backgroundTask = UIBackgroundTaskInvalid
+        if !StoredProperties.Settings.backgroundEnabled {
+            backgroundTask = application.beginBackgroundTaskWithExpirationHandler {
+                Async.main {
+                    print("Background Task Expired")
+                    application.endBackgroundTask(self.backgroundTask)
+                    self.backgroundTask = UIBackgroundTaskInvalid
+                }
             }
+            backgroundTimer = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: "timerUpdate:", userInfo: nil, repeats: true)
         }
-        backgroundTimer = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: "timerUpdate:", userInfo: nil, repeats: true)
     }
 
     func applicationWillEnterForeground(application: UIApplication) {
@@ -133,15 +134,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let wasActive = notification.userInfo?[Constants.Notification.UserInfo.AppState] as? Bool {
                 if wasActive {
                     if let roster = XMPPService.sharedInstance.roster()?.getRosterByJID(chatId) {
-                        let banner = Banner(
-                            title: roster.username,
-                            subtitle: try! notification.alertBody!.split(" : ")[1],
-                            image: roster.getProfileIcon(),
-                            backgroundColor: Theme.SecondaryColor,
-                            didTapBlock: { NavigationUtils.navigateToChat(chatId: chatId) }
-                        )
-                        NotificationUtils.alert()
-                        banner.show(duration: 3.0)
+                        LeagueAssetManager.getProfileIcon(roster.profileIcon ?? -1) {
+                            let image = $0 ?? UIImage(named: "profile_unknown")
+                            let banner = Banner(
+                                title: roster.username,
+                                subtitle: try? notification.alertBody!.split(" : ")[1],
+                                image: image,
+                                backgroundColor: Theme.SecondaryColor,
+                                didTapBlock: { NavigationUtils.navigateToChat(chatId: chatId) }
+                            )
+                            NotificationUtils.alert()
+                            banner.show(duration: 3.0)
+                        }
                     }
                 } else if XMPPService.sharedInstance.isAuthenticated {
                     NavigationUtils.navigateToChat(chatId: chatId)

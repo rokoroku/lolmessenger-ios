@@ -14,6 +14,7 @@ class RecentChatTableCell: UITableViewCell {
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var message: UILabel!
     @IBOutlet weak var stateIcon: UIImageView!
+    @IBOutlet weak var alarmIcon: UIImageView!
     @IBOutlet weak var timestamp: UILabel!
     @IBOutlet weak var badge: UILabel!
 
@@ -24,6 +25,9 @@ class RecentChatTableCell: UITableViewCell {
         badge.layer.masksToBounds = true
         badge.backgroundColor = Theme.AccentColor
         badge.layer.cornerRadius = badge.frame.height / 2
+
+        alarmIcon.image = alarmIcon.image?.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+        alarmIcon.tintColor = Theme.TextColorSecondary
     }
 
     func setItem(chat: LeagueChat, roster: LeagueRoster?) {
@@ -35,7 +39,13 @@ class RecentChatTableCell: UITableViewCell {
             message.text = nil
         }
 
-        timestamp.text = chat.timestamp.format("HH:mm")
+        let datestr = chat.timestamp.format("MMM d")
+        let today = NSDate().format("MMM d")
+        if datestr == today {
+            timestamp.text = chat.timestamp.format("HH:mm")
+        } else {
+            timestamp.text = datestr
+        }
 
         if roster != nil {
             name.text = roster?.username
@@ -47,10 +57,13 @@ class RecentChatTableCell: UITableViewCell {
                 name.textColor = Theme.TextColorDisabled
                 message.textColor = name.textColor
             }
+            alarmIcon.hidden = !StoredProperties.AlarmDisabledJIDs.contains(roster!.userid)
+
         } else {
             stateIcon.image = PresenceShow.Unavailable.icon()
             name.textColor = Theme.TextColorDisabled
             message.textColor = name.textColor
+            alarmIcon.hidden = true
         }
 
         if chat.unread > 0 {
@@ -72,6 +85,7 @@ class GroupChatTableCell: UITableViewCell {
     @IBOutlet weak var groupIndicator: UIView!
     @IBOutlet weak var icon: UIImageView!
     @IBOutlet weak var participants: UILabel!
+    @IBOutlet weak var alarmIcon: UIImageView!
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -87,6 +101,8 @@ class GroupChatTableCell: UITableViewCell {
 
         icon.image = icon.image?.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
         icon.tintColor = Theme.TextColorPrimary
+        alarmIcon.image = alarmIcon.image?.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+        alarmIcon.tintColor = Theme.TextColorSecondary
     }
 
     func setItem(chat: LeagueChat, numParticipants: Int = 0) {
@@ -106,6 +122,8 @@ class GroupChatTableCell: UITableViewCell {
         } else {
             groupIndicator.hidden = true
         }
+
+        alarmIcon.hidden = !StoredProperties.AlarmDisabledJIDs.contains(chat.id)
 
         if chat.unread > 0 {
             badge.text = String(chat.unread)

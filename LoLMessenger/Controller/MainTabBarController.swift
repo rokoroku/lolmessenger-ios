@@ -16,7 +16,6 @@ class MainTabBarController : UITabBarController {
 
         // Do any additional setup after loading the view, typically from a nib.
         self.delegate = self
-        self.view.autoresizingMask = UIViewAutoresizing.None
 
         if let roster = XMPPService.sharedInstance.roster() {
             updateRosterBadge(roster)
@@ -36,7 +35,20 @@ class MainTabBarController : UITabBarController {
         } else {
             self.navigationItem.title = "Friends"
         }
+    }
 
+    override func viewDidAppear(animated: Bool) {
+        if let presentedViewController = self.selectedViewController {
+            self.tabBarController(self, didSelectViewController: presentedViewController)
+        }
+    }
+
+    override func viewWillLayoutSubviews() {
+//        self.tabBar.autoresizingMask = UIViewAutoresizing.None
+//        self.view.autoresizingMask = UIViewAutoresizing.FlexibleHeight
+//        self.navigationController?.view.autoresizesSubviews = true
+//        self.navigationController?.view.autoresizingMask = UIViewAutoresizing.FlexibleHeight
+        super.viewWillLayoutSubviews()
     }
 
     override func viewDidDisappear(animated: Bool) {

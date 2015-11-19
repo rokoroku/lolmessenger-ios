@@ -84,13 +84,38 @@ class RiotACS {
 }
 
 class RiotAPI {
-    static var keys: Array<String> = ["50ed6e88-1c0b-4099-94e9-eee8a1dc630a", "59fc64a9-b530-4ed9-b161-6343fb5f935d", "ab2f7e77-f1a4-4cf8-9b6e-6c6a097b82e6", "c9ffb7f0-4daa-4466-868e-a56f7d04d017", "d3368106-afa3-46dd-8e20-2d31df1ec1d2"]
+
+    static let keys: [String] = {
+        if let path = NSBundle.mainBundle().pathForResource("Info", ofType: "plist"),
+            dict = NSDictionary(contentsOfFile: path) as? [String: AnyObject],
+            riotAPI = dict["RiotAPI"] as? [String: AnyObject],
+            apiKeys = riotAPI["APIKey"] as? [String] {
+                return apiKeys
+        }
+        return ["59fc64a9-b530-4ed9-b161-6343fb5f935d"]
+    }()
     static var randomKey: String {
         return RiotAPI.keys[random()%keys.count]
     }
 
     class func getBaseString(region: LeagueServer) -> String {
         return "https://" + region.shorthand.lowercaseString + ".api.pvp.net/api/lol/" + region.shorthand.lowercaseString
+    }
+
+    class func getClientVersion(region: LeagueServer, callback: ((String?) -> Void)) {
+        let url = "https://global.api.pvp.net/api/lol/static-data/" + region.shorthand.lowercaseString + "/v1.2/versions" + "?api_key=" + randomKey
+        Alamofire.request(.GET, url).responseJSON { response in
+            if let value = response.result.value {
+                let versions = JSON(value).arrayValue
+                if !versions.isEmpty {
+                    callback(versions[0].string)
+                } else {
+                    callback(nil)
+                }
+            } else {
+                callback(nil)
+            }
+        }
     }
 
     class func getSummonerById(summonerId id: String, region: LeagueServer, callback: ((LeagueRoster?) -> Void)) {

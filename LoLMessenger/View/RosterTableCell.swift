@@ -29,10 +29,10 @@ class RosterTableGroupCell: UITableViewCell {
             childCountLabel.text = nil
         }
         if groupNode.isActive {
-            indicator.image = UIImage(named: "collapsed_arrow")?
+            indicator.image = UIImage(named: "Collapse Arrow")?
                 .tint(Theme.TextColorPrimary, blendMode: .Overlay)
         } else {
-            indicator.image = UIImage(named: "expand_arrow")?
+            indicator.image = UIImage(named: "Expand Arrow")?
                 .tint(Theme.TextColorPrimary, blendMode: .Overlay)
         }
     }
@@ -62,7 +62,11 @@ class RosterTableChildCell: UITableViewCell {
     func setData(roster: LeagueRoster) {
         self.roster = roster
         self.name.text = roster.username
-        self.icon.image = roster.getProfileIcon()
+        if let iconId = roster.profileIcon {
+            LeagueAssetManager.drawProfileIcon(iconId, view: self.icon)
+        } else {
+            self.icon.image = UIImage(named: "profile_unknown")
+        }
         self.status.text = roster.getDisplayStatus()
         self.status.textColor = roster.getDisplayColor()
         self.indicator.image = roster.getStatusIcon()

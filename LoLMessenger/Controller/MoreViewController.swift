@@ -24,7 +24,11 @@ class MoreViewController : FormViewController {
         self.tableView?.backgroundColor = Theme.PrimaryColor
 
         form +++ accountSection()
-        form +++ backgroundSection()
+
+        if !StoredProperties.Settings.backgroundEnabled {
+            form +++ backgroundSection()
+        }
+        
         form +++ notificationSection()
 
 //        form +++ friendSection()

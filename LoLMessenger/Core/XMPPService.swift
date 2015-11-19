@@ -395,6 +395,13 @@ extension XMPPService : XMPPStreamDelegate {
                 myRosterElement!.parsePresence(storedPresence)
             } else {
                 myRosterElement!.statusMsg = Constants.XMPP.DefaultStatus
+                RiotACS.getSummonerByName(summonerName: summonerName, region: region!) {
+                    if let summoner = $0 {
+                        self.myRosterElement!.level = summoner.level
+                        self.myRosterElement!.profileIcon = summoner.profileIcon
+                        self.sendPresence(self.myRosterElement!.getPresenceElement())
+                    }
+                }
             }
             myRosterElement!.show = .Chat
             myRosterElement!.available = true

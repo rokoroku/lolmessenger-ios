@@ -36,7 +36,7 @@ class SideMenuController: UIViewController, UIGestureRecognizerDelegate {
      constant will be 0. Therefore there is no other way of getting the height except
      hardcoding it.
      **/
-    private let StatusBarHeight = UIApplication.sharedApplication().statusBarFrame.size.height > 0 ? UIApplication.sharedApplication().statusBarFrame.size.height : 20
+     private let StatusBarHeight = UIApplication.sharedApplication().statusBarFrame.size.height > 0 ? UIApplication.sharedApplication().statusBarFrame.size.height : 20
 
     // MARK: - Customizable properties -
 
@@ -208,7 +208,8 @@ class SideMenuController: UIViewController, UIGestureRecognizerDelegate {
         animationStyle = SideMenuController.animationStyle
         percentage = SideMenuController.sidePercentage
 
-        centerPanel = UIView(frame: CGRectMake(0, 0, screenSize.width, screenSize.height))
+        let yInset:CGFloat = StatusBarHeight > 20 ? -20 : 0
+        centerPanel = UIView(frame: CGRectMake(0, yInset, screenSize.width, screenSize.height))
         self.view.addSubview(centerPanel)
 
         navigationBar = UINavigationBar(frame: CGRectMake(0, 0, screenSize.width, StatusBarHeight))
@@ -519,7 +520,7 @@ class SideMenuController: UIViewController, UIGestureRecognizerDelegate {
                 centerPanelFrame.origin.x = CGRectGetMinX(self.sidePanel.frame) - CGRectGetWidth(self.centerPanel.frame)
             }
         } else {
-            centerPanelFrame.origin = CGPointZero
+            centerPanelFrame.origin.x = 0
         }
 
         var duration = hidden ? hideAnimationDuration : revealAnimationDuration

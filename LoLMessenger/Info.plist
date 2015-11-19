@@ -4,6 +4,8 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
+	<key>CFBundleDisplayName</key>
+	<string>Messenger for LoL</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -12,16 +14,14 @@
 	<string>6.0</string>
 	<key>CFBundleName</key>
 	<string>lolmessenger</string>
-	<key>CFBundleDisplayName</key>
-	<string>Messenger for LoL</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.5</string>
+	<string>0.7</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>10</string>
+	<string>11</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -44,6 +44,17 @@
 	<dict>
 		<key>NSExceptionDomains</key>
 		<dict>
+			<key>leagueoflegends.com</key>
+			<dict>
+				<key>NSAllowsArbitraryLoads</key>
+				<true/>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+				<key>NSRequiresCertificateTransparency</key>
+				<false/>
+			</dict>
 			<key>pvp.net</key>
 			<dict>
 				<key>NSAllowsArbitraryLoads</key>
@@ -54,6 +65,17 @@
 				<false/>
 			</dict>
 		</dict>
+	</dict>
+	<key>RiotAPI</key>
+	<dict>
+		<key>APIKey</key>
+		<array>
+			<string>50ed6e88-1c0b-4099-94e9-eee8a1dc630a</string>
+			<string>ab2f7e77-f1a4-4cf8-9b6e-6c6a097b82e6</string>
+			<string>59fc64a9-b530-4ed9-b161-6343fb5f935d</string>
+			<string>c9ffb7f0-4daa-4466-868e-a56f7d04d017</string>
+			<string>d3368106-afa3-46dd-8e20-2d31df1ec1d2</string>
+		</array>
 	</dict>
 	<key>UIApplicationExitsOnSuspend</key>
 	<false/>

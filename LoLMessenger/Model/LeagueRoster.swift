@@ -8,6 +8,7 @@
 
 import RealmSwift
 import XMPPFramework
+import AlamofireImage
 
 enum LeagueState : Int8 {
     // chat
@@ -337,14 +338,6 @@ class LeagueRoster {
 
     func getStatusIcon() -> UIImage? {
         return show.icon()
-    }
-
-    func getProfileIcon() -> UIImage? {
-        if let iconId = profileIcon {
-            return UIImage(named: "profile_\(iconId)")
-        } else {
-            return UIImage(named: "profile_unknown")
-        }
     }
 
     func getStatusElement() -> DDXMLElement? {

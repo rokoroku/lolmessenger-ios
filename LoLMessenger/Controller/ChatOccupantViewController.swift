@@ -42,7 +42,7 @@ class ChatOccupantViewController: UITableViewController {
 
     func reloadOccupants() {
         if let roomId = roomId, let occupantEntries = XMPPService.sharedInstance.chat()?.getOccupantsByJID(roomId) {
-            occupants = occupantEntries
+            occupants = occupantEntries.sort { $0.username < $1.username }
         }
         tableView.reloadData()
     }

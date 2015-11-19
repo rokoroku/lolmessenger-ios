@@ -34,11 +34,11 @@ class DialogUtils {
         }
         alert.addAction(
             UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil))
-        UIApplication.sharedApplication().keyWindow!.rootViewController!.presentViewController(alert, animated: true, completion: nil)
         alert.addAction(
             UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { _ in
                 callback(alert.textFields?[0].text)
             }))
+        UIApplication.topViewController()?.presentViewController(alert, animated: true, completion: nil)
 
     }
 
@@ -52,6 +52,6 @@ class DialogUtils {
             alert.addAction($0)
         }
 
-        UIApplication.sharedApplication().keyWindow!.rootViewController!.presentViewController(alert, animated: true, completion: nil)
+        UIApplication.topViewController()?.presentViewController(alert, animated: true, completion: nil)
     }
 }

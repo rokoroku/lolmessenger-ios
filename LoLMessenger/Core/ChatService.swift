@@ -215,7 +215,9 @@ class ChatService : NSObject {
 
     func getLeagueChatEntries() -> [LeagueChat]? {
         if let realm = xmppService.DB() {
-            return realm.objects(LeagueChat.self).sorted("timestamp", ascending: false).filter{ $0.lastMessage != nil }
+            return realm.objects(LeagueChat.self)
+                .sorted("timestamp", ascending: false)
+                .filter { $0.lastMessage != nil || $0.type != .Peer }
         }
         return nil
     }
@@ -225,20 +227,21 @@ class ChatService : NSObject {
 
 extension ChatService : XMPPStreamDelegate {
     @objc func xmppStreamDidAuthenticate(sender: XMPPStream!) {
-        Async.background(after: 2.5) {
-            self.getLeagueChatEntries()?.forEach { leagueChat in
-                if leagueChat.type == .Room {
-                    let id = leagueChat.id
-                    Async.background(after: Double(random()%10)/10) {
-                        self.joinRoomByJID(XMPPJID.jidWithUser(id, domain: Constants.XMPP.Domain.Room, resource: nil))
-                    }
+        self.getLeagueChatEntries()?.forEach { leagueChat in
+            if leagueChat.type == .Room {
+                let id = leagueChat.id
+                Async.background(after: Double(random()%10)/10) {
+                    self.joinRoomByJID(XMPPJID.jidWithUser(id, domain: Constants.XMPP.Domain.Room, resource: nil))
                 }
             }
         }
     }
 
     @objc func xmppStream(sender: XMPPStream!, willReceiveMessage message: XMPPMessage!) -> XMPPMessage! {
-        if message.body() != nil && message.body().characters.count < 100 {
+        if message.body() != nil && message.from() != nil {
+            if message.from().domain == Constants.XMPP.Domain.Room && message.body().characters.count > 110 {
+                return nil
+            }
             return message
         }
         return nil
@@ -302,7 +305,7 @@ extension ChatService : XMPPStreamDelegate {
                     }
 
                     if !isActiveChat {
-                        if StoredProperties.Settings.notifyMessage.value {
+                        if !StoredProperties.AlarmDisabledJIDs.contains(leagueChat.id) && StoredProperties.Settings.notifyMessage.value {
                             let notification = NotificationUtils.create(leagueChat, message: leagueMessage)
                             UIApplication.sharedApplication().presentLocalNotificationNow(notification)
                         }
@@ -418,7 +421,7 @@ extension ChatService: XMPPRoomDelegate {
                 }
 
                 if !isActiveChat {
-                    if StoredProperties.Settings.notifyMessage.value {
+                    if !StoredProperties.AlarmDisabledJIDs.contains(chatEntry.id) && StoredProperties.Settings.notifyMessage.value {
                         let notification = NotificationUtils.create(chatEntry, message: message)
                         UIApplication.sharedApplication().presentLocalNotificationNow(notification)
                     }
