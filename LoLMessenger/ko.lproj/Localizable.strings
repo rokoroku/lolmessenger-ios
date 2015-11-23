@@ -1,0 +1,282 @@
+/*
+ * Connection 
+ */
+
+"Connecting..." = "연결 중...";
+
+"Disconnected" = "연결 끊김";
+
+"Reconnect" = "다시 실행";
+
+"Background session will be expired in one minute." = "잠시 후 연결이 종료됩니다.";
+
+"Your presence has gone offline." = "연결이 종료되었습니다.";
+
+
+
+
+
+/*
+ * Login Screen
+ */
+
+"Username" = "아이디";
+
+"Password" = "비밀번호";
+
+"Select Region" = "서버 선택";
+
+"Please select region" = "연결할 서버를 선택하세요.";
+
+"Please input password" = "비밀번호를 입력하세요.";
+
+"Please input username" = "아이디를 입력하세요.";
+
+"Authentication Failed, Check your credential and region" = "인증 실패. 서버 또는 아이디/비밀번호를 확인하세요.";
+
+
+
+
+
+
+/*
+ * Friends
+ */
+
+"Friends" = "친구";
+
+"Note" = "메모";
+
+"Buddy Request" = "친구 요청";
+
+"The buddy %1$@ wants to add you to their list and see your presence online" = "%1$@ 님이 당신을 목록에 추가하여 온라인 상태를 확인하고자 합니다.";
+
+"Add as Friend" = "친구 추가";
+
+"Please enter summoner name you want to add" = "친구 요청을 보낼 소환사의 이름을 입력하세요.";
+
+"Do you want to send a friend request to %1$@?" = "%1$@ 님에게 친구 요청을 보내시겠습니까?";
+
+"Request Sent!" = "요청이 전송되었습니다.";
+
+"Summoner named %1$@ was not found" = "일치하는 소환사를 찾을 수 없습니다.";
+
+
+
+
+
+/*
+ * Chat
+ */
+
+"Chat" = "대화";
+
+"1 occupant" = "참가자 1명";
+
+"%1$d occupants" = "참가자 %1$d명";
+
+"New message arrived" = "새로운 메세지";
+
+"Not connected to chat room" = "대화방에 연결되지 않았습니다.";
+
+"Enter New Chat" = "대화방 입장";
+
+"Please enter the name of chat room you want to join" = "입장 또는 개설하실 대화방 제목을 입력하세요.";
+
+"Room Name" = "대화방 제목";
+
+
+
+
+/*
+ * Settings
+ */
+
+"Setting" = "설정";
+
+"Sign out" = "로그아웃";
+
+"Are you sure you want to sign out?" = "정말 로그아웃 하시겠습니까?";
+
+"Account" = "계정";
+
+"Summoner Name" = "소환사 이름";
+
+"Status Message" = "상태 메세지";
+
+"Notification" = "알림";
+
+"New Message" = "새 메세지";
+
+"New Friend Request" = "친구 요청";
+
+"Alert Type" = "알림 방식";
+
+"Sound" = "효과음";
+
+"Vibrate" = "진동";
+
+"Background Session" = "백그라운드 알림";
+
+"Since the time of background task is limited to about 3 minutes by Apple's app policy, application will be terminated after the given amount of time." = "Apple의 앱 정책에 의해 백그라운드 작업 시간이 약 3분으로 제한되어 있기 때문에, 해당 시간 이상 어플리케이션을 사용하지 않으면 연결이 종료됩니다.";
+
+"Expiration Warning" = "종료되기 전 경고";
+
+"Play notification sound" = "알림음 재생";
+
+"Friend List" = "친구 목록";
+
+"Separate Offline Group" = "오프라인 그룹 분리";
+
+"Sort by" = "정렬 방식";
+
+"Enter to Send" = "엔터 키로 전송";
+
+"Show unread message first" = "읽지 않은 메세지부터 표시";
+
+"Others" = "기타";
+
+"Language" = "언어 설정";
+
+"Some settings are applied after restart." = "몇 설정은 재시작 후 적용됩니다.";
+
+
+
+
+
+/*
+ * Queue Type
+ */
+
+"Normal" = "일반";
+
+"Co-op" = "협동";
+
+"Ranked" = "랭크";
+
+"Custom" = "사용자 설정";
+
+"Practice" = "연습";
+
+
+
+
+
+/*
+ * Game Type
+ */
+
+"Summoner's Rift" = "소환사의 협곡";
+
+"The Crystal Scar" = "수정의 상처";
+
+"Twisted Treeline" = "뒤틀린 숲";
+
+"ARAM" = "무작위 총력전";
+
+
+
+
+
+/*
+ * Game Status Formatting
+ */
+
+/* In game string with Game type, Queue type and Champion (e.g. Summoner's Rift (Ranked) - KhaZix) */
+"%1$@ (%2$@) - %3$@" = "%1$@ (%2$@) - %3$@";
+
+/* In game string with Game type and Queue type (e.g. Summoner's Rift (Ranked)) */
+"%1$@ (%2$@)" = "%1$@ (%2$@)";
+
+/* In game string with Queue type and Champion (e.g. Normal Game - KhaZix) */
+"%1$@ Game - %2$@" = "%1$@ 게임 - %2$@";
+
+/* In game string with Queue type (e.g. Normal Game) */
+"%1$@ Game" = "%1$@ 게임";
+
+/* In game string with Champion */
+"In Game - %1$@" = "게임 중 - %1$@"; 
+
+/* In game string */
+"In Game" = "게임 중";
+
+"In Team Builder" = "편리한 팀 구성 중";
+
+"Hosting a %1$@ Game" = "%1$@ 게임 생성 중";
+
+"In Team Select" = "팀 선택 화면";
+
+"In Queue" = "게임 찾는 중";
+
+"In Champion Select" = "챔피언 선택 중";
+
+"Spectating" = "관전 중";
+
+"Away" = "자리 비움";
+
+"Online" = "온라인";
+
+"Offline" = "오프라인";
+
+
+
+
+
+/*
+ * SHARED STRINGS
+ */
+
+"OK" = "확인";
+
+"NO" = "거절";
+
+"Cancel" = "취소";
+
+"Open" = "열기";
+
+"Close" = "닫기";
+
+"Send" = "전송";
+
+"Error" = "오류";
+
+"Warning" = "경고";
+
+"General" = "일반";
+
+"Unknown" = "알 수 없음";
+
+"Undefined Error" = "알 수 없는 오류";
+
+"Using iOS Client" = "iOS 클라이언트 사용 중";
+
+
+
+
+
+/*
+ * Regions
+ */
+
+"North America" = "North America";
+
+"Europe West" = "Europe West";
+
+"Europe Nordic & East" = "Europe Nordic & East";
+
+"Brazil" = "Brazil";
+
+"Korea" = "Korea";
+
+"Latin America North" = "Latin America North";
+
+"Latin America South" = "Latin America South";
+
+"Oceania" = "Oceania";
+
+"Turkey" = "Turkey";
+
+"Russia" = "Russia";
+
+
+

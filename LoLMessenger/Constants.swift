@@ -50,8 +50,10 @@ struct Constants {
             static let Mobile = "iOS"
         }
         static let DefaultGroup = "**Default"
-        static let DefaultStatus = "Using iOS Client (beta)"
-        static let Unknown = "Unknown"
+        static var DefaultStatus:String { return Localized("Using iOS Client") }
+        static var GeneralGroup:String { return Localized("General") }
+        static var OfflineGroup:String { return Localized("Offline") }
+        static var Unknown:String { return Localized("Unknown") }
     }
 
     struct Segue {

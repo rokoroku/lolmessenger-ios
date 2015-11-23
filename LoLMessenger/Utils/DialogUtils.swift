@@ -13,9 +13,9 @@ class DialogUtils {
 
         var actions = [UIAlertAction]()
         if handler != nil {
-            actions.append(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil))
+            actions.append(UIAlertAction(title: Localized("Cancel"), style: UIAlertActionStyle.Cancel, handler: nil))
         }
-        actions.append(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: handler))
+        actions.append(UIAlertAction(title: Localized("OK"), style: UIAlertActionStyle.Default, handler: handler))
 
         DialogUtils.alert(title,
             message: message,
@@ -33,9 +33,9 @@ class DialogUtils {
             textField.textColor = Theme.TextColorBlack
         }
         alert.addAction(
-            UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil))
+            UIAlertAction(title: Localized("Cancel"), style: UIAlertActionStyle.Cancel, handler: nil))
         alert.addAction(
-            UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { _ in
+            UIAlertAction(title: Localized("OK"), style: UIAlertActionStyle.Default, handler: { _ in
                 callback(alert.textFields?[0].text)
             }))
         UIApplication.topViewController()?.presentViewController(alert, animated: true, completion: nil)

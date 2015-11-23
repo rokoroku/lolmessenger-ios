@@ -24,6 +24,7 @@ class StoredProperties {
             }
             return false
         }()
+        static let backgroundNotifyWithSound = StoredBoolProperty(key: "backgroundNotifyWithSound", defaultValue: true)
     }
 
     class AlarmDisabledJIDs {
@@ -87,7 +88,6 @@ class StoredBoolProperty {
     }
 }
 
-
 class StoredProperty {
     var key: String
     var value: String? {
@@ -100,6 +100,7 @@ class StoredProperty {
             self.storedValue = newValue
         }
     }
+
     private var storedValue: String?
 
     init(key: String, defaultValue: String? = nil) {

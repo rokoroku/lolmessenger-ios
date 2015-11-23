@@ -178,10 +178,10 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LMa-eL-tHv">
-                                                    <rect key="frame" x="59" y="9" width="27" height="14"/>
+                                                    <rect key="frame" x="59" y="9" width="27" height="13.5"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vTw-Sl-dVV">
-                                                            <rect key="frame" x="16" y="0.0" width="446" height="13.5"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vTw-Sl-dVV">
+                                                            <rect key="frame" x="16" y="0.0" width="7" height="13.5"/>
                                                             <animations/>
                                                             <fontDescription key="fontDescription" type="system" weight="light" pointSize="11"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -381,13 +381,13 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Yap-BF-YBK" userLabel="Balloon Image" customClass="BalloonView" customModule="Messenger_for_League_of_Legends" customModuleProvider="target">
-                                                    <rect key="frame" x="55" y="26" width="53.5" height="37.5"/>
+                                                    <rect key="frame" x="54" y="26" width="55.5" height="37.5"/>
                                                     <animations/>
                                                     <accessibility key="accessibilityConfiguration">
                                                         <accessibilityTraits key="traits" notEnabled="YES"/>
                                                     </accessibility>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" priority="750" constant="20" id="9JY-Tx-qhx"/>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" priority="750" constant="24" id="9JY-Tx-qhx"/>
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PGU-nH-wCU" userLabel="Timestamp">
@@ -424,7 +424,7 @@
                                             <animations/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <constraints>
-                                                <constraint firstItem="Yap-BF-YBK" firstAttribute="width" secondItem="vWJ-r6-pFa" secondAttribute="width" constant="22" id="1rP-a6-PaQ"/>
+                                                <constraint firstItem="Yap-BF-YBK" firstAttribute="width" secondItem="vWJ-r6-pFa" secondAttribute="width" constant="24" id="1rP-a6-PaQ"/>
                                                 <constraint firstItem="Yap-BF-YBK" firstAttribute="centerY" secondItem="vWJ-r6-pFa" secondAttribute="centerY" id="3Nh-3e-2Oh"/>
                                                 <constraint firstItem="kJI-mv-D6u" firstAttribute="top" secondItem="WaO-9l-ETY" secondAttribute="topMargin" priority="750" constant="-2" id="9bs-AW-JNh"/>
                                                 <constraint firstItem="kJI-mv-D6u" firstAttribute="leading" secondItem="WaO-9l-ETY" secondAttribute="leadingMargin" priority="750" id="AOf-YC-bYM"/>
@@ -460,13 +460,13 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0Mb-c2-K7y" userLabel="Balloon Image" customClass="BalloonView" customModule="Messenger_for_League_of_Legends" customModuleProvider="target">
-                                                    <rect key="frame" x="9" y="26" width="53.5" height="37.5"/>
+                                                    <rect key="frame" x="8" y="26" width="55.5" height="37.5"/>
                                                     <animations/>
                                                     <accessibility key="accessibilityConfiguration">
                                                         <accessibilityTraits key="traits" notEnabled="YES"/>
                                                     </accessibility>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" priority="750" constant="20" id="1dg-7c-b6Q"/>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" priority="750" constant="24" id="1dg-7c-b6Q"/>
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PTa-qd-i8s" userLabel="Timestamp">
@@ -504,7 +504,7 @@
                                                 <constraint firstItem="qmR-Gx-aB9" firstAttribute="top" secondItem="3hH-6k-jIQ" secondAttribute="bottom" constant="12" id="gn9-Lg-HAO"/>
                                                 <constraint firstItem="PTa-qd-i8s" firstAttribute="leading" secondItem="qmR-Gx-aB9" secondAttribute="trailing" constant="12" id="jpB-Z1-0YL"/>
                                                 <constraint firstItem="qmR-Gx-aB9" firstAttribute="leading" secondItem="3hH-6k-jIQ" secondAttribute="leading" constant="12" id="kco-x8-bQS"/>
-                                                <constraint firstItem="0Mb-c2-K7y" firstAttribute="width" secondItem="qmR-Gx-aB9" secondAttribute="width" constant="22" id="mvg-NA-dpJ"/>
+                                                <constraint firstItem="0Mb-c2-K7y" firstAttribute="width" secondItem="qmR-Gx-aB9" secondAttribute="width" constant="24" id="mvg-NA-dpJ"/>
                                                 <constraint firstItem="0Mb-c2-K7y" firstAttribute="centerY" secondItem="qmR-Gx-aB9" secondAttribute="centerY" id="nAT-80-A34"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -525,13 +525,13 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="WUw-8N-qXW" userLabel="Balloon Image" customClass="BalloonView" customModule="Messenger_for_League_of_Legends" customModuleProvider="target">
-                                                    <rect key="frame" x="540" y="3" width="53.5" height="37.5"/>
+                                                    <rect key="frame" x="539" y="3" width="55.5" height="37.5"/>
                                                     <animations/>
                                                     <accessibility key="accessibilityConfiguration">
                                                         <accessibilityTraits key="traits" image="YES"/>
                                                     </accessibility>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" priority="750" constant="20" id="gtg-nJ-e9f"/>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" priority="750" constant="24" id="gtg-nJ-e9f"/>
                                                     </constraints>
                                                     <variation key="heightClass=compact" misplaced="YES">
                                                         <rect key="frame" x="540" y="3" width="53.5" height="37.5"/>
@@ -562,7 +562,7 @@
                                                 <constraint firstItem="BOb-lp-1pJ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="kdT-VP-W74" secondAttribute="leadingMargin" constant="8" id="bgQ-BM-qBD"/>
                                                 <constraint firstItem="fb7-fX-7VZ" firstAttribute="leading" secondItem="BOb-lp-1pJ" secondAttribute="trailing" constant="12" id="ecy-dy-XA6"/>
                                                 <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="fb7-fX-7VZ" secondAttribute="bottom" constant="4" id="f8l-5K-Dpb"/>
-                                                <constraint firstItem="WUw-8N-qXW" firstAttribute="width" secondItem="fb7-fX-7VZ" secondAttribute="width" constant="22" id="j4q-xY-T3w"/>
+                                                <constraint firstItem="WUw-8N-qXW" firstAttribute="width" secondItem="fb7-fX-7VZ" secondAttribute="width" constant="24" id="j4q-xY-T3w"/>
                                                 <constraint firstItem="WUw-8N-qXW" firstAttribute="height" secondItem="fb7-fX-7VZ" secondAttribute="height" constant="18" id="loj-zC-xNd"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -759,8 +759,9 @@
                     </view>
                     <connections>
                         <outlet property="progress" destination="yx2-9Y-roy" id="HdH-MM-SYT"/>
-                        <segue destination="48b-YX-Qv2" kind="show" identifier="Enter" id="l2t-kX-deP"/>
-                        <segue destination="Hdv-7M-9cr" kind="show" identifier="Login" id="nhR-m4-pM5"/>
+                        <outlet property="reconnectingLabel" destination="RoV-O3-Mpu" id="a45-WK-N7g"/>
+                        <segue destination="48b-YX-Qv2" kind="custom" identifier="Enter" customClass="TransitionSegue" customModule="Messenger_for_League_of_Legends" customModuleProvider="target" id="l2t-kX-deP"/>
+                        <segue destination="Hdv-7M-9cr" kind="custom" identifier="Login" customClass="TransitionSegue" customModule="Messenger_for_League_of_Legends" customModuleProvider="target" id="nhR-m4-pM5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="38I-co-ney" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1089,7 +1090,7 @@
                         <outlet property="passwordField" destination="cy6-NX-DRT" id="ACq-BX-bJ7"/>
                         <outlet property="regionButton" destination="oeT-qh-C6I" id="toL-J3-HUn"/>
                         <outlet property="usernameField" destination="L4Q-Qr-lPf" id="D8w-Pc-YHm"/>
-                        <segue destination="48b-YX-Qv2" kind="show" identifier="Authenticated" action="showDetailViewController:sender:" id="lgD-WY-cCj"/>
+                        <segue destination="48b-YX-Qv2" kind="custom" identifier="Authenticated" customClass="TransitionSegue" customModule="Messenger_for_League_of_Legends" customModuleProvider="target" id="lgD-WY-cCj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GSc-Dr-eq4" sceneMemberID="firstResponder"/>
@@ -1368,7 +1369,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Collapse Arrow" width="50" height="50"/>
+        <image name="Collapse Arrow" width="25" height="25"/>
         <image name="Conference" width="25" height="25"/>
         <image name="Conference Filled" width="25" height="25"/>
         <image name="Reminders Disabled" width="25" height="25"/>
@@ -1382,8 +1383,8 @@
         <image name="profile_tier_ring" width="48" height="48"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="rwT-oV-Bj9"/>
         <segue reference="l2t-kX-deP"/>
-        <segue reference="srB-Eq-LJ2"/>
-        <segue reference="wgZ-7i-U7E"/>
+        <segue reference="fJO-XY-gGi"/>
     </inferredMetricsTieBreakers>
 </document>

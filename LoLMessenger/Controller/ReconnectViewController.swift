@@ -12,6 +12,7 @@ import KeychainSwift
 class ReconnectViewController : UIViewController {
 
     @IBOutlet weak var progress: TKTransitionSubmitButton!
+    @IBOutlet weak var reconnectingLabel: UILabel!
 
     var username: String?
     var password: String?
@@ -21,6 +22,7 @@ class ReconnectViewController : UIViewController {
         super.viewDidLoad()
 
         view.backgroundColor = Theme.PrimaryColor
+        reconnectingLabel.text = Localized("Connecting...")
 
         progress.normalBackgroundColor = Theme.HighlightColor
         progress.highlightedBackgroundColor = Theme.HighlightColor.lightenByPercentage(0.1)
@@ -53,12 +55,6 @@ class ReconnectViewController : UIViewController {
             performSegueWithIdentifier("Login", sender: self)
         }
     }
-
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if let targetController = segue.destinationViewController as? UINavigationController {
-            targetController.transitioningDelegate = self
-        }
-    }
 }
 
 extension ReconnectViewController: UIViewControllerTransitioningDelegate, UIPopoverPresentationControllerDelegate {
@@ -79,18 +75,7 @@ extension ReconnectViewController: XMPPConnectionDelegate {
 
     func onAuthenticated(sender: XMPPService) {
         progress.startFinishAnimation(0.5) {
-
-            let storyboard = self.storyboard ?? UIStoryboard(name: "Main", bundle: nil)
-            if let mainNavController = storyboard.instantiateViewControllerWithIdentifier("MainNavController") as? UINavigationController {
-
-                mainNavController.modalTransitionStyle = .CrossDissolve
-                mainNavController.transitioningDelegate = self
-
-                self.presentViewController(mainNavController, animated: true) {
-                    UIApplication.sharedApplication().keyWindow?.rootViewController = mainNavController
-                }
-            }
-
+            self.performSegueWithIdentifier("Enter", sender: self)
         }
     }
 

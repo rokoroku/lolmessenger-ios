@@ -65,9 +65,8 @@ class NavigationUtils {
             loginViewController.modalTransitionStyle = .CrossDissolve
 
             if viewController?.isKindOfClass(LoginViewController) == false {
-                viewController?.presentViewController(loginViewController, animated: true) {
-                    UIApplication.sharedApplication().keyWindow?.rootViewController = loginViewController
-                }
+                let rootController = viewController?.navigationController ?? viewController ?? nil
+                rootController?.showViewController(loginViewController, sender: viewController)
             }
         }
     }

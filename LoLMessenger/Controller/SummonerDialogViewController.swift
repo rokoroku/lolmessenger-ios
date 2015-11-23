@@ -30,6 +30,7 @@ class SummonerDialogViewController : UIViewController {
     @IBOutlet weak var summonerTierImage: UIImageView!
     @IBOutlet weak var summonerTierRing: UIImageView!
 
+
     var hidesBottomButtons:Bool = false
     private var timer: NSTimer?
 
@@ -48,10 +49,13 @@ class SummonerDialogViewController : UIViewController {
         view.layoutSubviews()
         profileIcon.layer.cornerRadius = profileIcon.frame.height/2
         profileIcon.layer.masksToBounds = true
+        chatButton.setTitle(Localized("Chat"), forState: .Normal)
+        closeButton.setTitle(Localized("Close"), forState: .Normal)
         closeButton.addTarget(self, action: "dismiss", forControlEvents: UIControlEvents.TouchUpInside)
         chatButton.addTarget(self, action: "enterChat", forControlEvents: UIControlEvents.TouchUpInside)
         rosterNote.floatingLabel?.backgroundColor = UIColor.clearColor()
         rosterNote.delegate = self
+        rosterNote.placeholder = Localized("Note")
         statusMessage.textColor = Theme.TextColorSecondary
         championScore.textColor = UIColor.init(
             fromImage: masteryIcon.image!,
@@ -208,23 +212,28 @@ class SummonerDialogViewController : UIViewController {
         if let summoner = roster {
             if summoner.jid().user.containsString("sum") {
                 DialogUtils.alert(
-                    "Add as Friend",
-                    message: "Do you want to send a friend request to \(summoner.username)?",
+                    Localized("Add as Friend"),
+                    message: Localized("Do you want to send a friend request to %1$@?", args: summoner.username),
                     handler: { _ in
                         XMPPService.sharedInstance.roster()?.addRoster(summoner)
-                        DialogUtils.alert("Add as Friend", message: "Request Sent!")
+                        DialogUtils.alert(Localized("Add as Friend"),
+                            message: Localized("Request Sent!"))
                 })
             } else {
                 RiotACS.getSummonerByName(summonerName: summoner.username, region: XMPPService.sharedInstance.region!) {
                     if let summoner = $0 {
                         DialogUtils.alert(
-                            "Add as Friend",
-                            message: "Do you want to send a buddy request to \(summoner.username)?",
-                            handler: { _ in XMPPService.sharedInstance.roster()?.addRoster(summoner) })
+                            Localized("Add as Friend"),
+                            message: Localized("Do you want to send a friend request to %1$@?", args: summoner.username),
+                            handler: { _ in
+                                XMPPService.sharedInstance.roster()?.addRoster(summoner)
+                                DialogUtils.alert(Localized("Add as Friend"),
+                                    message: Localized("Request Sent!"))
+                        })
                     } else {
                         DialogUtils.alert(
-                            "Error",
-                            message: "Summoner named \(summoner.username) was not found")
+                            Localized("Error"),
+                            message: Localized("Summoner named %1$@ was not found", args: summoner.username))
                     }
                 }
             }

@@ -151,6 +151,9 @@ class XMPPService : NSObject {
     }
 
     private func teardownStream() {
+        #if DEBUG
+            print("Tearing down the XMPP stream...")
+        #endif
         xmppStream?.removeDelegate(self)
         
         xmppReconnect?.deactivate()
@@ -370,8 +373,8 @@ extension XMPPService : XMPPStreamDelegate {
 
         if error != nil {
             let notification = NotificationUtils.create(
-                title: "Disconnected!",
-                body: error.localizedFailureReason ?? "Undefined Error",
+                title: Localized("Disconnected"),
+                body: error.localizedFailureReason ?? Localized("Undefined Error"),
                 category: Constants.Notification.Category.Connection)
 
             notification.fireDate = NSDate().dateByAddingTimeInterval(5)

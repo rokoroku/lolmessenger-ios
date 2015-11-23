@@ -46,8 +46,14 @@ class RosterTableViewController : UIViewController {
         super.viewDidLoad()
         setTableProperties()
         setSearchController()
+
         navigationController?.delegate = self
         navigationController?.hidesNavigationBarHairline = true
+    }
+
+    func updateLocale() {
+        navigationItem.title = Localized("Friends")
+        if tabBarItem != nil { tabBarItem.title = Localized("Friends") }
     }
 
     func setSearchController() {
@@ -77,6 +83,7 @@ class RosterTableViewController : UIViewController {
     }
 
     override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
         let adjustForTabbarInsets = UIEdgeInsetsMake(self.topLayoutGuide.length, 0, self.bottomLayoutGuide.length, 0)
         self.tableView!.contentInset = adjustForTabbarInsets;
         self.tableView!.scrollIndicatorInsets = adjustForTabbarInsets;
@@ -84,31 +91,38 @@ class RosterTableViewController : UIViewController {
 
     override func viewWillAppear(animated: Bool) {
         // Called when the view is about to made visible. 
+        updateLocale()
         reloadRosterNodes()
         XMPPService.sharedInstance.roster()?.addDelegate(self)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateLocale", name: LCLLanguageChangeNotification, object: nil)
     }
 
     override func viewDidDisappear(animated: Bool) {
         if UIApplication.topViewController()?.isKindOfClass(STPopupContainerViewController) == false {
             XMPPService.sharedInstance.roster()?.removeDelegate(self)
+            NSNotificationCenter.defaultCenter().removeObserver(self, name: LCLLanguageChangeNotification, object: nil)
         }
     }
 
     @IBAction func addAction(sender: AnyObject) {
-        DialogUtils.input("Add a Friend", message: "Please enter summoner name you want to add", placeholder: "summoner name") {
+        DialogUtils.input(
+            Localized("Add as Friend"),
+            message: Localized("Please enter summoner name you want to add"),
+            placeholder: Localized("Summoner Name")) {
             if let name = $0 {
                 RiotACS.getSummonerByName(summonerName: name, region: XMPPService.sharedInstance.region!) {
                     if let summoner = $0 {
                         DialogUtils.alert(
-                            "Add as Friend",
-                            message: "Do you want to send a buddy request to \(summoner.username)?",
+                            Localized("Add as Friend"),
+                            message: Localized("Do you want to send a buddy request to %1$@?", args: summoner.username),
                             handler: { _ in
                                 XMPPService.sharedInstance.roster()?.addRoster(summoner)
-                                DialogUtils.alert("Add New Buddy", message: "Request Sent!")
+                                DialogUtils.alert(Localized("Add as Friend"), message: Localized("Request Sent!"))
                         })
                     } else {
                         DialogUtils.alert(
-                            "Error", message: "Summoner named \(name) was not found")
+                            Localized("Error"),
+                            message: Localized("Summoner named %1$@ was not found", args: name))
                     }
                 }
             }
@@ -164,7 +178,7 @@ extension RosterTableViewController {
     func reloadRosterNodes() {
         groupDictionary = [String:GroupNode]()
 
-        let offlineGroup = GroupNode(name: "Offline")
+        let offlineGroup = GroupNode(name: Constants.XMPP.OfflineGroup)
         let rosterService = XMPPService.sharedInstance.roster()
         if let rosterList = rosterService?.getRosterList() {
             for roster in rosterList {
@@ -187,7 +201,7 @@ extension RosterTableViewController {
     func getGroupNode(name: String) -> GroupNode {
         var groupName = name
         if name == Constants.XMPP.DefaultGroup {
-            groupName = NSLocalizedString("General", comment: "Default Group")
+            groupName = Constants.XMPP.GeneralGroup
         }
         if let groupNode = groupDictionary[groupName] {
             return groupNode
@@ -226,7 +240,7 @@ extension RosterTableViewController: YUTableViewDelegate {
 
     func didMoveNode(node: YUTableViewNode, fromGroup: YUTableViewNode, toGroup: YUTableViewNode) {
         if let group = toGroup as? GroupNode, let groupName = group.data as? String {
-            if groupName == "Offline" {
+            if groupName == Constants.XMPP.OfflineGroup {
                 reloadRosterNodes()
             } else {
 

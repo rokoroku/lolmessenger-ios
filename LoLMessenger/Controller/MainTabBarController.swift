@@ -16,12 +16,26 @@ class MainTabBarController : UITabBarController {
 
         // Do any additional setup after loading the view, typically from a nib.
         self.delegate = self
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateLocale", name: LCLLanguageChangeNotification, object: nil)
 
         if let roster = XMPPService.sharedInstance.roster() {
             updateRosterBadge(roster)
         }
         if let chat = XMPPService.sharedInstance.chat() {
             updateChatBadge(chat)
+        }
+
+        if let navigationController = self.navigationController {
+            UIApplication.sharedApplication().keyWindow?.rootViewController = navigationController
+        }
+        updateLocale()
+    }
+
+    func updateLocale() {
+        if let items = self.tabBar.items {
+            items[0].title = Localized("Friends")
+            items[1].title = Localized("Chat")
+            items[2].title = Localized("Setting")
         }
     }
 
@@ -33,7 +47,7 @@ class MainTabBarController : UITabBarController {
         if let presentedViewController = self.selectedViewController {
             self.tabBarController(self, didSelectViewController: presentedViewController)
         } else {
-            self.navigationItem.title = "Friends"
+            self.navigationItem.title = Localized("Friends")
         }
     }
 

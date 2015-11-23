@@ -114,7 +114,13 @@ class GroupChatTableCell: UITableViewCell {
             message.text = nil
         }
 
-        timestamp.text = chat.timestamp.format("HH:mm")
+        let datestr = chat.timestamp.format("MMM d")
+        let today = NSDate().format("MMM d")
+        if datestr == today {
+            timestamp.text = chat.timestamp.format("HH:mm")
+        } else {
+            timestamp.text = datestr
+        }
 
         if numParticipants > 0 {
             participants.text = String(numParticipants)

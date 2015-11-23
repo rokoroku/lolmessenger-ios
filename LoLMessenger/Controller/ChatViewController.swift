@@ -113,6 +113,7 @@ class ChatViewController : UIViewController {
             tableView.bounds.size.width,
             tableView.bounds.size.height)
         tableView.scrollRectToVisible(rect, animated: false)
+        tableView.backgroundColor = Theme.PrimaryColor
         scrollToBottom()
 
         textField.delegate = self
@@ -120,6 +121,7 @@ class ChatViewController : UIViewController {
         textField.superview?.backgroundColor = Theme.SecondaryColor
         textField.textColor = Theme.TextColorBlack
 
+        sendButton.setTitle(Localized("Send"), forState: .Normal)
         sendButton.addTarget(self, action: "sendMessage", forControlEvents: UIControlEvents.TouchUpInside)
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "dismissKeyboard"))
 
@@ -188,14 +190,9 @@ class ChatViewController : UIViewController {
     override func viewWillAppear(animated: Bool) {
         XMPPService.sharedInstance.chat()?.addDelegate(self)
         XMPPService.sharedInstance.roster()?.addDelegate(self)
-
-//        if roomId != nil {
-//            XMPPService.sharedInstance.chat()?.joinRoomByJID(roomId!)
-//        }
     }
 
     override func viewWillDisappear(animated: Bool) {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
         if let jid = chatJID, let chat = XMPPService.sharedInstance.chat()?.getLeagueChatEntryByJID(jid) {
             chat.update {
                 chat.clearUnread()
@@ -208,6 +205,7 @@ class ChatViewController : UIViewController {
         if UIApplication.topViewController()?.isKindOfClass(STPopupContainerViewController) == false {
             XMPPService.sharedInstance.chat()?.removeDelegate(self)
             XMPPService.sharedInstance.roster()?.removeDelegate(self)
+            NSNotificationCenter.defaultCenter().removeObserver(self)
 
             let possibleSideController = sideViewController ?? sideMenuController()
             possibleSideController?.removeSideController()
@@ -248,10 +246,8 @@ class ChatViewController : UIViewController {
             let animationCurve:UIViewAnimationOptions = UIViewAnimationOptions(rawValue: animationCurveRaw)
 
             var height = endFrame?.size.height ?? 0
-            if endFrame?.size.height > 0 {
-                if beginFrame?.origin.y < endFrame?.origin.y {
-                    height = 0
-                }
+            if height > 0 && beginFrame?.origin.y < endFrame?.origin.y {
+                height = 0
             }
 
             let offset = self.tableView.contentOffset
@@ -438,10 +434,10 @@ extension ChatViewController : RosterDelegate, ChatDelegate {
         groupChatTitleView.titleLabel.textColor = Theme.TextColorPrimary
 
         if isJoined {
-            groupChatTitleView.detailLabel.text = "\(numOfOccupants) occupants"
+            groupChatTitleView.detailLabel.text = Localized("%1$d occupants", args: numOfOccupants)
             groupChatTitleView.detailLabel.textColor = Theme.TextColorSecondary
         } else {
-            groupChatTitleView.detailLabel.text = "Not connected to chat room"
+            groupChatTitleView.detailLabel.text = Localized("Not connected to chat room")
             groupChatTitleView.detailLabel.textColor = Theme.TextColorDisabled
         }
 

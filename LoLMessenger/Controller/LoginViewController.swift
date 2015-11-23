@@ -28,6 +28,9 @@ class LoginViewController: UIViewController {
         usernameField.backgroundColor = Theme.HighlightColor
         passwordField.backgroundColor = Theme.HighlightColor
 
+        usernameField.placeholder = Localized("Username")
+        passwordField.placeholder = Localized("Password")
+
         connectButton.normalBackgroundColor = Theme.HighlightColor
         connectButton.highlightedBackgroundColor = Theme.HighlightColor.lightenByPercentage(0.1)
 
@@ -45,12 +48,13 @@ class LoginViewController: UIViewController {
             let storedPassword = keychain.get(Constants.Key.Password)
             passwordField.text = storedPassword
         }
-        regionButton.setTitle(selectedRegion?.name ?? "Select Region", forState: .Normal)
+        regionButton.setTitle(selectedRegion?.name ?? Localized("Select Region"), forState: .Normal)
     }
 
     override func viewDidAppear(animated: Bool) {
-        if XMPPService.sharedInstance.isAuthenticated {
-            self.onAuthenticated(XMPPService.sharedInstance)
+        XMPPService.sharedInstance.addDelegate(self)
+        if #available(iOS 9.0, *) {
+            UILabel.appearanceWhenContainedInInstancesOfClasses([UILabel.self]).textColor = Theme.TextColorPrimary
         }
     }
 
@@ -88,7 +92,6 @@ class LoginViewController: UIViewController {
                         connectButton.startLoadingAnimation()
                         Async.background({
                             if !XMPPService.sharedInstance.isXmppConnected {
-                                XMPPService.sharedInstance.addDelegate(self)
                                 XMPPService.sharedInstance.connect(region)
                             } else if !XMPPService.sharedInstance.isAuthenticated {
                                 self.authenticate(username, password: password)
@@ -100,13 +103,13 @@ class LoginViewController: UIViewController {
                         })
                     }
                 } else {
-                    DialogUtils.alert("Error", message: "Please select region")
+                    DialogUtils.alert(Localized("Error"), message: Localized("Please select region"))
                 }
             } else {
-                DialogUtils.alert("Error", message: "Please input password")
+                DialogUtils.alert(Localized("Error"), message: Localized("Please input password"))
             }
         } else {
-            DialogUtils.alert("Error", message: "Please input username")
+            DialogUtils.alert(Localized("Error"), message: Localized("Please input username"))
         }
     }
 
@@ -137,7 +140,7 @@ class LoginViewController: UIViewController {
     func showRegionList(sender: AnyObject) {
         dismissKeyboard()
 
-        let alertController = UIAlertController(title: nil, message: "Select Region", preferredStyle: .ActionSheet)
+        let alertController = UIAlertController(title: nil, message: Localized("Select Region"), preferredStyle: .ActionSheet)
 
         let handler: ((UIAlertAction) -> Void) = { action in
             if let title = action.title {
@@ -154,7 +157,7 @@ class LoginViewController: UIViewController {
             alertController.addAction(action)
         }
 
-        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: Localized("Cancel"), style: .Cancel, handler: nil)
         alertController.addAction(cancelAction)
 
         if let senderView = sender as? UIView, let popoverController = alertController.popoverPresentationController {
@@ -196,13 +199,14 @@ extension LoginViewController : XMPPConnectionDelegate {
     
     func onDisconnected(sender: XMPPService, error: ErrorType?) {
         if let _ = error {
-            DialogUtils.alert("Error", message: error.debugDescription)
+            DialogUtils.alert(Localized("Error"), message: error.debugDescription)
         }
         stopConnecting()
     }
     
     func onAuthenticationFailed(sender: XMPPService) {
-        DialogUtils.alert("Error", message: "Authentication Failed, Check your credential and region")
+        DialogUtils.alert(Localized("Error"),
+            message: Localized("Authentication Failed, Check your credential and region"))
         stopConnecting()
     }
 

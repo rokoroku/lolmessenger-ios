@@ -128,6 +128,7 @@ struct Theme {
             cell.detailTextLabel?.textColor = Theme.TextColorPrimary
         }
         BaseCell.appearance().backgroundColor = Theme.PrimaryColor.lightenByPercentage(0.03)
+        BaseCell.appearance().tintColor = Theme.PrimaryColor.lightenByPercentage(0.03)
         BaseCell.appearance().textLabel?.textColor = Theme.TextColorPrimary
         FloatLabelCell.appearance().textLabel?.textColor = Theme.TextColorPrimary
         FloatLabelTextField.appearance().textColor = Theme.TextColorPrimary

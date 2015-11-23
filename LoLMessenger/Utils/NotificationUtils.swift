@@ -47,12 +47,12 @@ class NotificationUtils {
         // create a corresponding local notification
         let notification = UILocalNotification()
         if #available(iOS 8.2, *) {
-            notification.alertTitle = NSLocalizedString("New Message", comment: "New Message Alert Title")
+            notification.alertTitle = Localized("New message arrived")
         } else {
             // Fallback on earlier versions
         }
         notification.alertBody = "\(message.nick) : \(message.body)"
-        notification.alertAction = NSLocalizedString("Open", comment: "New Message Alert Action")
+        notification.alertAction = Localized("Open")
         if StoredProperties.Settings.notifyWithSound.value {
             notification.soundName = UILocalNotificationDefaultSoundName // play default sound
         }
@@ -65,7 +65,7 @@ class NotificationUtils {
         return notification
     }
 
-    static func create(title title: String, body: String, action: String = "Open", category: String, userinfo: [String: AnyObject]? = nil) -> UILocalNotification {
+    static func create(title title: String, body: String, action: String = Localized("Open"), category: String, userinfo: [String: AnyObject]? = nil) -> UILocalNotification {
         // create a corresponding local notification
         let notification = UILocalNotification()
 
@@ -73,7 +73,7 @@ class NotificationUtils {
             notification.alertTitle = title
         }
         notification.alertBody = body
-        notification.alertAction = "Open"
+        notification.alertAction = action
 
         if StoredProperties.Settings.notifyWithSound.value {
             notification.soundName = UILocalNotificationDefaultSoundName // play default sound
@@ -86,7 +86,6 @@ class NotificationUtils {
     }
 
     static func alert(vibrate: Bool = StoredProperties.Settings.notifyWithVibrate.value, sound: Bool = StoredProperties.Settings.notifyWithSound.value) {
-
             if vibrate {
                 AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
             }

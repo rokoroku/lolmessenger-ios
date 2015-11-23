@@ -199,17 +199,17 @@ extension RosterService : XMPPRosterDelegate {
             Async.main(after: 1.5) {
 
                 let notification = NotificationUtils.create(
-                    title: "Buddy Subscription Request",
-                    body: "The buddy \(roster.username) wants to add you to their list and see your presence online",
+                    title: Localized("Buddy Request"),
+                    body: Localized("The buddy %1$@ wants to add you to their list and see your presence online", args: roster.username),
                     category: Constants.Notification.Category.Subscribtion)
                 NotificationUtils.schedule(notification)
 
                 DialogUtils.alert(
-                    "Buddy Subscription Request",
-                    message: "The buddy \(roster.username) wants to add you to their list and see your presence online",
+                    Localized("Buddy Request"),
+                    message: Localized("The buddy %1$@ wants to add you to their list and see your presence online", args: roster.username),
                     actions: [
-                        UIAlertAction(title: "OK", style: .Default, handler: { _ in self.addRoster(roster) }),
-                        UIAlertAction(title: "NO", style: .Cancel, handler: { _ in self.removeRoster(roster) })
+                        UIAlertAction(title: Localized("OK"), style: .Default, handler: { _ in self.addRoster(roster) }),
+                        UIAlertAction(title: Localized("NO"), style: .Cancel, handler: { _ in self.removeRoster(roster) })
                     ])
 
                 self.invokeDelegates {

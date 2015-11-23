@@ -14,7 +14,9 @@ class RecentChatViewController : UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     @IBAction func addAction(sender: AnyObject) {
-        DialogUtils.input("Enter New Chat", message: "Please enter the name of chat room you want to join", placeholder: "room name") {
+        DialogUtils.input(Localized("Enter New Chat"),
+            message: Localized("Please enter the name of chat room you want to join"),
+            placeholder: Localized("Room Name")) {
             if let name = $0, let chatEntry = XMPPService.sharedInstance.chat()?.joinRoom(name) {
                 NavigationUtils.navigateToChat(chatId: chatEntry.id)
             }
@@ -60,13 +62,19 @@ class RecentChatViewController : UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.delegate = self
         navigationController?.hidesNavigationBarHairline = true
+
         tableView.delegate = self
         tableView.dataSource = self
         tableView.backgroundView = UIView()
         tableView.backgroundView?.backgroundColor = Theme.PrimaryColor
         setSearchController()
+
+    }
+
+    func updateLocale() {
+        navigationItem.title = Localized("Chat")
+        if tabBarItem != nil { tabBarItem.title = Localized("Chat") }
     }
 
     override func viewWillLayoutSubviews() {
@@ -94,11 +102,13 @@ class RecentChatViewController : UIViewController {
     override func viewWillAppear(animated: Bool) {
         // Load chats
         reloadChats()
+        updateLocale()
 
         // Add delegates
+        navigationController?.delegate = self
         XMPPService.sharedInstance.roster()?.addDelegate(self)
         XMPPService.sharedInstance.chat()?.addDelegate(self)
-
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateLocale", name: LCLLanguageChangeNotification, object: nil)
     }
 
 
@@ -107,6 +117,7 @@ class RecentChatViewController : UIViewController {
         if let _ = UIApplication.topViewController() as? STPopupContainerViewController {
             XMPPService.sharedInstance.chat()?.removeDelegate(self)
             XMPPService.sharedInstance.roster()?.removeDelegate(self)
+            NSNotificationCenter.defaultCenter().removeObserver(self, name: LCLLanguageChangeNotification, object: nil)
         }
     }
 

@@ -1,0 +1,280 @@
+/*
+ * Connection
+ */
+
+"Connecting..." = "Connecting...";
+
+"Disconnected" = "Disconnected";
+
+"Reconnect" = "Reconnect";
+
+"Background session will be expired in one minute." = "Background session will be expired in one minute.";
+
+"Your presence has gone offline." = "Your presence has gone offline.";
+
+
+
+
+
+/*
+ * Login Screen
+ */
+
+"Username" = "Username";
+
+"Password" = "Password";
+
+"Select Region" = "Select Region";
+
+"Please select region" = "Please select region";
+
+"Please input password" = "Please input password";
+
+"Please input username" = "Please input username";
+
+"Authentication Failed, Check your credential and region" = "Authentication Failed, Check your credential and region";
+
+
+
+
+
+
+/*
+ * Friends
+ */
+
+"Friends" = "Friends";
+
+"Summoner Name" = "Summoner Name";
+
+"Note" = "Note";
+
+"Buddy Request" = "Buddy Request";
+
+"The buddy %1$@ wants to add you to their list and see your presence online" = "The buddy %1$@ wants to add you to their list and see your presence online";
+
+"Add as Friend" = "Add as Friend";
+
+"Please enter summoner name you want to add" = "Please enter summoner name you want to add";
+
+"Do you want to send a friend request to %1$@?" = "Do you want to send a friend request to %1$@?";
+
+"Request Sent!" = "Request Sent!";
+
+"Summoner named %1$@ was not found" = "Summoner named %1$@ was not found";
+
+
+
+
+
+/*
+ * Chat
+ */
+
+"Chat" = "Chat";
+
+"1 occupant" = "1 occupant";
+
+"%1$d occupants" = "%1$d occupants";
+
+"New message arrived" = "New message arrived";
+
+"Not connected to chat room" = "Not connected to chat room";
+
+"Enter New Chat" = "Enter New Chat";
+
+"Please enter the name of chat room you want to join" = "Please enter the name of chat room you want to join";
+
+"Room Name" = "Room Name";
+
+
+
+
+
+/*
+ * Settings
+ */
+
+"Setting" = "Setting";
+
+"Sign out" = "Sign out";
+
+"Are you sure you want to sign out?" = "Are you sure you want to sign out?";
+
+"Account" = "Account";
+
+"Summoner Name" = "Summoner Name";
+
+"Status Message" = "Status Message";
+
+"Notification" = "Notification";
+
+"New Message" = "New Message";
+
+"New Friend Request" = "New Friend Request";
+
+"Alert Type" = "Alert Type";
+
+"Sound" = "Sound";
+
+"Vibrate" = "Vibrate";
+
+"Background Session" = "Background Session";
+
+"Since the time of background task is limited to about 3 minutes by Apple's app policy, application will be terminated after the given amount of time." = "Since the time of background task is limited to about 3 minutes by Apple's app policy, application will be terminated after the given amount of time.";
+
+"Expiration Warning" = "Expiration Warning";
+
+"Play notification sound" = "Play notification sound";
+
+"Friend List" = "Friend List";
+
+"Separate Offline Group" = "Separate Offline Group";
+
+"Sort by" = "Sort by";
+
+"Enter to Send" = "Enter to Send";
+
+"Show unread message first" = "Show unread message first";
+
+"Others" = "Others";
+
+"Language" = "Language";
+
+"Some settings are applied after restart." = "Some settings are applied after restart.";
+
+
+
+/*
+ * Queue Type
+ */
+
+"Normal" = "Normal";
+
+"Co-op" = "Co-op";
+
+"Ranked" = "Ranked";
+
+"Custom" = "Custom";
+
+"Practice" = "Practice";
+
+
+
+
+
+/*
+ * Game Type
+ */
+
+"Summoner's Rift" = "Summoner's Rift";
+
+"The Crystal Scar" = "The Crystal Scar";
+
+"Twisted Treeline" = "Twisted Treeline";
+
+"ARAM" = "ARAM";
+
+
+
+
+
+/*
+ * Game Status Formatting
+ */
+
+/* In game string with Game type, Queue type and Champion (e.g. Summoner's Rift (Ranked) - KhaZix) */
+"%1$@ (%2$@) - %3$@" = "%1$@ (%2$@) - %3$@";
+
+/* In game string with Game type and Queue type (e.g. Summoner's Rift (Ranked)) */
+"%1$@ (%2$@)" = "%1$@ (%2$@)";
+
+/* In game string with Queue type and Champion (e.g. Normal Game - KhaZix) */
+"%1$@ Game - %2$@" = "%1$@ Game - %2$@";
+
+/* In game string with Queue type (e.g. Normal Game) */
+"%1$@ Game" = "%1$@ Game";
+
+/* In game string with Champion */
+"In Game - %1$@" = "In Game - %1$@";
+
+/* In game string */
+"In Game" = "In Game";
+
+"In Team Builder" = "In Team Builder";
+
+"Hosting a %1$@ Game" = "Hosting a %1$@ Game";
+
+"In Team Select" = "In Team Select";
+
+"In Queue" = "In Queue";
+
+"In Champion Select" = "In Champion Select";
+
+"Spectating" = "Spectating";
+
+"Away" = "Away";
+
+"Online" = "Online";
+
+"Offline" = "Offline";
+
+
+
+
+
+/*
+ * SHARED STRINGS
+ */
+
+"OK" = "OK";
+
+"NO" = "NO";
+
+"Cancel" = "Cancel";
+
+"Open" = "Open";
+
+"Close" = "Close";
+
+"Send" = "Send";
+
+"Error" = "Error";
+
+"Warning" = "Warning";
+
+"General" = "General";
+
+"Unknown" = "Unknown";
+
+"Undefined Error" = "Undefined Error";
+
+"Using iOS Client" = "Using iOS Client";
+
+
+
+
+
+/*
+ * Regions
+ */
+
+"North America" = "North America";
+
+"Europe West" = "Europe West";
+
+"Europe Nordic & East" = "Europe Nordic & East";
+
+"Brazil" = "Brazil";
+
+"Korea" = "Korea";
+
+"Latin America North" = "Latin America North";
+
+"Latin America South" = "Latin America South";
+
+"Oceania" = "Oceania";
+
+"Turkey" = "Turkey";
+
+"Russia" = "Russia";

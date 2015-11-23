@@ -41,15 +41,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationDidEnterBackground(application: UIApplication) {
-        print("Application entered background state")
+        #if DEBUG
+            print("Application entered background state")
+        #endif
 
         //todo: application badge update
         didShowDisconnectionWarning = false
 
-        if !StoredProperties.Settings.backgroundEnabled {
+        if !StoredProperties.Settings.backgroundEnabled && XMPPService.sharedInstance.isAuthenticated {
             backgroundTask = application.beginBackgroundTaskWithExpirationHandler {
                 Async.main {
-                    print("Background Task Expired")
                     application.endBackgroundTask(self.backgroundTask)
                     self.backgroundTask = UIBackgroundTaskInvalid
                 }
@@ -93,14 +94,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         #endif
  
         let isConnected = XMPPService.sharedInstance.isAuthenticated
-        if application.backgroundTimeRemaining < 60 && !didShowDisconnectionWarning && isConnected {
+        if application.backgroundTimeRemaining < 45 && !didShowDisconnectionWarning && isConnected {
             if StoredProperties.Settings.notifyBackgroundExpire.value {
+
+                let notification = NotificationUtils.create(
+                    title: Localized("Warning"),
+                    body: Localized("Background session will be expired in one minute."),
+                    action: Localized("Open"),
+                    category: Constants.Notification.Category.Connection)
+
+                let playSound = StoredProperties.Settings.backgroundNotifyWithSound.value
+                notification.soundName = playSound ? UILocalNotificationDefaultSoundName : nil
+
                 NotificationUtils.dismiss(Constants.Notification.Category.Connection)
-                NotificationUtils.schedule(NotificationUtils.create(
-                    title: "Warning",
-                    body: "Background session will be expired in one minute.",
-                    action: "Open",
-                    category: Constants.Notification.Category.Connection))
+                NotificationUtils.schedule(notification)
             }
 
             didShowDisconnectionWarning = true
@@ -110,12 +117,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.backgroundTimer?.invalidate()
             self.backgroundTimer = nil
 
+            let notification = NotificationUtils.create(
+                title: Localized("Disconnected"),
+                body: Localized("Your presence has gone offline."),
+                action: Localized("Reconnect"),
+                category: Constants.Notification.Category.Connection)
+
+            let playSound = StoredProperties.Settings.backgroundNotifyWithSound.value
+            notification.soundName = playSound ? UILocalNotificationDefaultSoundName : nil
+
             NotificationUtils.dismiss(Constants.Notification.Category.Connection)
-            NotificationUtils.schedule(NotificationUtils.create(
-                title: "Disconnected",
-                body: "Your presence has gone offline.",
-                action: "Reconnect",
-                category: Constants.Notification.Category.Connection))
+            NotificationUtils.schedule(notification)
 
             XMPPService.sharedInstance.disconnect()
             shouldRedirectToReconnect = true

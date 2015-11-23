@@ -74,19 +74,19 @@ class LeagueRoster {
     //Properties
     private var currentGameQueueString: String? {
         if let type = gameQueueType {
-            if type.containsString("ARAM") || type.containsString("NORMAL") || type.containsString("UNRANKED") { return "Normal" }
-            else if type.containsString("BOT") { return "Co-op" }
-            else if type.containsString("RANKED") { return "Ranked" }
-            else if type.containsString("NONE") { return  "Custom" }
+            if type.containsString("ARAM") || type.containsString("NORMAL") || type.containsString("UNRANKED") { return Localized("Normal") }
+            else if type.containsString("BOT") { return Localized("Co-op") }
+            else if type.containsString("RANKED") { return Localized("Ranked") }
+            else if type.containsString("NONE") { return  Localized("Custom") }
         }
         return nil
     }
 
     private var currentGameType: String? {
         if let type = gameQueueType {
-            if type.containsString("ARAM") { return "ARAM" }
-            else if type.containsString("5x5") || type.containsString("NORMAL") { return "Summoner's Rift" }
-            else if type.containsString("3x3") { return "Twisted Treeline" }
+            if type.containsString("ARAM") { return Localized("ARAM") }
+            else if type.containsString("5x5") || type.containsString("NORMAL") { return Localized("Summoner's Rift") }
+            else if type.containsString("3x3") { return Localized("Twisted Treeline") }
         }
         return nil
     }
@@ -146,18 +146,22 @@ class LeagueRoster {
         if status == .InGame {
             if let queue = currentGameQueueString {
                 if let type = currentGameType {
-                    if let champion = skinName { return "\(type) (\(queue)) - \(champion)" }
-                    else { return "\(type) (\(queue))" }
+                    if let champion = skinName {
+                        return Localized("%1$@ (%2$@) - %3$@", args: type, queue, champion)
+                    }
+                    else {
+                        return Localized("%1$@ (%2$@)", args: type, queue)
+                    }
                 }
                 else if let champion = skinName {
-                    return "\(queue) Game - \(champion)"
+                    return Localized("%1$@ Game - %2$@", args: queue, champion)
                 } else {
-                    return "\(queue) Game "
+                    return Localized("%1$@ Game", args: queue)
                 }
             } else if let champion = skinName {
-                return "In Game - \(champion)"
+                return Localized("In Game - ", args: champion)
             } else {
-                return "In Game"
+                return Localized("In Game")
             }
         }
         return nil
@@ -171,49 +175,49 @@ class LeagueRoster {
                 if showStatusMessage && !statusMessage.stringByReplacingOccurrencesOfString(" ", withString: "").isEmpty {
                     return statusMessage
                 } else {
-                    return status == .Online ? "Online" : "Away"
+                    return status == .Online ? Localized("Online") : Localized("Away")
                 }
             }
         case .HostingGame:
             var queueType = ""
             if let type = gameStatus {
-                if type == "inTeamBuilder" { return "In Team Builder" }
-                else if type.containsString("Normal") { queueType = "Normal" }
-                else if type.containsString("Ranked") { queueType = "Ranked" }
-                else if type.containsString("CoopVsAI") { queueType = "Co-op" }
-                else if type.containsString("Practice") { queueType = "Practice" }
+                if type == "inTeamBuilder" { return Localized("In Team Builder") }
+                else if type.containsString("Normal") { queueType = Localized("Normal") }
+                else if type.containsString("Ranked") { queueType = Localized("Ranked") }
+                else if type.containsString("CoopVsAI") { queueType = Localized("Co-op") }
+                else if type.containsString("Practice") { queueType = Localized("Practice") }
             }
-            return "Hosting a \(queueType) Game"
+            return Localized("Hosting a %1$@ Game", args: queueType)
 
         case .InTeamSelect:
-            return "In Team Select"
+            return Localized("In Team Select")
 
         case .InQueue:
-            return "In Queue"
+            return Localized("In Queue")
 
         case .InChampionSelect:
-            return "In Champion Select"
+            return Localized("In Champion Select")
 
         case .InGame:
-            return "In Game"
+            return Localized("In Game")
 
         case .Spectating:
-            return "Spectating"
+            return Localized("Spectating")
 
         case .Offline:
-            return "Offline"
+            return Localized("Offline")
 
         default:
             break
         }
 
         switch(show) {
-        case .Chat: return "Online"
-        case .Away: return "Away"
-        case .Dnd: return "In Game"
+        case .Chat: return Localized("Online")
+        case .Away: return Localized("Away")
+        case .Dnd: return Localized("In Game")
         default: break
         }
-        return "Offline"
+        return Localized("Offline")
     }
 
     func parsePresence(xmppPresence: XMPPPresence) {

@@ -464,6 +464,7 @@ class SideMenuController: UIViewController, UIGestureRecognizerDelegate {
         transitionInProgress = true
 
         self.sidePanelVisible = reveal
+        self.tapRecognizer.enabled = reveal
 
         if (reveal) {
 
