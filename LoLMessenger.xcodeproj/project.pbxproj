@@ -23,12 +23,16 @@
 		F83FB20E1BDFC96F00FBDCCA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F83FB20B1BDFC96F00FBDCCA /* Main.storyboard */; };
 		F840B1091BF3CB5900E0FE89 /* GroupChatTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F840B1081BF3CB5900E0FE89 /* GroupChatTitleView.swift */; };
 		F84CB8F11BD78DD60054801F /* NotificationUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84CB8F01BD78DD60054801F /* NotificationUtils.swift */; };
+		F84FA1201C01A06B0042CD99 /* Localize.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84FA11F1C01A06B0042CD99 /* Localize.swift */; };
+		F84FA1261C01EBFE0042CD99 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F84FA1241C01EBFE0042CD99 /* Localizable.strings */; };
+		F84FA12A1C02567C0042CD99 /* TransitionSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84FA1291C02567C0042CD99 /* TransitionSegue.swift */; };
 		F8524ADD1BFDA4F700671D32 /* TKTransitionSubmitButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8524ADC1BFDA4F700671D32 /* TKTransitionSubmitButton.swift */; };
 		F863677F1BE6953E0075B08B /* SummonerDialogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F863677E1BE6953E0075B08B /* SummonerDialogViewController.swift */; };
 		F86D4C751BCCF45C009E9083 /* RosterService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86D4C741BCCF45C009E9083 /* RosterService.swift */; };
 		F8803C191BDB6C59005AC9CA /* NavigationUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8803C181BDB6C59005AC9CA /* NavigationUtils.swift */; };
 		F88589501BEDD6CE00B39BED /* RiotAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F885894F1BEDD6CE00B39BED /* RiotAPIClient.swift */; };
 		F88589681BEF30FA00B39BED /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F88589661BEF30FA00B39BED /* LaunchScreen.storyboard */; };
+		F88670A91C04043000F8B3E3 /* LeagueLocale.swift in Sources */ = {isa = PBXBuildFile; fileRef = F88670A81C04043000F8B3E3 /* LeagueLocale.swift */; };
 		F88676581BCF5F79006C6B6A /* RealmExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F88676571BCF5F79006C6B6A /* RealmExtensions.swift */; };
 		F886765A1BCF6313006C6B6A /* ChatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F88676591BCF6313006C6B6A /* ChatService.swift */; };
 		F8893D821BDCA97D0086DBED /* StoredProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8893D811BDCA97D0086DBED /* StoredProperties.swift */; };
@@ -93,12 +97,18 @@
 		F83FB20C1BDFC96F00FBDCCA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		F840B1081BF3CB5900E0FE89 /* GroupChatTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupChatTitleView.swift; sourceTree = "<group>"; };
 		F84CB8F01BD78DD60054801F /* NotificationUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationUtils.swift; sourceTree = "<group>"; };
+		F84FA11F1C01A06B0042CD99 /* Localize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Localize.swift; sourceTree = "<group>"; };
+		F84FA1251C01EBFE0042CD99 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		F84FA1271C01EC0F0042CD99 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		F84FA1281C01EC2F0042CD99 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
+		F84FA1291C02567C0042CD99 /* TransitionSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitionSegue.swift; sourceTree = "<group>"; };
 		F8524ADC1BFDA4F700671D32 /* TKTransitionSubmitButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TKTransitionSubmitButton.swift; sourceTree = "<group>"; };
 		F863677E1BE6953E0075B08B /* SummonerDialogViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SummonerDialogViewController.swift; sourceTree = "<group>"; };
 		F86D4C741BCCF45C009E9083 /* RosterService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RosterService.swift; sourceTree = "<group>"; };
 		F8803C181BDB6C59005AC9CA /* NavigationUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationUtils.swift; sourceTree = "<group>"; };
 		F885894F1BEDD6CE00B39BED /* RiotAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RiotAPIClient.swift; sourceTree = "<group>"; };
 		F88589671BEF30FA00B39BED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		F88670A81C04043000F8B3E3 /* LeagueLocale.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeagueLocale.swift; sourceTree = "<group>"; };
 		F88676571BCF5F79006C6B6A /* RealmExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmExtensions.swift; sourceTree = "<group>"; };
 		F88676591BCF6313006C6B6A /* ChatService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatService.swift; sourceTree = "<group>"; };
 		F8893D811BDCA97D0086DBED /* StoredProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StoredProperties.swift; path = Utils/StoredProperties.swift; sourceTree = "<group>"; };
@@ -159,6 +169,7 @@
 			children = (
 				F8E0CD611BFC563E00E64FDF /* XMPPRoomLeagueRosterStorage.swift */,
 				F8E0CD631BFC67EF00E64FDF /* LeagueAssetManager.swift */,
+				F84FA11F1C01A06B0042CD99 /* Localize.swift */,
 				F891A01E1BF20A840043DC62 /* Weak.swift */,
 				1B9CEE337FAA5E2BE4A6D0DC /* Async.swift */,
 				F8E22BD01BBE5C1900C03773 /* StringExtenisions.swift */,
@@ -171,6 +182,7 @@
 				F8803C181BDB6C59005AC9CA /* NavigationUtils.swift */,
 				F8D63D0F1BEA38F000BB8DEB /* UIExtensions.swift */,
 				F822E50F1BF1ADFB00C45C8F /* PopupSegue.swift */,
+				F84FA1291C02567C0042CD99 /* TransitionSegue.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -238,6 +250,7 @@
 				F894015E1BDFDAEA00635D36 /* LeagueMessage.swift */,
 				F894015F1BDFDAEA00635D36 /* LeagueRoster.swift */,
 				F89401601BDFDAEA00635D36 /* LeagueServer.swift */,
+				F88670A81C04043000F8B3E3 /* LeagueLocale.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -285,6 +298,7 @@
 			children = (
 				F8E0CD5F1BFC32AD00E64FDF /* Assets.xcassets */,
 				F8B55C6D1BB532FB005C759D /* Info.plist */,
+				F84FA1241C01EBFE0042CD99 /* Localizable.strings */,
 				F8E8C0A11BF0C7A300024462 /* LoLMessenger-Bridging-Header.h */,
 				F8B55C5E1BB532FB005C759D /* AppDelegate.swift */,
 				1B9CE1D4FB6A038AF2D7AAD6 /* Constants.swift */,
@@ -389,6 +403,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ko,
 			);
 			mainGroup = F8B55C521BB532FB005C759D;
 			productRefGroup = F8B55C5C1BB532FB005C759D /* Products */;
@@ -407,6 +422,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F88589681BEF30FA00B39BED /* LaunchScreen.storyboard in Resources */,
+				F84FA1261C01EBFE0042CD99 /* Localizable.strings in Resources */,
 				F8E0CD601BFC32AD00E64FDF /* Assets.xcassets in Resources */,
 				F83FB20E1BDFC96F00FBDCCA /* Main.storyboard in Resources */,
 			);
@@ -543,6 +559,7 @@
 				F8893D821BDCA97D0086DBED /* StoredProperties.swift in Sources */,
 				F8E22BD11BBE5C1900C03773 /* StringExtenisions.swift in Sources */,
 				F8524ADD1BFDA4F700671D32 /* TKTransitionSubmitButton.swift in Sources */,
+				F88670A91C04043000F8B3E3 /* LeagueLocale.swift in Sources */,
 				F89401701BDFDAEA00635D36 /* FloatLabelTextField.swift in Sources */,
 				F89401751BDFDAEA00635D36 /* YUTableViewNode.swift in Sources */,
 				F8E8C0A01BF0C55B00024462 /* DigestExtensions.swift in Sources */,
@@ -555,11 +572,13 @@
 				F8A489081BC50E1C00D7409B /* MulticastDelegate.swift in Sources */,
 				F88676581BCF5F79006C6B6A /* RealmExtensions.swift in Sources */,
 				F8E22BD31BBE668700C03773 /* XMPPExtensions.swift in Sources */,
+				F84FA1201C01A06B0042CD99 /* Localize.swift in Sources */,
 				F8E8C0A71BF1748900024462 /* ReconnectViewController.swift in Sources */,
 				F8E8C0A51BF0EE2300024462 /* SideMenuController.swift in Sources */,
 				F894016B1BDFDAEA00635D36 /* LeagueMessage.swift in Sources */,
 				F83FB1EB1BDFC8AA00FBDCCA /* MoreViewController.swift in Sources */,
 				F8B55C5F1BB532FB005C759D /* AppDelegate.swift in Sources */,
+				F84FA12A1C02567C0042CD99 /* TransitionSegue.swift in Sources */,
 				F83FB1EC1BDFC8AA00FBDCCA /* RecentChatViewController.swift in Sources */,
 				F886765A1BCF6313006C6B6A /* ChatService.swift in Sources */,
 				F89401721BDFDAEA00635D36 /* RecentChatTableCell.swift in Sources */,
@@ -608,6 +627,16 @@
 				F83FB20C1BDFC96F00FBDCCA /* Base */,
 			);
 			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		F84FA1241C01EBFE0042CD99 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F84FA1251C01EBFE0042CD99 /* Base */,
+				F84FA1271C01EC0F0042CD99 /* en */,
+				F84FA1281C01EC2F0042CD99 /* ko */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 		F88589661BEF30FA00B39BED /* LaunchScreen.storyboard */ = {

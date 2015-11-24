@@ -49,6 +49,7 @@ class LoginViewController: UIViewController {
             passwordField.text = storedPassword
         }
         regionButton.setTitle(selectedRegion?.name ?? Localized("Select Region"), forState: .Normal)
+        accountButton.setTitle(Localized("Need an account?"), forState: .Normal)
     }
 
     override func viewDidAppear(animated: Bool) {

@@ -133,7 +133,6 @@ struct Theme {
         FloatLabelCell.appearance().textLabel?.textColor = Theme.TextColorPrimary
         FloatLabelTextField.appearance().textColor = Theme.TextColorPrimary
         FloatLabelTextField.appearance().tintColor = Theme.HighlightColor.lightenByPercentage(0.4)
-
     }
 
 }

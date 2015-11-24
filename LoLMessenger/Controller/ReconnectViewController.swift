@@ -17,6 +17,7 @@ class ReconnectViewController : UIViewController {
     var username: String?
     var password: String?
     var region: LeagueServer?
+    var isConnecting = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,33 +27,37 @@ class ReconnectViewController : UIViewController {
 
         progress.normalBackgroundColor = Theme.HighlightColor
         progress.highlightedBackgroundColor = Theme.HighlightColor.lightenByPercentage(0.1)
+        progress.startLoadingAnimation()
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewDidAppear(animated: Bool) {
         // Restore User Credentials if available
-        let keychain = KeychainSwift()
-        if let storedUsername = keychain.get(Constants.Key.Username),
-            let storedPassword = keychain.get(Constants.Key.Password),
-            let storedRegion = LeagueServer.forShorthand(keychain.get(Constants.Key.Region)) {
-                username = storedUsername
-                password = storedPassword
-                region = storedRegion
+        if !isConnecting {
+            let keychain = KeychainSwift()
+            if let storedUsername = keychain.get(Constants.Key.Username),
+                let storedPassword = keychain.get(Constants.Key.Password),
+                let storedRegion = LeagueServer.forShorthand(keychain.get(Constants.Key.Region)) {
+                    isConnecting = true
+                    username = storedUsername
+                    password = storedPassword
+                    region = storedRegion
 
-                progress.startLoadingAnimation()
-                Async.background({
-                    XMPPService.sharedInstance.addDelegate(self)
-                    if !XMPPService.sharedInstance.isXmppConnected {
-                        XMPPService.sharedInstance.connect(storedRegion)
-                    } else if !XMPPService.sharedInstance.isAuthenticated {
-                        XMPPService.sharedInstance.login(storedUsername, password: storedPassword)
-                    } else {
-                        Async.main {
-                            self.onAuthenticated(XMPPService.sharedInstance)
+                    Async.background({
+                        XMPPService.sharedInstance.addDelegate(self)
+                        if !XMPPService.sharedInstance.isXmppConnected {
+                            XMPPService.sharedInstance.connect(storedRegion)
+                        } else if !XMPPService.sharedInstance.isAuthenticated {
+                            XMPPService.sharedInstance.login(storedUsername, password: storedPassword)
+                        } else {
+                            Async.main {
+                                self.onAuthenticated(XMPPService.sharedInstance)
+                            }
                         }
-                    }
-                })
-        } else {
-            performSegueWithIdentifier("Login", sender: self)
+                    })
+            } else {
+                isConnecting = false
+                self.performSegueWithIdentifier("Login", sender: self)
+            }
         }
     }
 }

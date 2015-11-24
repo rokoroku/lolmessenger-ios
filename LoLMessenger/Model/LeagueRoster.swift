@@ -146,20 +146,20 @@ class LeagueRoster {
         if status == .InGame {
             if let queue = currentGameQueueString {
                 if let type = currentGameType {
-                    if let champion = skinName {
-                        return Localized("%1$@ (%2$@) - %3$@", args: type, queue, champion)
-                    }
-                    else {
+                    if skinName != nil && !(skinName!.isEmpty) {
+                        return Localized("%1$@ (%2$@) - %3$@", args: type, queue, LeagueAssetManager.getChampionString(skinName!))
+                    } else {
                         return Localized("%1$@ (%2$@)", args: type, queue)
                     }
                 }
-                else if let champion = skinName {
-                    return Localized("%1$@ Game - %2$@", args: queue, champion)
+                if skinName != nil && !(skinName!.isEmpty) {
+                    return Localized("%1$@ Game - %2$@", args: queue, LeagueAssetManager.getChampionString(skinName!))
                 } else {
                     return Localized("%1$@ Game", args: queue)
                 }
-            } else if let champion = skinName {
-                return Localized("In Game - ", args: champion)
+            }
+            if skinName != nil && !(skinName!.isEmpty) {
+                return Localized("In Game - ", args: LeagueAssetManager.getChampionString(skinName!))
             } else {
                 return Localized("In Game")
             }

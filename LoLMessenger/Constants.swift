@@ -26,6 +26,9 @@ struct Constants {
         static let Username = "username"
         static let Password = "password"
         static let Region = "region"
+        static func ChampionData(locale: String) -> String {
+            return "champion_\(locale)"
+        }
         static func Presence(userid: String) -> String {
             return "presence_\(userid)"
         }

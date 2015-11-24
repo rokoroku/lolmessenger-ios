@@ -160,4 +160,23 @@ class RiotAPI {
             callback(nil)
         }
     }
+
+    class func getChampionData(region: LeagueServer, callback: ((JSON?) -> Void)) {
+        var url = "https://global.api.pvp.net/api/lol/static-data/\(region.shorthand.lowercaseString)/v1.2/champion?api_key=\(randomKey)"
+        if let locale = LeagueLocale.getPreferredLocale() {
+            url += "&locale=\(locale.description)"
+        }
+        Alamofire.request(.GET, url).responseJSON { response in
+            if response.result.isSuccess {
+                if let value = response.result.value {
+                    let data = JSON(value)
+                    callback(data)
+                } else {
+                    callback(nil)
+                }
+            } else {
+                callback(nil)
+            }
+        }
+    }
 }

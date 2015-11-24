@@ -392,6 +392,8 @@ extension XMPPService : XMPPStreamDelegate {
                 print("didReceiveSessionIQ! " + iq.description)
             #endif
 
+            LeagueAssetManager.reloadChampionData()
+
             let summonerName = session.getElementStringValue("summoner_name", defaultValue: "Unknown")!
             myRosterElement = LeagueRoster(jid: sender.myJID, nickname: summonerName, group: nil)
             if let storedPresence = StoredProperties.Presences.get(sender.myJID.user) {

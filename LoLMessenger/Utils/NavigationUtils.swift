@@ -10,7 +10,7 @@ import UIKit
 
 class NavigationUtils {
 
-    static func navigateToReconnect(viewController: UIViewController? = UIApplication.topViewController(), block: dispatch_block_t? = nil) {
+    static func navigateToReconnect(viewController: UIViewController? = UIApplication.topViewController()) {
 
         let storyboard = viewController?.storyboard ?? UIStoryboard(name: "Main", bundle: nil)
         if let reconnectViewController = storyboard.instantiateViewControllerWithIdentifier("ReconnectViewController") as? ReconnectViewController {
@@ -20,23 +20,20 @@ class NavigationUtils {
             if viewController?.isKindOfClass(ReconnectViewController) == false {
                 viewController?.presentViewController(reconnectViewController, animated: true) {
                     UIApplication.sharedApplication().keyWindow?.rootViewController = reconnectViewController
-                    block?()
                 }
             }
         }
     }
 
-    static func navigateToMain(viewController: UIViewController? = UIApplication.topViewController(), block: dispatch_block_t? = nil) {
+    static func navigateToMain(viewController: UIViewController? = UIApplication.rootViewController()) {
 
         let storyboard = viewController?.storyboard ?? UIStoryboard(name: "Main", bundle: nil)
-        if let reconnectViewController = storyboard.instantiateViewControllerWithIdentifier("MainNavController") as? UINavigationController {
+        if let mainViewController = storyboard.instantiateViewControllerWithIdentifier("MainNavController") as? UINavigationController {
 
-            reconnectViewController.modalTransitionStyle = .CrossDissolve
 
             if viewController?.isKindOfClass(ReconnectViewController) == false {
-                viewController?.presentViewController(reconnectViewController, animated: true) {
-                    UIApplication.sharedApplication().keyWindow?.rootViewController = reconnectViewController
-                    block?()
+                viewController?.presentViewController(mainViewController, animated: true) {
+                    UIApplication.sharedApplication().keyWindow?.rootViewController = mainViewController
                 }
             }
         }
@@ -52,21 +49,21 @@ class NavigationUtils {
                         return
                     }
                 }
-
-                chatViewController.setInitialChatData(chatEntry)
-                viewController?.navigationController?.pushViewController(chatViewController, animated: true)
+            chatViewController.setInitialChatData(chatEntry)
+            viewController?.navigationController?.pushViewController(chatViewController, animated: true)
         }
     }
 
-    static func navigateToLogin(viewController: UIViewController? = UIApplication.topViewController()) {
+    static func navigateToLogin(viewController: UIViewController? = UIApplication.rootViewController()) {
         let storyboard = viewController?.storyboard ?? UIStoryboard(name: "Main", bundle: nil)
         if let loginViewController = storyboard.instantiateViewControllerWithIdentifier("LoginViewController") as? LoginViewController {
 
             loginViewController.modalTransitionStyle = .CrossDissolve
 
             if viewController?.isKindOfClass(LoginViewController) == false {
-                let rootController = viewController?.navigationController ?? viewController ?? nil
-                rootController?.showViewController(loginViewController, sender: viewController)
+                viewController?.presentViewController(loginViewController, animated: true) {
+                    UIApplication.sharedApplication().keyWindow?.rootViewController = viewController
+                }
             }
         }
     }

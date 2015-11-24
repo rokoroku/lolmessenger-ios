@@ -8,11 +8,14 @@
 
 import Alamofire
 import AlamofireImage
+import SwiftyJSON
 
 struct LeagueAssetManager {
 
     static private let cache = AutoPurgingImageCacheWithDisk()
     static private var version = StoredProperty(key: "client_version")
+    static private var championData: JSON?
+    static private var isFetchingChampionData: Bool = false
     static private var defaultVersion = "5.22.3"
 
     static func buildProfileIconUrl(iconId: Int) -> String {
@@ -33,6 +36,43 @@ struct LeagueAssetManager {
             }
         } else {
             callback()
+        }
+    }
+
+    static func getChampionString(championId: String) -> String {
+        debugPrint(championData?.arrayValue)
+        if let data = championData?["data"].dictionary {
+            if let champion = data[championId]?.dictionary, let name = champion["name"]?.string {
+                return name
+            } else {
+                reloadChampionData(true)
+            }
+        } else {
+            reloadChampionData()
+        }
+        return championId;
+    }
+
+    static func reloadChampionData(clear: Bool = false) {
+        let locale = LeagueLocale.getPreferredLocale() ?? LeagueLocale.EN
+        let key = Constants.Key.ChampionData(locale.description)
+        let path = generatePath(key) + ".json"
+
+        if !clear {
+            if let data = readAssetData(path) {
+                championData = JSON(data: data)
+                return
+            }
+        }
+        if !isFetchingChampionData {
+            isFetchingChampionData = true
+            RiotAPI.getChampionData(XMPPService.sharedInstance.region ?? LeagueServer.NA) {
+                if let data = $0 {
+                    LeagueAssetManager.championData = data
+                    _ = try? writeAssetData(data.rawData(), path: path)
+                }
+                isFetchingChampionData = false
+            }
         }
     }
 
@@ -138,7 +178,7 @@ class AutoPurgingImageCacheWithDisk : AutoPurgingImageCache {
             #endif
             Async.background {
                 if !self.hasCache(key) {
-                    self.saveImage(image, path: self.generatePath(key))
+                    self.saveImage(image, path: generatePath(key))
                 }
             }
         }
@@ -159,24 +199,33 @@ class AutoPurgingImageCacheWithDisk : AutoPurgingImageCache {
         let checkValidation = NSFileManager.defaultManager()
         return checkValidation.fileExistsAtPath(generatePath(path))
     }
+}
 
-    private func createAssetDirectoryIfNotExist() {
-        let libraryPath = NSSearchPathForDirectoriesInDomains(.LibraryDirectory, .UserDomainMask, true)[0] as String
-        let assetPath = libraryPath + "/assets"
-        let fileManager = NSFileManager.defaultManager()
+private func writeAssetData(data: NSData, path: String) {
+    createAssetDirectoryIfNotExist()
+    NSFileManager.defaultManager().createFileAtPath(path, contents: data, attributes: nil)
+}
 
-        if !fileManager.fileExistsAtPath(assetPath) {
-            do {
-                try fileManager.createDirectoryAtPath(assetPath,
-                    withIntermediateDirectories: false, attributes: nil)
-            } catch let error as NSError {
-                print(error.localizedDescription);
-            }
+private func readAssetData(path: String) -> NSData? {
+    return NSFileManager.defaultManager().contentsAtPath(path)
+}
+
+private func createAssetDirectoryIfNotExist() {
+    let libraryPath = NSSearchPathForDirectoriesInDomains(.LibraryDirectory, .UserDomainMask, true)[0] as String
+    let assetPath = libraryPath + "/assets"
+    let fileManager = NSFileManager.defaultManager()
+
+    if !fileManager.fileExistsAtPath(assetPath) {
+        do {
+            try fileManager.createDirectoryAtPath(assetPath,
+                withIntermediateDirectories: false, attributes: nil)
+        } catch let error as NSError {
+            print(error.localizedDescription);
         }
     }
+}
 
-    private func generatePath(key: String) -> String {
-        let paths = NSSearchPathForDirectoriesInDomains(.LibraryDirectory, .UserDomainMask, true)[0] as String
-        return paths + "/assets/\(key)"
-    }
+private func generatePath(key: String) -> String {
+    let paths = NSSearchPathForDirectoriesInDomains(.LibraryDirectory, .UserDomainMask, true)[0] as String
+    return paths + "/assets/\(key)"
 }

@@ -185,6 +185,7 @@ class MoreViewController : FormViewController {
                 $0.value = Localize.displayNameForLanguage(Localize.currentLanguage())
                 $0.onChange {
                     Localize.setCurrentLanguage(languages[$0.value!]!)
+                    LeagueAssetManager.reloadChampionData(true)
                 }
             }.onPresent { from, to in
                 to.navigationItem.title = Localized("Language")
