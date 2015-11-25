@@ -1383,8 +1383,8 @@
         <image name="profile_tier_ring" width="48" height="48"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="lgD-WY-cCj"/>
         <segue reference="rwT-oV-Bj9"/>
-        <segue reference="l2t-kX-deP"/>
         <segue reference="fJO-XY-gGi"/>
     </inferredMetricsTieBreakers>
 </document>

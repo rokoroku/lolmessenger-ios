@@ -28,6 +28,8 @@
 
 "Need an account?" = "계정이 없으신가요?";
 
+"Connect" = "접속";
+
 "Please select region" = "연결할 서버를 선택하세요.";
 
 "Please input password" = "비밀번호를 입력하세요.";
@@ -140,7 +142,7 @@
 
 "Language" = "언어 설정";
 
-"Some settings are applied after restart." = "몇 설정은 재시작 후 적용됩니다.";
+"Some settings are applied after restart." = "일부 설정은 재시작 후 적용됩니다.";
 
 
 
@@ -260,25 +262,25 @@
  * Regions
  */
 
-"North America" = "North America";
+"North America" = "북미";
 
-"Europe West" = "Europe West";
+"Europe West" = "서유럽";
 
-"Europe Nordic & East" = "Europe Nordic & East";
+"Europe Nordic & East" = "북유럽 및 동유럽";
 
-"Brazil" = "Brazil";
+"Brazil" = "브라질";
 
-"Korea" = "Korea";
+"Korea" = "대한민국";
 
-"Latin America North" = "Latin America North";
+"Latin America North" = "남미 북부";
 
-"Latin America South" = "Latin America South";
+"Latin America South" = "남미 남부";
 
-"Oceania" = "Oceania";
+"Oceania" = "오세아니아";
 
-"Turkey" = "Turkey";
+"Turkey" = "터키";
 
-"Russia" = "Russia";
+"Russia" = "러시아";
 
 
 

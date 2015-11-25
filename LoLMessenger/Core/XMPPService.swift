@@ -48,21 +48,21 @@ class XMPPService : NSObject {
                 .URLByAppendingPathExtension("realm")
                 .path
 
-            if !realmUnlocked && UIApplication.sharedApplication().applicationState == .Background {
-                // unlock realm lock file so that realm can be accessible in background
-                let allRealmRelatedFiles = [
-                    config.path!,
-                    config.path!.stringByAppendingString(".lock"),
-                    config.path!.stringByAppendingString(".log"),
-                    config.path!.stringByAppendingString(".log_a"),
-                    config.path!.stringByAppendingString(".log_b")]
-
-                allRealmRelatedFiles.forEach {
-                    let _ = try? NSFileManager.defaultManager().setAttributes([NSFileProtectionKey: NSFileProtectionNone], ofItemAtPath: $0)
-                }
-                realmUnlocked = true
-            } 
-
+            if StoredProperties.Settings.backgroundEnabled {
+                if !realmUnlocked && UIApplication.sharedApplication().applicationState == .Background {
+                    // unlock realm lock file so that realm can be accessible in background
+                    let allRealmRelatedFiles = [
+                        config.path!,
+                        config.path!.stringByAppendingString(".lock"),
+                        config.path!.stringByAppendingString(".log"),
+                        config.path!.stringByAppendingString(".log_a"),
+                        config.path!.stringByAppendingString(".log_b")]
+                    allRealmRelatedFiles.forEach {
+                        let _ = try? NSFileManager.defaultManager().setAttributes([NSFileProtectionKey: NSFileProtectionNone], ofItemAtPath: $0)
+                    }
+                    realmUnlocked = true
+                } 
+            }
             return config
         }
         return nil
@@ -242,24 +242,30 @@ class XMPPService : NSObject {
     func DB(readOnly: Bool = false) -> Realm? {
         assert(xmppStream != nil)
 
-        let hash = NSThread.currentThread().hash
+        var realm: Realm?
+        let hash = NSThread.currentThread().description.hash
         if let cached = realmCache[hash] {
-            if cached.value != nil {
-                return cached.value
+            if let cachedRealm = cached.value {
+                if !cachedRealm.inWriteTransaction {
+                    realm = cachedRealm
+                }
             } else {
-                realmCache.removeValueForKey(hash)
-                //realmCache.filter{(_, value) in value.value != nil}
+                realmCache.filter{(_, value) in value.value == nil}.forEach {
+                    realmCache.removeValueForKey($0.0)
+                }
             }
         }
-
-        if var config = realmConfig {
-            config.readOnly = readOnly
-            if let realm = try? Realm(configuration: config) {
-                realmCache[hash] = Weak(value: realm)
-                return realm
+        if realm == nil {
+            if var config = realmConfig {
+                config.readOnly = readOnly
+                if let newRealm = try? Realm(configuration: config) {
+                    realmCache[hash] = Weak(value: newRealm)
+                    realm = newRealm
+                }
             }
         }
-        return nil
+        realm?.refresh()
+        return realm
     }
 
     func writableDB() -> RealmWrapper? {

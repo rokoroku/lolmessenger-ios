@@ -92,15 +92,12 @@ class ChatViewController : UIViewController {
         }
     }
 
-    override func awakeFromNib() {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
         if #available(iOS 9.0, *) {
             UILabel.appearanceWhenContainedInInstancesOfClasses([UITextField.self]).textColor = Theme.TextColorDisabled
         }
-        super.awakeFromNib()
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
 
         // Set TableView
         tableView.delegate = self
