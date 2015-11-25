@@ -25,9 +25,6 @@ class MainTabBarController : UITabBarController {
             updateChatBadge(chat)
         }
 
-        if let navigationController = self.navigationController {
-            UIApplication.sharedApplication().keyWindow?.rootViewController = navigationController
-        }
         updateLocale()
     }
 
@@ -103,8 +100,8 @@ extension MainTabBarController : UITabBarControllerDelegate {
     func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
         if let navigationItem: UINavigationItem = viewController.navigationItem {
             self.navigationItem.title = navigationItem.title
-            self.navigationItem.leftBarButtonItems = navigationItem.leftBarButtonItems
-            self.navigationItem.rightBarButtonItems = navigationItem.rightBarButtonItems
+            self.navigationItem.setLeftBarButtonItems(navigationItem.leftBarButtonItems, animated: false)
+            self.navigationItem.setRightBarButtonItems(navigationItem.rightBarButtonItems, animated: false)
         }
     }
 }

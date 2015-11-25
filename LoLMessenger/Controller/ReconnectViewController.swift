@@ -62,14 +62,6 @@ class ReconnectViewController : UIViewController {
     }
 }
 
-extension ReconnectViewController: UIViewControllerTransitioningDelegate, UIPopoverPresentationControllerDelegate {
-
-    func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return TKFadeInAnimator(transitionDuration: 0.5, startingAlpha: 0.8)
-    }
-
-}
-
 // MARK : XMPPConnectionDelegate
 
 extension ReconnectViewController: XMPPConnectionDelegate {

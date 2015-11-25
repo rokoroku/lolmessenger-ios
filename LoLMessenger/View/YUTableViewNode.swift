@@ -29,6 +29,7 @@ class YUTableViewNode: Equatable {
     };
     /** Is children are displayed. YUTableView uses this and you probably don't need it. */
     var isActive: Bool = false;
+    var isEditable: Bool = false;
     
     init (childNodes: [YUTableViewNode]? = nil, nodeId:Int? = nil, data: AnyObject? = nil, cellIdentifier: String = "") {
         self.nodeId = nodeId ?? YUTableViewNode.nextId++;

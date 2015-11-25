@@ -22,6 +22,15 @@ class RecentChatViewController : UIViewController {
             }
         }
     }
+    @IBAction func editAction(sender: AnyObject) {
+        if (editing) {
+            setEditing(false, animated: true)
+            tableView.setEditing(false, animated: true)
+        } else {
+            setEditing(true, animated: true)
+            tableView.setEditing(true, animated: true)
+        }
+    }
 
     var chats = [LeagueChat]()
     var numOfRows: Int {
@@ -70,6 +79,9 @@ class RecentChatViewController : UIViewController {
         tableView.backgroundView?.backgroundColor = Theme.PrimaryColor
         setSearchController()
 
+        let editButton = self.editButtonItem()
+        editButton.action = Selector("editAction:")
+        navigationItem.leftBarButtonItem = editButton
     }
 
     func updateLocale() {
@@ -111,6 +123,17 @@ class RecentChatViewController : UIViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateLocale", name: LCLLanguageChangeNotification, object: nil)
     }
 
+    override func setEditing(editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        tableView.setEditing(editing, animated: animated)
+    }
+
+    override func viewWillDisappear(animated: Bool) {
+        if editing {
+            setEditing(false, animated: animated)
+        }
+        searchController?.active = false
+    }
 
     override func viewDidDisappear(animated: Bool) {
         // Remove delegates

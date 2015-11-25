@@ -30,9 +30,9 @@ class SummonerDialogViewController : UIViewController {
     @IBOutlet weak var summonerTierImage: UIImageView!
     @IBOutlet weak var summonerTierRing: UIImageView!
 
-
     var hidesBottomButtons:Bool = false
     private var timer: NSTimer?
+    private var isFetching: Bool = false
 
     var roster: LeagueRoster? {
         didSet {
@@ -141,12 +141,20 @@ class SummonerDialogViewController : UIViewController {
                 } else {
                     rosterNote.hidden = false
                     chatButton.enabled = true
+                    if let currentChatViewController = UIApplication.topViewController() as? ChatViewController {
+                        if currentChatViewController.chatJID?.user == roster.userid {
+                            chatButton.enabled = false
+                        }
+                    }
                 }
             } else {
                 rosterNote.hidden = true
-                chatButton.setTitle("Add Friend", forState: .Normal)
+                chatButton.setTitle(Localized("Add as Friend"), forState: .Normal)
                 chatButton.removeTarget(self, action: "enterChat", forControlEvents: UIControlEvents.TouchUpInside)
                 chatButton.addTarget(self, action: "addBuddy", forControlEvents: UIControlEvents.TouchUpInside)
+                if roster.username == XMPPService.sharedInstance.myRosterElement?.username {
+                    chatButton.enabled = false
+                }
             }
 
             gameStatus.text = roster.getCurrentGameStatus() ?? roster.getDisplayStatus(false)
@@ -219,7 +227,8 @@ class SummonerDialogViewController : UIViewController {
                         DialogUtils.alert(Localized("Add as Friend"),
                             message: Localized("Request Sent!"))
                 })
-            } else {
+            } else if !isFetching {
+                isFetching = true
                 RiotACS.getSummonerByName(summonerName: summoner.username, region: XMPPService.sharedInstance.region!) {
                     if let summoner = $0 {
                         DialogUtils.alert(
@@ -235,6 +244,7 @@ class SummonerDialogViewController : UIViewController {
                             Localized("Error"),
                             message: Localized("Summoner named %1$@ was not found", args: summoner.username))
                     }
+                    self.isFetching = false
                 }
             }
         }

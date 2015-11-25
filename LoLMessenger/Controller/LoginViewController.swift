@@ -38,6 +38,12 @@ class LoginViewController: UIViewController {
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "dismissKeyboard"))
         view.bringSubviewToFront(connectButton)
 
+        accountButton.setTitle(Localized("Need an account?"), forState: .Normal)
+        connectButton.setTitle(Localized("Connect"), forState: .Normal)
+    }
+
+
+    override func viewWillAppear(animated: Bool) {
         // Restore User Credentials if available
         let storedJID = keychain.get(Constants.Key.Username)
         let storedRegion = keychain.get(Constants.Key.Region)
@@ -49,8 +55,6 @@ class LoginViewController: UIViewController {
             passwordField.text = storedPassword
         }
         regionButton.setTitle(selectedRegion?.name ?? Localized("Select Region"), forState: .Normal)
-        accountButton.setTitle(Localized("Need an account?"), forState: .Normal)
-        connectButton.setTitle(Localized("Connect"), forState: .Normal)
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -62,12 +66,6 @@ class LoginViewController: UIViewController {
 
     override func viewDidDisappear(animated: Bool) {
         XMPPService.sharedInstance.removeDelegate(self)
-    }
-
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if let targetController = segue.destinationViewController as? UINavigationController {
-            targetController.transitioningDelegate = self
-        }
     }
 
     @IBAction

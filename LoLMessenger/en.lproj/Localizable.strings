@@ -57,6 +57,10 @@
 
 "The buddy %1$@ wants to add you to their list and see your presence online" = "The buddy %1$@ wants to add you to their list and see your presence online";
 
+"Remove Friend" = "Remove Friend";
+
+"Are you sure you want to remove %1$@ from your friend list?" = "Are you sure you want to remove %1$@ from your friend list?";
+
 "Add as Friend" = "Add as Friend";
 
 "Please enter summoner name you want to add" = "Please enter summoner name you want to add";

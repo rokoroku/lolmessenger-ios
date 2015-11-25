@@ -159,7 +159,7 @@ class LeagueRoster {
                 }
             }
             if skinName != nil && !(skinName!.isEmpty) {
-                return Localized("In Game - ", args: LeagueAssetManager.getChampionString(skinName!))
+                return Localized("In Game - %1$@", args: LeagueAssetManager.getChampionString(skinName!))
             } else {
                 return Localized("In Game")
             }

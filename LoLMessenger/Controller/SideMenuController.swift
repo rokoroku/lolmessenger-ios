@@ -180,6 +180,7 @@ class SideMenuController: UIViewController, UIGestureRecognizerDelegate {
         coordinator.animateAlongsideTransition({ _ in
             // reposition navigation bar
             self.navigationBar.frame = CGRectMake(0, 0, size.width, self.StatusBarHeight)
+
             // reposition center panel
             self.centerPanel.frame = self.centerPanelFrame()
             // reposition side panel
@@ -459,7 +460,7 @@ class SideMenuController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
 
-    private func animateToReveal(reveal : Bool){
+    func animateToReveal(reveal : Bool){
 
         transitionInProgress = true
 

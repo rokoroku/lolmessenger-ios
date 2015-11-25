@@ -163,6 +163,7 @@ class ChatViewController : UIViewController {
                         sideViewController = SideMenuController()
                         sideViewController?.centerViewController = navigationController
                         UIApplication.sharedApplication().keyWindow?.rootViewController = sideViewController
+                        UIApplication.sharedApplication().keyWindow?.makeKeyAndVisible()
                     }
                 }
                 if sideViewController?.sideViewController == nil {

@@ -30,7 +30,6 @@ class NavigationUtils {
         let storyboard = viewController?.storyboard ?? UIStoryboard(name: "Main", bundle: nil)
         if let mainViewController = storyboard.instantiateViewControllerWithIdentifier("MainNavController") as? UINavigationController {
 
-
             if viewController?.isKindOfClass(ReconnectViewController) == false {
                 viewController?.presentViewController(mainViewController, animated: true) {
                     UIApplication.sharedApplication().keyWindow?.rootViewController = mainViewController
@@ -44,12 +43,17 @@ class NavigationUtils {
         let storyboard = viewController?.storyboard ?? UIStoryboard(name: "Main", bundle: nil)
         if let chatViewController = storyboard.instantiateViewControllerWithIdentifier("ChatViewController") as? ChatViewController, chatEntry = XMPPService.sharedInstance.chat()?.getLeagueChatEntry(chatId) {
 
-                if let currentChatViewController = viewController as? ChatViewController {
-                    if currentChatViewController.chatJID?.user == chatId {
-                        return
-                    }
+            if let currentChatViewController = viewController as? ChatViewController {
+                if currentChatViewController.chatJID?.user == chatId {
+                    return
                 }
+            }
+
             chatViewController.setInitialChatData(chatEntry)
+            if let sideMenuController = viewController?.sideMenuController() {
+                sideMenuController.animateToReveal(false)
+            }
+
             viewController?.navigationController?.pushViewController(chatViewController, animated: true)
         }
     }

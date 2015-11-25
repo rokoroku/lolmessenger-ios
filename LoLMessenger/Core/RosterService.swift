@@ -113,6 +113,7 @@ class RosterService : NSObject {
     }
 
     func removeRoster(roster: LeagueRoster) {
+        rosterDictionary.removeValueForKey(roster.jid().user)
         xmppRoster.removeUser(roster.jid())
         xmppRoster.fetchRoster()
     }
@@ -167,7 +168,7 @@ extension RosterService : XMPPStreamDelegate {
         case "subscribe":
             break
 
-        case "unsubscribe":
+        case "unsubscribe", "unsubscribed":
             if let roster = rosterDictionary.removeValueForKey(presence.from().user) {
                 roster.parsePresence(presence)
                 invokeDelegates {

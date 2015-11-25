@@ -28,7 +28,7 @@ class PopupSegue : UIStoryboardSegue {
             popupController.cornerRadius = 16
 
             Async.main {
-                popupController.presentInViewController(UIApplication.topViewController())
+                popupController.presentInViewController(self.sourceViewController)
             }
         }
     }

@@ -15,7 +15,7 @@ class TransitionSegue : UIStoryboardSegue {
     }
 }
 
-extension TransitionSegue : UIViewControllerTransitioningDelegate, UIPopoverPresentationControllerDelegate {
+extension TransitionSegue : UIViewControllerTransitioningDelegate {
     func animationControllerForPresentedController(
         presented: UIViewController,
         presentingController presenting: UIViewController,

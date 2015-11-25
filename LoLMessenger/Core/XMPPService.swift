@@ -264,7 +264,6 @@ class XMPPService : NSObject {
                 }
             }
         }
-        realm?.refresh()
         return realm
     }
 

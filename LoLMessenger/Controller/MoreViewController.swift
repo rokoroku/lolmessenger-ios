@@ -226,10 +226,18 @@ extension MoreViewController : UINavigationControllerDelegate {
 //                logoutButton.frame.origin.y = headerView.textLabel!.frame.origin.y - (logoutButton.frame.height - headerView.textLabel!.frame.height)/2
 //                logoutButton.frame.origin.x = headerView.frame.width - (headerView.textLabel?.frame.origin.x)! - logoutButton.frame.width
 //                headerView.layoutSubviews()
-//                
+//
 //            } else if headerView.subviews.contains(logoutButton) {
 //                logoutButton.removeFromSuperview()
 //            }
 //        }
 //    }
 //}
+
+extension MoreViewController {
+    func tableView(tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
+        if let footerView = view as? UITableViewHeaderFooterView {
+            footerView.textLabel?.textColor = Theme.TextColorSecondary
+        }
+    }
+}

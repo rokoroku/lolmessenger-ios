@@ -22,6 +22,7 @@
 		F83FB1ED1BDFC8AA00FBDCCA /* RosterTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F83FB1E71BDFC8AA00FBDCCA /* RosterTableViewController.swift */; };
 		F83FB20E1BDFC96F00FBDCCA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F83FB20B1BDFC96F00FBDCCA /* Main.storyboard */; };
 		F840B1091BF3CB5900E0FE89 /* GroupChatTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F840B1081BF3CB5900E0FE89 /* GroupChatTitleView.swift */; };
+		F84521921C062B600021427B /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84521911C062B600021427B /* MainViewController.swift */; };
 		F84CB8F11BD78DD60054801F /* NotificationUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84CB8F01BD78DD60054801F /* NotificationUtils.swift */; };
 		F84FA1201C01A06B0042CD99 /* Localize.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84FA11F1C01A06B0042CD99 /* Localize.swift */; };
 		F84FA1261C01EBFE0042CD99 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F84FA1241C01EBFE0042CD99 /* Localizable.strings */; };
@@ -96,6 +97,7 @@
 		F83FB1E71BDFC8AA00FBDCCA /* RosterTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RosterTableViewController.swift; sourceTree = "<group>"; };
 		F83FB20C1BDFC96F00FBDCCA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		F840B1081BF3CB5900E0FE89 /* GroupChatTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupChatTitleView.swift; sourceTree = "<group>"; };
+		F84521911C062B600021427B /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		F84CB8F01BD78DD60054801F /* NotificationUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationUtils.swift; sourceTree = "<group>"; };
 		F84FA11F1C01A06B0042CD99 /* Localize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Localize.swift; sourceTree = "<group>"; };
 		F84FA1251C01EBFE0042CD99 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -222,6 +224,7 @@
 			children = (
 				F83FB1E31BDFC8AA00FBDCCA /* LoginViewController.swift */,
 				F8E8C0A61BF1748900024462 /* ReconnectViewController.swift */,
+				F84521911C062B600021427B /* MainViewController.swift */,
 				F83FB1E41BDFC8AA00FBDCCA /* MainTabBarController.swift */,
 				F83FB1E71BDFC8AA00FBDCCA /* RosterTableViewController.swift */,
 				F83FB1E61BDFC8AA00FBDCCA /* RecentChatViewController.swift */,
@@ -573,6 +576,7 @@
 				F88676581BCF5F79006C6B6A /* RealmExtensions.swift in Sources */,
 				F8E22BD31BBE668700C03773 /* XMPPExtensions.swift in Sources */,
 				F84FA1201C01A06B0042CD99 /* Localize.swift in Sources */,
+				F84521921C062B600021427B /* MainViewController.swift in Sources */,
 				F8E8C0A71BF1748900024462 /* ReconnectViewController.swift in Sources */,
 				F8E8C0A51BF0EE2300024462 /* SideMenuController.swift in Sources */,
 				F894016B1BDFDAEA00635D36 /* LeagueMessage.swift in Sources */,

@@ -57,6 +57,9 @@ extension XMPPRoomLeagueRosterStorage : XMPPRoomMemoryStorageDelegate {
 
         if let roster = rosterTable[occupant.nickname] {
             roster.parsePresence(occupant.presence)
+            if roster.show == .Unavailable {
+                roster.show = .Chat
+            }
         }
 
     }

@@ -8,9 +8,9 @@
 
 "Reconnect" = "다시 실행";
 
-"Background session will be expired in one minute." = "잠시 후 연결이 종료됩니다.";
+"Background session will be expired in one minute." = "잠시 후 연결이 해제됩니다.";
 
-"Your presence has gone offline." = "연결이 종료되었습니다.";
+"Your presence has gone offline." = "연결이 해제되었습니다.";
 
 
 
@@ -56,6 +56,10 @@
 "The buddy %1$@ wants to add you to their list and see your presence online" = "%1$@ 님이 당신을 목록에 추가하여 온라인 상태를 확인하고자 합니다.";
 
 "Add as Friend" = "친구 추가";
+
+"Remove Friend" = "친구 삭제";
+
+"Are you sure you want to remove %1$@ from your friend list?" = "%1$@ 님을 친구 목록에서 삭제하시겠습니까?";
 
 "Please enter summoner name you want to add" = "친구 요청을 보낼 소환사의 이름을 입력하세요.";
 
@@ -122,11 +126,11 @@
 
 "Background Session" = "백그라운드 알림";
 
-"Since the time of background task is limited to about 3 minutes by Apple's app policy, application will be terminated after the given amount of time." = "Apple의 앱 정책에 의해 백그라운드 작업 시간이 약 3분으로 제한되어 있기 때문에, 해당 시간 이상 어플리케이션을 사용하지 않으면 연결이 종료됩니다.";
+"Since the time of background task is limited to about 3 minutes by Apple's app policy, application will be terminated after the given amount of time." = "Apple의 앱 정책상 백그라운드 작업 시간이 약 3분으로 제한되어 있기 때문에, 일정 시간 이상 어플리케이션을 사용하지 않으면 연결이 해제됩니다.";
 
 "Expiration Warning" = "종료되기 전 경고";
 
-"Play notification sound" = "알림음 재생";
+"Play notification sound" = "경고음 재생";
 
 "Friend List" = "친구 목록";
 

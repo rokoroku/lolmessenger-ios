@@ -100,6 +100,14 @@ class ChatOccupantViewController: UITableViewController {
         }
 
         if roster != nil {
+            let friend = XMPPService.sharedInstance.roster()?.getRosterList()?.filter {
+                return roster.username == $0.username
+            }.first
+
+            if friend != nil {
+                roster = friend
+            }
+
             if let chatViewController = segue.destinationViewController as? ChatViewController,
                 let chat = XMPPService.sharedInstance.chat()?.getLeagueChatEntryByJID(roster.jid()) {
                     chatViewController.setInitialChatData(chat)

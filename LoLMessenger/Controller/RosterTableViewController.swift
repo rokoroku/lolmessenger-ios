@@ -49,6 +49,10 @@ class RosterTableViewController : UIViewController {
 
         navigationController?.delegate = self
         navigationController?.hidesNavigationBarHairline = true
+
+        let editButton = self.editButtonItem()
+        editButton.action = Selector("editAction:")
+        navigationItem.leftBarButtonItem = editButton        
     }
 
     func updateLocale() {
@@ -97,6 +101,13 @@ class RosterTableViewController : UIViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateLocale", name: LCLLanguageChangeNotification, object: nil)
     }
 
+    override func viewWillDisappear(animated: Bool) {
+        if editing {
+            setEditing(false, animated: animated)
+        }
+        searchController?.active = false
+    }
+
     override func viewDidDisappear(animated: Bool) {
         if UIApplication.topViewController()?.isKindOfClass(STPopupContainerViewController) == false {
             XMPPService.sharedInstance.roster()?.removeDelegate(self)
@@ -127,6 +138,19 @@ class RosterTableViewController : UIViewController {
                 }
             }
         }
+    }
+
+    @IBAction func editAction(sender: AnyObject) {
+        if (editing) {
+            setEditing(false, animated: true)
+        } else {
+            setEditing(true, animated: true)
+        }
+    }
+
+    override func setEditing(editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        tableView.setEditing(editing, animated: animated)
     }
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -247,11 +271,27 @@ extension RosterTableViewController: YUTableViewDelegate {
             }
         }
     }
+
+    func didEditNode(node: YUTableViewNode, indexPath: NSIndexPath, commitEditingStyle: UITableViewCellEditingStyle) {
+        if let child = node as? RosterNode, roster = child.data as? LeagueRoster {
+            if commitEditingStyle == .Delete {
+                DialogUtils.alert(Localized("Remove Friend"),
+                    message: Localized("Are you sure you want to remove %1$@ from your friend list?", args: roster.username),
+                    handler: { _ in
+                        XMPPService.sharedInstance.roster()?.removeRoster(roster)
+                        self.reloadRosterNodes()
+                })
+            }
+
+        }
+    }
 }
 
 extension RosterTableViewController: RosterDelegate {
     func didReceiveRosterUpdate(sender: RosterService, from: LeagueRoster) {
-        reloadRosterNodes()
+        if !editing {
+            reloadRosterNodes()
+        }
     }
 
     func didReceiveFriendSubscription(sender: RosterService, from: LeagueRoster) {
@@ -298,6 +338,7 @@ extension RosterTableViewController: UISearchResultsUpdating, UISearchController
 class GroupNode : YUTableViewNode {
     init(name: String) {
         super.init(data: name, nodeId: name.hashValue, cellIdentifier: "GroupCell")
+        self.isEditable = false
     }
 
     var numOfTotalRoster = 0
@@ -323,6 +364,7 @@ class GroupNode : YUTableViewNode {
 class RosterNode : YUTableViewNode {
     init(roster: LeagueRoster) {
         super.init(data: roster, nodeId: roster.getNumericUserId(), cellIdentifier: "RosterCell")
+        self.isEditable = true
     }
     
     var roster: LeagueRoster {

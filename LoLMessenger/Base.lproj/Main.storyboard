@@ -760,13 +760,35 @@
                     <connections>
                         <outlet property="progress" destination="yx2-9Y-roy" id="HdH-MM-SYT"/>
                         <outlet property="reconnectingLabel" destination="RoV-O3-Mpu" id="a45-WK-N7g"/>
-                        <segue destination="48b-YX-Qv2" kind="custom" identifier="Enter" customClass="TransitionSegue" customModule="Messenger_for_League_of_Legends" customModuleProvider="target" id="l2t-kX-deP"/>
                         <segue destination="Hdv-7M-9cr" kind="custom" identifier="Login" customClass="TransitionSegue" customModule="Messenger_for_League_of_Legends" customModuleProvider="target" id="nhR-m4-pM5"/>
+                        <segue destination="OIK-IA-ug1" kind="custom" identifier="Enter" customClass="TransitionSegue" customModule="Messenger_for_League_of_Legends" customModuleProvider="target" id="L1y-eR-50u"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="38I-co-ney" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="805" y="-2014"/>
+        </scene>
+        <!--Main View Controller-->
+        <scene sceneID="g7e-lV-f1W">
+            <objects>
+                <viewController id="OIK-IA-ug1" customClass="MainViewController" customModule="Messenger_for_League_of_Legends" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="HGR-qO-aXD"/>
+                        <viewControllerLayoutGuide type="bottom" id="Yhb-dX-Gfm"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Hw4-hT-BHJ">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <segue destination="48b-YX-Qv2" kind="custom" identifier="Center" customClass="ContainmentSegue" id="rzE-D8-kaE"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VpM-OL-Jmk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="769" y="-1347"/>
         </scene>
         <!--Main Navigation Controller-->
         <scene sceneID="d8A-0W-3bD">
@@ -783,7 +805,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Taj-XL-D9Y" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="805" y="-1347"/>
+            <point key="canvasLocation" x="805" y="-1311"/>
         </scene>
         <!--Roster Table-->
         <scene sceneID="1AR-hS-pg7">
@@ -939,6 +961,7 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Friends" image="Conference" selectedImage="Conference Filled" id="J2b-tJ-sg1"/>
                     <navigationItem key="navigationItem" title="Friends" id="YJ3-tc-MRG">
+                        <barButtonItem key="leftBarButtonItem" systemItem="edit" id="ALb-pf-bmf"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="IMg-ab-1RK">
                             <connections>
                                 <action selector="addAction:" destination="7qY-nS-FGq" id="cBq-ye-ORd"/>
@@ -1090,7 +1113,7 @@
                         <outlet property="passwordField" destination="cy6-NX-DRT" id="ACq-BX-bJ7"/>
                         <outlet property="regionButton" destination="oeT-qh-C6I" id="toL-J3-HUn"/>
                         <outlet property="usernameField" destination="L4Q-Qr-lPf" id="D8w-Pc-YHm"/>
-                        <segue destination="48b-YX-Qv2" kind="custom" identifier="Authenticated" customClass="TransitionSegue" customModule="Messenger_for_League_of_Legends" customModuleProvider="target" id="lgD-WY-cCj"/>
+                        <segue destination="OIK-IA-ug1" kind="custom" identifier="Authenticated" customClass="TransitionSegue" customModule="Messenger_for_League_of_Legends" customModuleProvider="target" id="Hie-Cj-ZQm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GSc-Dr-eq4" sceneMemberID="firstResponder"/>
@@ -1383,8 +1406,8 @@
         <image name="profile_tier_ring" width="48" height="48"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="lgD-WY-cCj"/>
-        <segue reference="rwT-oV-Bj9"/>
-        <segue reference="fJO-XY-gGi"/>
+        <segue reference="L1y-eR-50u"/>
+        <segue reference="wgZ-7i-U7E"/>
+        <segue reference="srB-Eq-LJ2"/>
     </inferredMetricsTieBreakers>
 </document>

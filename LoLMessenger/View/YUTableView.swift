@@ -17,6 +17,7 @@ protocol YUTableViewDelegate {
     func heightForNode (node: YUTableViewNode) -> CGFloat?;
     /** Called whenever a node is selected. You should check if it's a leaf. */
     func didSelectNode (node: YUTableViewNode, indexPath: NSIndexPath);
+    func didEditNode (node: YUTableViewNode, indexPath: NSIndexPath, commitEditingStyle: UITableViewCellEditingStyle);
 }
 
 extension YUTableViewDelegate {
@@ -69,7 +70,7 @@ class YUTableView: UITableView
             return isActive
         } else if expandAllNodeAtFirstTime {
             if let groupTitle = node.data as? String {
-                if groupTitle == "Offline" {
+                if groupTitle == Localized("Offline") {
                     expansionState[node.nodeId] = false
                     return false
                 }
@@ -97,6 +98,17 @@ class YUTableView: UITableView
         }
 
         reloadData();
+    }
+
+    func indexPathForNode(node: YUTableViewNode) -> NSIndexPath? {
+        var index = 0
+        for displayedNode in nodesToDisplay {
+            if node == displayedNode {
+                return NSIndexPath(forRow: index, inSection: 0)
+            }
+            index++
+        }
+        return nil
     }
 
     func selectNodeAtIndex (index: Int) {
@@ -154,6 +166,34 @@ extension YUTableView: UITableViewDelegate {
         } else if node.hasChildren() {
             openNodeAtIndexRow(indexPath.row);
         }
+    }
+
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        if self.editing {
+            let node = nodesToDisplay[indexPath.row];
+            return node.isEditable
+        } else {
+            return false
+        }
+    }
+
+    func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        if self.editing {
+            let node = nodesToDisplay[indexPath.row];
+            return node.isEditable
+        } else {
+            return false
+        }
+    }
+
+    func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
+        return UITableViewCellEditingStyle.Delete
+    }
+
+    // Override to support editing the table view.
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        let node = nodesToDisplay [indexPath.row];
+        yuTableViewDelegate.didEditNode(node, indexPath: indexPath, commitEditingStyle: editingStyle)
     }
 }
 

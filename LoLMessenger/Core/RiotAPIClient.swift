@@ -25,7 +25,6 @@ class RiotACS {
         Alamofire.request(.GET, "https://acs.leagueoflegends.com/v1/players",
             parameters: ["name": name, "region": region.shorthand])
             .responseJSON { response in
-                debugPrint(response)
                 if let value = response.result.value {
                     let object = JSON(value)
                     if let platformId = object["platformId"].string,
@@ -42,7 +41,6 @@ class RiotACS {
         Alamofire.request(.GET,
             "https://acs.leagueoflegends.com/v1/stats/player_history/\(info.platformId)/\(info.accountId)")
             .responseJSON { response in
-                debugPrint(response)
                 if let value = response.result.value {
                     let object = JSON(value)
                     let player = object["games"]["games"][0]["participantIdentities"][0]["player"]

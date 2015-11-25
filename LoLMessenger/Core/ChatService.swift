@@ -239,7 +239,7 @@ extension ChatService : XMPPStreamDelegate {
 
     @objc func xmppStream(sender: XMPPStream!, willReceiveMessage message: XMPPMessage!) -> XMPPMessage! {
         if message.body() != nil && message.from() != nil {
-            if message.from().domain == Constants.XMPP.Domain.Room && message.body().characters.count > 110 {
+            if message.from().domain == Constants.XMPP.Domain.Room && message.body().characters.count > 100 {
                 return nil
             }
             return message
@@ -450,7 +450,7 @@ extension XMPPRoom {
     func getOccupants() -> [LeagueRoster]? {
         if let storage = self.xmppRoomStorage as? XMPPRoomLeagueRosterStorage {
             return storage.rosterList()
-
+//
 //            return storage.occupants().flatMap { object -> LeagueRoster? in
 //                if let occupant = object as? XMPPRoomOccupant {
 //                    let roster = LeagueRoster(jid: occupant.roomJID(), nickname: occupant.nickname())
