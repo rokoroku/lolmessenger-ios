@@ -127,6 +127,13 @@
 		F89401671BDFDAEA00635D36 /* RosterTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RosterTableCell.swift; sourceTree = "<group>"; };
 		F89401681BDFDAEA00635D36 /* YUTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YUTableView.swift; sourceTree = "<group>"; };
 		F89401691BDFDAEA00635D36 /* YUTableViewNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YUTableViewNode.swift; sourceTree = "<group>"; };
+		F89669971C116C1300514920 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		F89669981C116C3000514920 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		F89669991C116C3600514920 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		F896699A1C116C3B00514920 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		F896699B1C116C4800514920 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		F896699C1C116C4E00514920 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
+		F896699D1C116C5400514920 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F89AB8C41BE25E9400B4571D /* Banner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Banner.swift; sourceTree = "<group>"; };
 		F8A489071BC50E1C00D7409B /* MulticastDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MulticastDelegate.swift; sourceTree = "<group>"; };
 		F8B55C5B1BB532FB005C759D /* Messenger for League of Legends.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Messenger for League of Legends.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -407,6 +414,13 @@
 				en,
 				Base,
 				ko,
+				es,
+				"pt-BR",
+				de,
+				fr,
+				ru,
+				pl,
+				tr,
 			);
 			mainGroup = F8B55C521BB532FB005C759D;
 			productRefGroup = F8B55C5C1BB532FB005C759D /* Products */;
@@ -639,6 +653,13 @@
 				F84FA1251C01EBFE0042CD99 /* Base */,
 				F84FA1271C01EC0F0042CD99 /* en */,
 				F84FA1281C01EC2F0042CD99 /* ko */,
+				F89669971C116C1300514920 /* es */,
+				F89669981C116C3000514920 /* pt-BR */,
+				F89669991C116C3600514920 /* de */,
+				F896699A1C116C3B00514920 /* fr */,
+				F896699B1C116C4800514920 /* ru */,
+				F896699C1C116C4E00514920 /* pl */,
+				F896699D1C116C5400514920 /* tr */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

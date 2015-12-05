@@ -409,8 +409,12 @@ extension ChatService: XMPPRoomDelegate {
                     isActiveChat = isCurrentChat && UIApplication.isActive()
                 }
 
-                chatEntry.update {
+                let result = chatEntry.update {
                     chatEntry.addMessage(message, read: isActiveChat)
+                }
+                if !result {
+                    let notification = NotificationUtils.create(title: "Error", body: "Error adding message", category: "nono")
+                    UIApplication.sharedApplication().presentLocalNotificationNow(notification)
                 }
 
                 

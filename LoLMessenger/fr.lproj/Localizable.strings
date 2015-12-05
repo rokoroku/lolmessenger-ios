@@ -1,0 +1,292 @@
+"Messenger for LoL" = "Messenger for LoL";
+
+/*
+ * Connection
+ */
+
+"Connecting..." = "Intentando conectarse …";
+
+"Disconnected" = "Conexión perdida";
+
+"Reconnect" = "Reconectando..";
+
+"Background session will be expired in one minute." = "Background session will be expired in one minute.";
+
+"Your presence has gone offline." = "Messenger for LoL desconectado";
+
+
+
+
+
+/*
+ * Login Screen
+ */
+
+"Username" = "Nombre de usuario";
+
+"Password" = "Contraseña";
+
+"Select Region" = "Escoger servidor";
+
+"Need an account?" = "Need an account?";
+
+"Connect" = "Inciar sesión";
+
+"Please select region" = "Escoger servidor";
+
+"Please input password" = "Información de entrada requerida";
+
+"Please input username" = "Información de entrada requerida";
+
+"Authentication Failed, Check your credential and region" = "Comprueba la contraseña";
+
+
+
+
+
+
+/*
+ * Friends
+ */
+
+"Friends" = "Amigos";
+
+"Summoner Name" = "Invocadores nombre";
+
+"Note" = "Note";
+
+"Buddy Request" = "Nueva solicitud de amistad";
+
+"The buddy %1$@ wants to add you to their list and see your presence online" = "%1$@ Quiere añadirte como amigo.";
+
+"Remove Friend" = "Eliminar amigo";
+
+"Are you sure you want to remove %1$@ from your friend list?" = "Estás seguro de que quieres eliminar a %1$@ de tu lista de amigos?";
+
+"Add as Friend" = "Añadir nuevo amigo";
+
+"Please enter summoner name you want to add" = "Inserta el nombre del invocador aquí.";
+
+"Do you want to send a friend request to %1$@?" = "Quieres enviar una solicitud de amistad a %1$@?";
+
+"Request Sent!" = "Solicitud de amistad enviada.";
+
+"Summoner named %1$@ was not found" = "Summoner named %1$@ was not found";
+
+
+
+
+
+/*
+ * Chat
+ */
+
+"Chat" = "Chat";
+
+"1 occupant" = "1 Participante";
+
+"%1$d occupants" = "%d Participantes";
+
+"New message arrived" = "Nuevos mensajes";
+
+"Not connected to chat room" = "Unavailable";
+
+"Enter New Chat" = "Añadir nuevo chat";
+
+"Please enter the name of chat room you want to join" = "Inserta el nombre de la sala de chat aquí.";
+
+"Room Name" = "Room Name";
+
+
+
+
+
+/*
+ * Settings
+ */
+
+"Setting" = "Configuración";
+
+"Sign out" = "Cerrar sesión";
+
+"Are you sure you want to sign out?" = "Are you sure you want to sign out?";
+
+"Account" = "Cuenta";
+
+"Summoner Name" = "Invocadores nombre";
+
+"Status Message" = "Estado";
+
+"Notification" = "Configuración de notificaciones";
+
+"New Message" = "Alerta de nuevo mensaje";
+
+"New Friend Request" = "Alerta de solicitud de amistad";
+
+"Alert Type" = "Alert Type";
+
+"Sound" = "Sonido";
+
+"Vibrate" = "Vibración";
+
+"Background Session" = "Background Session";
+
+"Since the time of background task is limited to about 3 minutes by Apple's app policy, application will be terminated after the given amount of time." = "Since the time of background task is limited to about 3 minutes by Apple's app policy, application will be terminated after the given amount of time.";
+
+"Expiration Warning" = "Expiration Warning";
+
+"Play notification sound" = "Play notification sound";
+
+"Friend List" = "Configuración de lista de amigos";
+
+"Separate Offline Group" = "Separate Offline Group";
+
+"Sort by" = "Ordenar lista de amigos";
+
+"Enter to Send" = "Intro para enviar";
+
+"Show unread message first" = "Mostrar mensaje sin leer primero";
+
+"Others" = "Otros";
+
+"Language" = "Language";
+
+"Some settings are applied after restart." = "Some settings are applied after restart.";
+
+
+
+/*
+ * Queue Type
+ */
+
+"Normal" = "Normal";
+
+"Co-op" = "Co-op";
+
+"Ranked" = "Ranked";
+
+"Custom" = "Custom";
+
+"Practice" = "Practice";
+
+
+
+
+
+/*
+ * Game Type
+ */
+
+"Summoner's Rift" = "Summoner's Rift";
+
+"The Crystal Scar" = "The Crystal Scar";
+
+"Twisted Treeline" = "The Twisted Treeline";
+
+"ARAM" = "ARAM";
+
+
+
+
+
+/*
+ * Game Status Formatting
+ */
+
+/* In game string with Game type, Queue type and Champion (e.g. Summoner's Rift (Ranked) - KhaZix) */
+"%1$@ (%2$@) - %3$@" = "%1$@ (%2$@) - %3$@";
+
+/* In game string with Game type and Queue type (e.g. Summoner's Rift (Ranked)) */
+"%1$@ (%2$@)" = "%1$@ (%2$@)";
+
+/* In game string with Queue type and Champion (e.g. Normal Game - KhaZix) */
+"%1$@ Game - %2$@" = "%1$@ partida - %2$@";
+
+/* In game string with Queue type (e.g. Normal Game) */
+"%1$@ Game" = "%1$@ partida";
+
+/* In game string with Champion */
+"In Game - %1$@" = "En partida - %1$@";
+
+/* In game string */
+"In Game" = "En partida";
+
+"In Team Builder" = "En cola";
+
+"Hosting a %1$@ Game" = "Creando una partida normal";
+
+"In Team Select" = "Seleccionando equipo";
+
+"In Queue" = "En cola";
+
+"In Champion Select" = "Seleccionando personaje";
+
+"Spectating" = "Espectador";
+
+"Away" = "Ausente";
+
+"Online" = "En línea";
+
+"Offline" = "Desconectado";
+
+
+
+
+
+/*
+ * SHARED STRINGS
+ */
+
+"OK" = "OK";
+
+"NO" = "NO";
+
+"Cancel" = "Cancel";
+
+"Open" = "Open";
+
+"Close" = "Cerrar";
+
+"Edit" = "Edit";
+
+"Done" = "Done";
+
+"Send" = "Enviar";
+
+"Error" = "Error";
+
+"Warning" = "Warning";
+
+"General" = "General";
+
+"Unknown" = "Desconocido";
+
+"Undefined Error" = "Undefined Error";
+
+"Using iOS Client" = "Using iOS Client";
+
+
+
+
+
+/*
+ * Regions
+ */
+
+"North America" = "North America";
+
+"Europe West" = "Europe West";
+
+"Europe Nordic & East" = "Europe Nordic & East";
+
+"Brazil" = "Brazil";
+
+"Korea" = "Korea";
+
+"Latin America North" = "Latin America North";
+
+"Latin America South" = "Latin America South";
+
+"Oceania" = "Oceania";
+
+"Turkey" = "Turkey";

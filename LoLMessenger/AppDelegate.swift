@@ -22,15 +22,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // MARK: UIApplicationDelegate    
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject:AnyObject]?) -> Bool {
+
+        // initiate Fabric
         Fabric.with([Crashlytics.self])
 
+        // apply theme
         application.statusBarStyle = .LightContent
         Theme.applyGlobalTheme()
 
+        // add localNotification setting
         let settings = UIUserNotificationSettings(
             forTypes: [.Alert, .Badge, .Sound],
             categories: nil)
         application.registerUserNotificationSettings(settings)
+
+        // add uncaughtExceptionHandler
+        NSSetUncaughtExceptionHandler { exception in
+            print(exception)
+
+            if XMPPService.sharedInstance.isAuthenticated == true {
+                XMPPService.sharedInstance.disconnect()
+
+                let notification = NotificationUtils.create(
+                    title: Localized("Disconnected"),
+                    body: exception.reason != nil ? "Error: \(exception.reason!)" : Localized("Undefined Error"),
+                    category: Constants.Notification.Category.Connection)
+
+                NotificationUtils.dismiss(Constants.Notification.Category.Connection)
+                NotificationUtils.schedule(notification)
+            }
+        }
 
         return true
     }

@@ -51,8 +51,9 @@ class RosterTableViewController : UIViewController {
         navigationController?.hidesNavigationBarHairline = true
 
         let editButton = self.editButtonItem()
+        editButton.title = Localized("Edit")
         editButton.action = Selector("editAction:")
-        navigationItem.leftBarButtonItem = editButton        
+        navigationItem.leftBarButtonItem = editButton
     }
 
     func updateLocale() {
@@ -143,8 +144,10 @@ class RosterTableViewController : UIViewController {
     @IBAction func editAction(sender: AnyObject) {
         if (editing) {
             setEditing(false, animated: true)
+            self.editButtonItem().title = Localized("Edit")
         } else {
             setEditing(true, animated: true)
+            self.editButtonItem().title = Localized("Done")
         }
     }
 

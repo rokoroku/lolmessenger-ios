@@ -191,7 +191,7 @@ class ChatViewController : UIViewController {
     }
 
     override func viewWillDisappear(animated: Bool) {
-        if let jid = chatJID, let chat = XMPPService.sharedInstance.chat()?.getLeagueChatEntryByJID(jid) {
+        if let jid = self.chatJID, let chat = XMPPService.sharedInstance.chat()?.getLeagueChatEntryByJID(jid) {
             chat.update {
                 chat.clearUnread()
             }

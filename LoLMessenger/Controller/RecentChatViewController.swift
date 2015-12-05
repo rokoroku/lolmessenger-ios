@@ -22,13 +22,16 @@ class RecentChatViewController : UIViewController {
             }
         }
     }
+
     @IBAction func editAction(sender: AnyObject) {
         if (editing) {
             setEditing(false, animated: true)
             tableView.setEditing(false, animated: true)
+            self.editButtonItem().title = Localized("Edit")
         } else {
             setEditing(true, animated: true)
             tableView.setEditing(true, animated: true)
+            self.editButtonItem().title = Localized("Done")
         }
     }
 
@@ -80,6 +83,7 @@ class RecentChatViewController : UIViewController {
         setSearchController()
 
         let editButton = self.editButtonItem()
+        editButton.title = Localized("Edit")
         editButton.action = Selector("editAction:")
         navigationItem.leftBarButtonItem = editButton
     }

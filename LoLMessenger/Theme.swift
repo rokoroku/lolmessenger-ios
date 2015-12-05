@@ -22,7 +22,7 @@ struct Theme {
     static let YellowColor = UIColor.flatYellowColor()
 
     static let TextColorPrimary = ContrastColorOf(PrimaryColor, true)
-    static let TextColorSecondary = TextColorPrimary.colorWithAlphaComponent(0.55)
+    static let TextColorSecondary = TextColorPrimary.colorWithAlphaComponent(0.5)
     static let TextColorBlack = UIColor.flatBlackColor()
     static let TextColorDisabled = UIColor.flatBlackColor().lightenByPercentage(0.4)
 

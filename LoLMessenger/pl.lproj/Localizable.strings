@@ -1,16 +1,18 @@
+"Messenger for LoL" = "Messenger for LoL";
+
 /*
  * Connection
  */
 
-"Connecting..." = "Connecting...";
+"Connecting..." = "Próba połączenia…";
 
-"Disconnected" = "Disconnected";
+"Disconnected" = "Utracono połączenie";
 
-"Reconnect" = "Reconnect";
+"Reconnect" = "Ponowne łączenie";
 
 "Background session will be expired in one minute." = "Background session will be expired in one minute.";
 
-"Your presence has gone offline." = "Your presence has gone offline.";
+"Your presence has gone offline." = "Messenger for LoL został rozłączony";
 
 
 
@@ -20,23 +22,23 @@
  * Login Screen
  */
 
-"Username" = "Username";
+"Username" = "Nazwa użytkownika";
 
-"Password" = "Password";
+"Password" = "Hasło";
 
-"Select Region" = "Select Region";
-
-"Connect" = "Connect";
+"Select Region" = "Wybierz serwer";
 
 "Need an account?" = "Need an account?";
 
-"Please select region" = "Please select region";
+"Connect" = "Zaloguj się";
 
-"Please input password" = "Please input password";
+"Please select region" = "Wybierz serwer";
 
-"Please input username" = "Please input username";
+"Please input password" = "Nieprawidłowe dane";
 
-"Authentication Failed, Check your credential and region" = "Authentication Failed, Check your credential and region";
+"Please input username" = "Nieprawidłowe dane";
+
+"Authentication Failed, Check your credential and region" = "Sprawdź hasło";
 
 
 
@@ -47,27 +49,27 @@
  * Friends
  */
 
-"Friends" = "Friends";
+"Friends" = "Znajomi";
 
-"Summoner Name" = "Summoner Name";
+"Summoner Name" = "nazwa przywoływacza";
 
 "Note" = "Note";
 
-"Buddy Request" = "Buddy Request";
+"Buddy Request" = "Nowa prośba o dodanie do listy znajomych";
 
-"The buddy %1$@ wants to add you to their list and see your presence online" = "The buddy %1$@ wants to add you to their list and see your presence online";
+"The buddy %1$@ wants to add you to their list and see your presence online" = "%1$@ chce dodać Cię do listy znajomych.";
 
-"Remove Friend" = "Remove Friend";
+"Remove Friend" = "Usuń znajomego";
 
-"Are you sure you want to remove %1$@ from your friend list?" = "Are you sure you want to remove %1$@ from your friend list?";
+"Are you sure you want to remove %1$@ from your friend list?" = "Czy na pewno chcesz usunąć %1$@ z listy znajomych?";
 
-"Add as Friend" = "Add as Friend";
+"Add as Friend" = "Dodaj znajomego";
 
-"Please enter summoner name you want to add" = "Please enter summoner name you want to add";
+"Please enter summoner name you want to add" = "Wpisz tutaj nazwę przywoływacza.";
 
-"Do you want to send a friend request to %1$@?" = "Do you want to send a friend request to %1$@?";
+"Do you want to send a friend request to %1$@?" = "Czy na pewno chcesz wysłać zaproszenie do %1$@?";
 
-"Request Sent!" = "Request Sent!";
+"Request Sent!" = "Zaproszenie zostało wysłane";
 
 "Summoner named %1$@ was not found" = "Summoner named %1$@ was not found";
 
@@ -79,19 +81,19 @@
  * Chat
  */
 
-"Chat" = "Chat";
+"Chat" = "Online";
 
-"1 occupant" = "1 occupant";
+"1 occupant" = "1 Uczestników";
 
-"%1$d occupants" = "%1$d occupants";
+"%1$d occupants" = "%1$d Uczestników";
 
-"New message arrived" = "New message arrived";
+"New message arrived" = "Nowa wiadomość";
 
-"Not connected to chat room" = "Not connected to chat room";
+"Not connected to chat room" = "Nieosiągalny";
 
-"Enter New Chat" = "Enter New Chat";
+"Enter New Chat" = "Utwórz nowy czat";
 
-"Please enter the name of chat room you want to join" = "Please enter the name of chat room you want to join";
+"Please enter the name of chat room you want to join" = "Wpisz tutaj nazwę pokoju";
 
 "Room Name" = "Room Name";
 
@@ -103,29 +105,29 @@
  * Settings
  */
 
-"Setting" = "Setting";
+"Setting" = "Ustawienia";
 
-"Sign out" = "Sign out";
+"Sign out" = "Wyloguj";
 
 "Are you sure you want to sign out?" = "Are you sure you want to sign out?";
 
-"Account" = "Account";
+"Account" = "Konto";
 
-"Summoner Name" = "Summoner Name";
+"Summoner Name" = "nazwa przywoływacza";
 
-"Status Message" = "Status Message";
+"Status Message" = "Zmień swój status";
 
-"Notification" = "Notification";
+"Notification" = "Ustawienia powiadomień";
 
-"New Message" = "New Message";
+"New Message" = "Pokaż nowe wiadomości";
 
-"New Friend Request" = "New Friend Request";
+"New Friend Request" = "Pokaż zaproszenia";
 
 "Alert Type" = "Alert Type";
 
-"Sound" = "Sound";
+"Sound" = "Dźwięk";
 
-"Vibrate" = "Vibrate";
+"Vibrate" = "Wibracje";
 
 "Background Session" = "Background Session";
 
@@ -135,23 +137,21 @@
 
 "Play notification sound" = "Play notification sound";
 
-"Friend List" = "Friend List";
+"Friend List" = "Ustawienia listy znajomych";
 
 "Separate Offline Group" = "Separate Offline Group";
 
-"Sort by" = "Sort by";
+"Sort by" = "Sortuj według";
 
-"Enter to Send" = "Enter to Send";
+"Enter to Send" = "Enter wysyła wiadomość";
 
-"Show unread message first" = "Show unread message first";
+"Show unread message first" = "Nieprzeczytane na początku";
 
-"Others" = "Others";
+"Others" = "Inne";
 
-"Language" = "Language";
+"Language" = "Język";
 
 "Some settings are applied after restart." = "Some settings are applied after restart.";
-
-
 
 
 
@@ -181,7 +181,7 @@
 
 "The Crystal Scar" = "The Crystal Scar";
 
-"Twisted Treeline" = "Twisted Treeline";
+"Twisted Treeline" = "The Twisted Treeline";
 
 "ARAM" = "ARAM";
 
@@ -206,24 +206,24 @@
 "%1$@ Game" = "%1$@ Game";
 
 /* In game string with Champion */
-"In Game - %1$@" = "In Game - %1$@";
+"In Game - %1$@" = "W trakcie gry - %1$@";
 
 /* In game string */
-"In Game" = "In Game";
+"In Game" = "W trakcie gry";
 
-"In Team Builder" = "In Team Builder";
+"In Team Builder" = "Szuka gry";
 
-"Hosting a %1$@ Game" = "Hosting a %1$@ Game";
+"Hosting a %1$@ Game" = "Tworzenie gry %1$@";
 
-"In Team Select" = "In Team Select";
+"In Team Select" = "Wybieranie drużyny";
 
-"In Queue" = "In Queue";
+"In Queue" = "W kolejce";
 
-"In Champion Select" = "In Champion Select";
+"In Champion Select" = "Wybiera bohatera";
 
-"Spectating" = "Spectating";
+"Spectating" = "Obserwuje";
 
-"Away" = "Away";
+"Away" = "Zaraz wracam";
 
 "Online" = "Online";
 
@@ -245,21 +245,21 @@
 
 "Open" = "Open";
 
-"Close" = "Close";
+"Close" = "Zamknij";
 
 "Edit" = "Edit";
 
 "Done" = "Done";
 
-"Send" = "Send";
+"Send" = "Wyślij";
 
 "Error" = "Error";
 
 "Warning" = "Warning";
 
-"General" = "General";
+"General" = "Dostępni";
 
-"Unknown" = "Unknown";
+"Unknown" = "Nieznany";
 
 "Undefined Error" = "Undefined Error";
 
@@ -290,5 +290,3 @@
 "Oceania" = "Oceania";
 
 "Turkey" = "Turkey";
-
-"Russia" = "Russia";

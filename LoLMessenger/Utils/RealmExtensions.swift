@@ -62,27 +62,29 @@ extension Results {
 
 extension Object {
 
-    func remove() {
+    func remove() -> Bool {
         if let realm = self.realm {
             do {
                 try realm.write {
                     realm.delete(self)
                 }
-            } catch _ {
-
+            } catch {
+                return false
             }
         }
+        return true
     }
 
-    func update(block: dispatch_block_t) {
+    func update(block: dispatch_block_t) -> Bool {
         if let realm = realm {
             do {
                 try realm.write(block)
-            } catch _ {
-
+            } catch {
+                return false
             }
         } else {
             block()
         }
+        return true
     }
 }
