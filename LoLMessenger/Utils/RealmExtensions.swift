@@ -76,15 +76,17 @@ extension Object {
     }
 
     func update(block: dispatch_block_t) -> Bool {
-        if let realm = realm {
+        if let realm = realm where !realm.inWriteTransaction {
             do {
                 try realm.write(block)
+                return true
             } catch {
                 return false
             }
-        } else {
+        } else if (realm == nil) {
             block()
+            return true
         }
-        return true
+        return false
     }
 }

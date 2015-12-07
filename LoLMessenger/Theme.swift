@@ -21,7 +21,7 @@ struct Theme {
     static let GreenColor = UIColor.greenColor().darkenByPercentage(0.25)
     static let YellowColor = UIColor.flatYellowColor()
 
-    static let TextColorPrimary = ContrastColorOf(PrimaryColor, true)
+    static let TextColorPrimary = ContrastColorOf(PrimaryColor, returnFlat: true)
     static let TextColorSecondary = TextColorPrimary.colorWithAlphaComponent(0.5)
     static let TextColorBlack = UIColor.flatBlackColor()
     static let TextColorDisabled = UIColor.flatBlackColor().lightenByPercentage(0.4)
@@ -63,7 +63,7 @@ struct Theme {
         RosterTableGroupCell.appearance().backgroundColor = Theme.PrimaryColor.lightenByPercentage(0.06)
 
         let label = UILabel.appearance()
-        label.textColor = ContrastColorOf(PrimaryColor, true)
+        label.textColor = ContrastColorOf(PrimaryColor, returnFlat: true)
         label.tintColor = label.textColor
         label.backgroundColor = UIColor.clearColor()
 

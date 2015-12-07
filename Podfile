@@ -10,7 +10,6 @@ target 'LoLMessenger' do
   pod 'Alamofire', '~> 3.0.1'
   pod 'AlamofireImage', '~> 2.0'
   pod 'SwiftyJSON', :git => 'https://github.com/SwiftyJSON/SwiftyJSON.git'
-#  pod 'Localize-Swift', '~> 0.2'
   pod 'ChameleonFramework/Swift'
   pod 'Tortuga22-NinePatch'
   pod 'RealmSwift'

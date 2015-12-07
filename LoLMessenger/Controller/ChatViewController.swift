@@ -249,8 +249,13 @@ class ChatViewController : UIViewController {
             }
 
             let offset = self.tableView.contentOffset
-            if height > 0 && tableView.contentSize.height - height > tableView.bounds.size.height {
-                tableView.setContentOffset(CGPointMake(0, offset.y + height), animated: false)
+            let contentHeight = tableView.contentSize.height
+            let boundHeight = tableView.bounds.size.height
+            if height > 0 && contentHeight - height > boundHeight {
+                var newOffset = offset.y + height
+                if newOffset > contentHeight { newOffset = contentHeight - boundHeight }
+                tableView.setContentOffset(CGPointMake(0, newOffset), animated: false)
+                tableView.layoutIfNeeded()
             }
 
             self.keyboardHeightLayoutConstraint?.constant = height
@@ -263,6 +268,7 @@ class ChatViewController : UIViewController {
                     if height > 0 {
                         if let lastCell = self.tableView.indexPathsForVisibleRows?.last {
                             self.tableView.scrollToRowAtIndexPath(lastCell, atScrollPosition: .Bottom, animated: false)
+                            self.tableView.layoutSubviews()
                         }
                     }
                 })

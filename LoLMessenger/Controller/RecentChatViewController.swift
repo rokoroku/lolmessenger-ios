@@ -94,9 +94,16 @@ class RecentChatViewController : UIViewController {
     }
 
     override func viewWillLayoutSubviews() {
-        let adjustForTabbarInsets = UIEdgeInsetsMake(self.topLayoutGuide.length, 0, self.bottomLayoutGuide.length, 0)
-        self.tableView!.contentInset = adjustForTabbarInsets;
-        self.tableView!.scrollIndicatorInsets = adjustForTabbarInsets;
+        super.viewWillLayoutSubviews()
+
+        var insets : UIEdgeInsets
+        if let tabController = tabBarController as? MainTabBarController, let adView = tabController.getAdView() {
+            insets = UIEdgeInsetsMake(self.topLayoutGuide.length, 0, self.bottomLayoutGuide.length + adView.frame.height, 0)
+        } else {
+            insets = UIEdgeInsetsMake(self.topLayoutGuide.length, 0, self.bottomLayoutGuide.length, 0)
+        }
+        self.tableView!.contentInset = insets;
+        self.tableView!.scrollIndicatorInsets = insets;
     }
 
     func setSearchController() {
@@ -141,7 +148,7 @@ class RecentChatViewController : UIViewController {
 
     override func viewDidDisappear(animated: Bool) {
         // Remove delegates
-        if let _ = UIApplication.topViewController() as? STPopupContainerViewController {
+        if !(UIApplication.topViewController() is STPopupContainerViewController) {
             XMPPService.sharedInstance.chat()?.removeDelegate(self)
             XMPPService.sharedInstance.roster()?.removeDelegate(self)
             NSNotificationCenter.defaultCenter().removeObserver(self, name: LCLLanguageChangeNotification, object: nil)

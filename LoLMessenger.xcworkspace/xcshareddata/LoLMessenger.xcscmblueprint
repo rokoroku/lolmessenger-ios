@@ -1,0 +1,32 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "308DF3649C54A5654C908B575CE5FB1F15311F82",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+    "4468ffb7-3ccd-48b9-9643-4fa1fda34a18++5646" : {
+
+    }
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "4468ffb7-3ccd-48b9-9643-4fa1fda34a18++5646" : 0,
+    "308DF3649C54A5654C908B575CE5FB1F15311F82" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "C32F9554-1B9C-490C-87F4-83D3FD2426E6",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "4468ffb7-3ccd-48b9-9643-4fa1fda34a18++5646" : "LoLMessenger\/AdMixer\/AdMixer\/Adapters\/CaulyAdapter\/DefaultImages\/",
+    "308DF3649C54A5654C908B575CE5FB1F15311F82" : "LoLMessenger\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "LoLMessenger",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "LoLMessenger.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "bitbucket.org:rokoroku\/lolmessenger-ios.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "308DF3649C54A5654C908B575CE5FB1F15311F82"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "svn:\/\/svn.fsndev.com\/ios_blackdragon",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "4468ffb7-3ccd-48b9-9643-4fa1fda34a18++5646"
+    }
+  ]
+}

@@ -224,6 +224,7 @@ public class TKFadeInAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         toView.alpha = startingAlpha
         fromView.alpha = 0.8
 
+        /*
         var frame = toView.frame
         if (frame.y > 0)
         {
@@ -235,6 +236,7 @@ public class TKFadeInAnimator: NSObject, UIViewControllerAnimatedTransitioning {
             frame = UIEdgeInsetsInsetRect(containerView.bounds, insets)
         }
         toView.frame = frame
+        */
         containerView.addSubview(toView)
 
         UIView.animateWithDuration(self.transitionDuration(transitionContext), animations: { () -> Void in

@@ -8,7 +8,6 @@
 
 import UIKit
 import STPopup
-import ChameleonFramework
 
 class RosterTableViewController : UIViewController {
     
@@ -89,9 +88,15 @@ class RosterTableViewController : UIViewController {
 
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        let adjustForTabbarInsets = UIEdgeInsetsMake(self.topLayoutGuide.length, 0, self.bottomLayoutGuide.length, 0)
-        self.tableView!.contentInset = adjustForTabbarInsets;
-        self.tableView!.scrollIndicatorInsets = adjustForTabbarInsets;
+
+        var insets : UIEdgeInsets
+        if let tabController = tabBarController as? MainTabBarController, let adView = tabController.getAdView() {
+            insets = UIEdgeInsetsMake(self.topLayoutGuide.length, 0, self.bottomLayoutGuide.length + adView.frame.height, 0)
+        } else {
+            insets = UIEdgeInsetsMake(self.topLayoutGuide.length, 0, self.bottomLayoutGuide.length, 0)
+        }
+        self.tableView!.contentInset = insets;
+        self.tableView!.scrollIndicatorInsets = insets;
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -110,7 +115,7 @@ class RosterTableViewController : UIViewController {
     }
 
     override func viewDidDisappear(animated: Bool) {
-        if UIApplication.topViewController()?.isKindOfClass(STPopupContainerViewController) == false {
+        if !(UIApplication.topViewController() is STPopupContainerViewController) {
             XMPPService.sharedInstance.roster()?.removeDelegate(self)
             NSNotificationCenter.defaultCenter().removeObserver(self, name: LCLLanguageChangeNotification, object: nil)
         }

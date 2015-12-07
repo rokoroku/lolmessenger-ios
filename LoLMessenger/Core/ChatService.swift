@@ -40,7 +40,7 @@ class ChatService : NSObject {
     private var isActivated = false
     private var isPopulated = false
     private var delegates: [ChatDelegate] = []
-    
+
     override private init () {
 
     }
@@ -170,7 +170,7 @@ class ChatService : NSObject {
             } else if let roster = xmppService.roster()?.getRosterByJID(jid) {
                 do {
                     realm.beginWrite()
-                    let createdChat = realm.create(LeagueChat.self, value: LeagueChat(chatId: jid, name: roster.username))
+                    let createdChat = realm.create(LeagueChat.self, value: LeagueChat(chatId: jid, name: roster.username), update: true)
                     try realm.commitWrite()
                     return createdChat
 
@@ -180,7 +180,7 @@ class ChatService : NSObject {
             } else if let name = named {
                 do {
                     realm.beginWrite()
-                    let createdChat = realm.create(LeagueChat.self, value: LeagueChat(chatId: jid, name: name))
+                    let createdChat = realm.create(LeagueChat.self, value: LeagueChat(chatId: jid, name: name), update: true)
                     try realm.commitWrite()
                     return createdChat
                 } catch _ {
@@ -288,13 +288,27 @@ extension ChatService : XMPPStreamDelegate {
                         isActiveChat = isCurrentChat && UIApplication.isActive()
                     }
 
-                    leagueChat.update {
+                    let updateBlock : dispatch_block_t = {
                         leagueChat.addMessage(leagueMessage, read: isActiveChat)
                         if let rosterName = roster?.username {
                             if rosterName != leagueChat.name {
                                 leagueChat.name = rosterName
                             }
                         }
+                    }
+
+                    if !leagueChat.update(updateBlock) {
+                        let retryResult = try? xmppService.DB()?.write(updateBlock)
+
+                        #if DEBUG
+                            if retryResult != nil {
+                                let notification = NotificationUtils.create(title: "Error", body: "Success adding message", category: "nono")
+                                UIApplication.sharedApplication().presentLocalNotificationNow(notification)
+                            } else {
+                                let notification = NotificationUtils.create(title: "Error", body: "Error adding message", category: "nono")
+                                UIApplication.sharedApplication().presentLocalNotificationNow(notification)
+                            }
+                        #endif
                     }
 
                     let rawChat = leagueChat.freeze()
@@ -409,14 +423,23 @@ extension ChatService: XMPPRoomDelegate {
                     isActiveChat = isCurrentChat && UIApplication.isActive()
                 }
 
-                let result = chatEntry.update {
+                let updateBlock: dispatch_block_t = {
                     chatEntry.addMessage(message, read: isActiveChat)
                 }
-                if !result {
-                    let notification = NotificationUtils.create(title: "Error", body: "Error adding message", category: "nono")
-                    UIApplication.sharedApplication().presentLocalNotificationNow(notification)
-                }
 
+                if !chatEntry.update(updateBlock) {
+                    let retryResult = try? xmppService.DB()?.write(updateBlock)
+
+                    #if DEBUG
+                        if retryResult != nil {
+                            let notification = NotificationUtils.create(title: "Error", body: "Success adding message", category: "nono")
+                            UIApplication.sharedApplication().presentLocalNotificationNow(notification)
+                        } else {
+                            let notification = NotificationUtils.create(title: "Error", body: "Error adding message", category: "nono")
+                            UIApplication.sharedApplication().presentLocalNotificationNow(notification)
+                        }
+                    #endif
+                }
                 
                 let rawChat = chatEntry.freeze()
                 let rawMessage = message.raw()

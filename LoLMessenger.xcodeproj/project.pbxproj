@@ -14,6 +14,17 @@
 		F80D2A6B1BE1F79E00459E96 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = F80D2A6A1BE1F79E00459E96 /* Theme.swift */; };
 		F822E50E1BF194A800C45C8F /* ChatOccupantViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F822E50D1BF194A800C45C8F /* ChatOccupantViewController.swift */; };
 		F822E5101BF1ADFB00C45C8F /* PopupSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = F822E50F1BF1ADFB00C45C8F /* PopupSegue.swift */; };
+		F83AB8B41C154D4D007C2B6A /* AdamAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = F83AB8931C154D4D007C2B6A /* AdamAdapter.m */; };
+		F83AB8B51C154D4D007C2B6A /* AdamAdWrapperView.m in Sources */ = {isa = PBXBuildFile; fileRef = F83AB8961C154D4D007C2B6A /* AdamAdWrapperView.m */; };
+		F83AB8B61C154D4D007C2B6A /* AdamManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F83AB89A1C154D4D007C2B6A /* AdamManager.m */; };
+		F83AB8B71C154D4D007C2B6A /* libAdamPublisher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F83AB89B1C154D4D007C2B6A /* libAdamPublisher.a */; };
+		F83AB8B81C154D4D007C2B6A /* AdmobAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = F83AB89E1C154D4D007C2B6A /* AdmobAdapter.m */; };
+		F83AB8B91C154D4D007C2B6A /* AdmobECpmAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = F83AB8A01C154D4D007C2B6A /* AdmobECpmAdapter.m */; };
+		F83AB8BA1C154D4D007C2B6A /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F83AB8A11C154D4D007C2B6A /* GoogleMobileAds.framework */; };
+		F83AB8BB1C154D4D007C2B6A /* FacebookAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = F83AB8A41C154D4D007C2B6A /* FacebookAdapter.m */; };
+		F83AB8BC1C154D4D007C2B6A /* FBAudienceNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F83AB8A51C154D4D007C2B6A /* FBAudienceNetwork.framework */; };
+		F83AB8BD1C154D4D007C2B6A /* IAdAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = F83AB8A81C154D4D007C2B6A /* IAdAdapter.m */; };
+		F83AB8BE1C154D4D007C2B6A /* libAdMixer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F83AB8B31C154D4D007C2B6A /* libAdMixer.a */; };
 		F83FB1E81BDFC8AA00FBDCCA /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F83FB1E21BDFC8AA00FBDCCA /* ChatViewController.swift */; };
 		F83FB1E91BDFC8AA00FBDCCA /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F83FB1E31BDFC8AA00FBDCCA /* LoginViewController.swift */; };
 		F83FB1EA1BDFC8AA00FBDCCA /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F83FB1E41BDFC8AA00FBDCCA /* MainTabBarController.swift */; };
@@ -30,6 +41,14 @@
 		F8524ADD1BFDA4F700671D32 /* TKTransitionSubmitButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8524ADC1BFDA4F700671D32 /* TKTransitionSubmitButton.swift */; };
 		F863677F1BE6953E0075B08B /* SummonerDialogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F863677E1BE6953E0075B08B /* SummonerDialogViewController.swift */; };
 		F86D4C751BCCF45C009E9083 /* RosterService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86D4C741BCCF45C009E9083 /* RosterService.swift */; };
+		F87232D71C155185003F4706 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F87232D61C155185003F4706 /* CoreLocation.framework */; };
+		F87232D91C15518B003F4706 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F87232D81C15518A003F4706 /* CoreTelephony.framework */; };
+		F87232DB1C155196003F4706 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F87232DA1C155196003F4706 /* AssetsLibrary.framework */; };
+		F87232DD1C1551C1003F4706 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F87232DC1C1551C1003F4706 /* iAd.framework */; };
+		F87232DF1C1551C5003F4706 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F87232DE1C1551C5003F4706 /* AdSupport.framework */; };
+		F87232E21C1551D1003F4706 /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F87232E01C1551D1003F4706 /* EventKit.framework */; };
+		F87232E31C1551D1003F4706 /* EventKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F87232E11C1551D1003F4706 /* EventKitUI.framework */; };
+		F87232E51C1551DF003F4706 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F87232E41C1551DF003F4706 /* StoreKit.framework */; };
 		F8803C191BDB6C59005AC9CA /* NavigationUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8803C181BDB6C59005AC9CA /* NavigationUtils.swift */; };
 		F88589501BEDD6CE00B39BED /* RiotAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F885894F1BEDD6CE00B39BED /* RiotAPIClient.swift */; };
 		F88589681BEF30FA00B39BED /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F88589661BEF30FA00B39BED /* LaunchScreen.storyboard */; };
@@ -89,6 +108,37 @@
 		F80D2A6A1BE1F79E00459E96 /* Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		F822E50D1BF194A800C45C8F /* ChatOccupantViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatOccupantViewController.swift; sourceTree = "<group>"; };
 		F822E50F1BF1ADFB00C45C8F /* PopupSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupSegue.swift; sourceTree = "<group>"; };
+		F83AB8921C154D4D007C2B6A /* AdamAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdamAdapter.h; sourceTree = "<group>"; };
+		F83AB8931C154D4D007C2B6A /* AdamAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdamAdapter.m; sourceTree = "<group>"; };
+		F83AB8941C154D4D007C2B6A /* AdamAdView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdamAdView.h; sourceTree = "<group>"; };
+		F83AB8951C154D4D007C2B6A /* AdamAdWrapperView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdamAdWrapperView.h; sourceTree = "<group>"; };
+		F83AB8961C154D4D007C2B6A /* AdamAdWrapperView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdamAdWrapperView.m; sourceTree = "<group>"; };
+		F83AB8971C154D4D007C2B6A /* AdamError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdamError.h; sourceTree = "<group>"; };
+		F83AB8981C154D4D007C2B6A /* AdamInterstitial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdamInterstitial.h; sourceTree = "<group>"; };
+		F83AB8991C154D4D007C2B6A /* AdamManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdamManager.h; sourceTree = "<group>"; };
+		F83AB89A1C154D4D007C2B6A /* AdamManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdamManager.m; sourceTree = "<group>"; };
+		F83AB89B1C154D4D007C2B6A /* libAdamPublisher.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAdamPublisher.a; sourceTree = "<group>"; };
+		F83AB89D1C154D4D007C2B6A /* AdmobAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdmobAdapter.h; sourceTree = "<group>"; };
+		F83AB89E1C154D4D007C2B6A /* AdmobAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdmobAdapter.m; sourceTree = "<group>"; };
+		F83AB89F1C154D4D007C2B6A /* AdmobECpmAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdmobECpmAdapter.h; sourceTree = "<group>"; };
+		F83AB8A01C154D4D007C2B6A /* AdmobECpmAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdmobECpmAdapter.m; sourceTree = "<group>"; };
+		F83AB8A11C154D4D007C2B6A /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMobileAds.framework; sourceTree = "<group>"; };
+		F83AB8A31C154D4D007C2B6A /* FacebookAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacebookAdapter.h; sourceTree = "<group>"; };
+		F83AB8A41C154D4D007C2B6A /* FacebookAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FacebookAdapter.m; sourceTree = "<group>"; };
+		F83AB8A51C154D4D007C2B6A /* FBAudienceNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBAudienceNetwork.framework; sourceTree = "<group>"; };
+		F83AB8A71C154D4D007C2B6A /* IAdAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAdAdapter.h; sourceTree = "<group>"; };
+		F83AB8A81C154D4D007C2B6A /* IAdAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IAdAdapter.m; sourceTree = "<group>"; };
+		F83AB8A91C154D4D007C2B6A /* AdMixer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdMixer.h; sourceTree = "<group>"; };
+		F83AB8AA1C154D4D007C2B6A /* AdMixerAdAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdMixerAdAdapter.h; sourceTree = "<group>"; };
+		F83AB8AB1C154D4D007C2B6A /* AdMixerCustomPopup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdMixerCustomPopup.h; sourceTree = "<group>"; };
+		F83AB8AC1C154D4D007C2B6A /* AdMixerInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdMixerInfo.h; sourceTree = "<group>"; };
+		F83AB8AD1C154D4D007C2B6A /* AdMixerInterstitial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdMixerInterstitial.h; sourceTree = "<group>"; };
+		F83AB8AE1C154D4D007C2B6A /* AdMixerInterstitialPopupOption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdMixerInterstitialPopupOption.h; sourceTree = "<group>"; };
+		F83AB8AF1C154D4D007C2B6A /* AdMixerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdMixerView.h; sourceTree = "<group>"; };
+		F83AB8B01C154D4D007C2B6A /* AXDate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXDate.h; sourceTree = "<group>"; };
+		F83AB8B11C154D4D007C2B6A /* AXError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXError.h; sourceTree = "<group>"; };
+		F83AB8B21C154D4D007C2B6A /* AXLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXLog.h; sourceTree = "<group>"; };
+		F83AB8B31C154D4D007C2B6A /* libAdMixer.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAdMixer.a; sourceTree = "<group>"; };
 		F83FB1E21BDFC8AA00FBDCCA /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		F83FB1E31BDFC8AA00FBDCCA /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		F83FB1E41BDFC8AA00FBDCCA /* MainTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
@@ -107,6 +157,14 @@
 		F8524ADC1BFDA4F700671D32 /* TKTransitionSubmitButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TKTransitionSubmitButton.swift; sourceTree = "<group>"; };
 		F863677E1BE6953E0075B08B /* SummonerDialogViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SummonerDialogViewController.swift; sourceTree = "<group>"; };
 		F86D4C741BCCF45C009E9083 /* RosterService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RosterService.swift; sourceTree = "<group>"; };
+		F87232D61C155185003F4706 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		F87232D81C15518A003F4706 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		F87232DA1C155196003F4706 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		F87232DC1C1551C1003F4706 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
+		F87232DE1C1551C5003F4706 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		F87232E01C1551D1003F4706 /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
+		F87232E11C1551D1003F4706 /* EventKitUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKitUI.framework; path = System/Library/Frameworks/EventKitUI.framework; sourceTree = SDKROOT; };
+		F87232E41C1551DF003F4706 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		F8803C181BDB6C59005AC9CA /* NavigationUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationUtils.swift; sourceTree = "<group>"; };
 		F885894F1BEDD6CE00B39BED /* RiotAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RiotAPIClient.swift; sourceTree = "<group>"; };
 		F88589671BEF30FA00B39BED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -159,7 +217,19 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F87232E51C1551DF003F4706 /* StoreKit.framework in Frameworks */,
+				F87232E21C1551D1003F4706 /* EventKit.framework in Frameworks */,
+				F87232E31C1551D1003F4706 /* EventKitUI.framework in Frameworks */,
+				F87232DF1C1551C5003F4706 /* AdSupport.framework in Frameworks */,
+				F87232DD1C1551C1003F4706 /* iAd.framework in Frameworks */,
+				F87232DB1C155196003F4706 /* AssetsLibrary.framework in Frameworks */,
+				F87232D71C155185003F4706 /* CoreLocation.framework in Frameworks */,
+				F87232D91C15518B003F4706 /* CoreTelephony.framework in Frameworks */,
 				F9E675E5A379D862BAA1C8FB /* Pods_LoLMessenger.framework in Frameworks */,
+				F83AB8BA1C154D4D007C2B6A /* GoogleMobileAds.framework in Frameworks */,
+				F83AB8BC1C154D4D007C2B6A /* FBAudienceNetwork.framework in Frameworks */,
+				F83AB8B71C154D4D007C2B6A /* libAdamPublisher.a in Frameworks */,
+				F83AB8BE1C154D4D007C2B6A /* libAdMixer.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -221,9 +291,96 @@
 		AAFAC5B2C89C92C41BC931FD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F87232E41C1551DF003F4706 /* StoreKit.framework */,
+				F87232E01C1551D1003F4706 /* EventKit.framework */,
+				F87232E11C1551D1003F4706 /* EventKitUI.framework */,
+				F87232DE1C1551C5003F4706 /* AdSupport.framework */,
+				F87232DC1C1551C1003F4706 /* iAd.framework */,
+				F87232DA1C155196003F4706 /* AssetsLibrary.framework */,
+				F87232D81C15518A003F4706 /* CoreTelephony.framework */,
+				F87232D61C155185003F4706 /* CoreLocation.framework */,
 				3028A8E268985713BD4AA7F3 /* Pods_LoLMessenger.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F83AB88F1C154D4D007C2B6A /* AdMixer */ = {
+			isa = PBXGroup;
+			children = (
+				F83AB8901C154D4D007C2B6A /* Adapters */,
+				F83AB8A91C154D4D007C2B6A /* AdMixer.h */,
+				F83AB8AA1C154D4D007C2B6A /* AdMixerAdAdapter.h */,
+				F83AB8AB1C154D4D007C2B6A /* AdMixerCustomPopup.h */,
+				F83AB8AC1C154D4D007C2B6A /* AdMixerInfo.h */,
+				F83AB8AD1C154D4D007C2B6A /* AdMixerInterstitial.h */,
+				F83AB8AE1C154D4D007C2B6A /* AdMixerInterstitialPopupOption.h */,
+				F83AB8AF1C154D4D007C2B6A /* AdMixerView.h */,
+				F83AB8B01C154D4D007C2B6A /* AXDate.h */,
+				F83AB8B11C154D4D007C2B6A /* AXError.h */,
+				F83AB8B21C154D4D007C2B6A /* AXLog.h */,
+				F83AB8B31C154D4D007C2B6A /* libAdMixer.a */,
+			);
+			name = AdMixer;
+			path = LoLMessenger/AdMixer;
+			sourceTree = "<group>";
+		};
+		F83AB8901C154D4D007C2B6A /* Adapters */ = {
+			isa = PBXGroup;
+			children = (
+				F83AB8911C154D4D007C2B6A /* AdamAdapter */,
+				F83AB89C1C154D4D007C2B6A /* AdmobAdapter */,
+				F83AB8A21C154D4D007C2B6A /* Facebook */,
+				F83AB8A61C154D4D007C2B6A /* IAdAdapter */,
+			);
+			path = Adapters;
+			sourceTree = "<group>";
+		};
+		F83AB8911C154D4D007C2B6A /* AdamAdapter */ = {
+			isa = PBXGroup;
+			children = (
+				F83AB8921C154D4D007C2B6A /* AdamAdapter.h */,
+				F83AB8931C154D4D007C2B6A /* AdamAdapter.m */,
+				F83AB8941C154D4D007C2B6A /* AdamAdView.h */,
+				F83AB8951C154D4D007C2B6A /* AdamAdWrapperView.h */,
+				F83AB8961C154D4D007C2B6A /* AdamAdWrapperView.m */,
+				F83AB8971C154D4D007C2B6A /* AdamError.h */,
+				F83AB8981C154D4D007C2B6A /* AdamInterstitial.h */,
+				F83AB8991C154D4D007C2B6A /* AdamManager.h */,
+				F83AB89A1C154D4D007C2B6A /* AdamManager.m */,
+				F83AB89B1C154D4D007C2B6A /* libAdamPublisher.a */,
+			);
+			path = AdamAdapter;
+			sourceTree = "<group>";
+		};
+		F83AB89C1C154D4D007C2B6A /* AdmobAdapter */ = {
+			isa = PBXGroup;
+			children = (
+				F83AB89D1C154D4D007C2B6A /* AdmobAdapter.h */,
+				F83AB89E1C154D4D007C2B6A /* AdmobAdapter.m */,
+				F83AB89F1C154D4D007C2B6A /* AdmobECpmAdapter.h */,
+				F83AB8A01C154D4D007C2B6A /* AdmobECpmAdapter.m */,
+				F83AB8A11C154D4D007C2B6A /* GoogleMobileAds.framework */,
+			);
+			path = AdmobAdapter;
+			sourceTree = "<group>";
+		};
+		F83AB8A21C154D4D007C2B6A /* Facebook */ = {
+			isa = PBXGroup;
+			children = (
+				F83AB8A31C154D4D007C2B6A /* FacebookAdapter.h */,
+				F83AB8A41C154D4D007C2B6A /* FacebookAdapter.m */,
+				F83AB8A51C154D4D007C2B6A /* FBAudienceNetwork.framework */,
+			);
+			path = Facebook;
+			sourceTree = "<group>";
+		};
+		F83AB8A61C154D4D007C2B6A /* IAdAdapter */ = {
+			isa = PBXGroup;
+			children = (
+				F83AB8A71C154D4D007C2B6A /* IAdAdapter.h */,
+				F83AB8A81C154D4D007C2B6A /* IAdAdapter.m */,
+			);
+			path = IAdAdapter;
 			sourceTree = "<group>";
 		};
 		F83FB1E11BDFC8AA00FBDCCA /* Controller */ = {
@@ -286,6 +443,7 @@
 		F8B55C521BB532FB005C759D = {
 			isa = PBXGroup;
 			children = (
+				F83AB88F1C154D4D007C2B6A /* AdMixer */,
 				F8B55C5D1BB532FB005C759D /* LoLMessenger */,
 				F8B55C751BB532FB005C759D /* LoLMessengerTests */,
 				F8B55C5C1BB532FB005C759D /* Products */,
@@ -397,6 +555,9 @@
 							com.apple.DataProtection = {
 								enabled = 1;
 							};
+							com.apple.InAppPurchase = {
+								enabled = 1;
+							};
 						};
 					};
 					F8B55C711BB532FB005C759D = {
@@ -438,10 +599,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F88589681BEF30FA00B39BED /* LaunchScreen.storyboard in Resources */,
-				F84FA1261C01EBFE0042CD99 /* Localizable.strings in Resources */,
 				F8E0CD601BFC32AD00E64FDF /* Assets.xcassets in Resources */,
 				F83FB20E1BDFC96F00FBDCCA /* Main.storyboard in Resources */,
+				F88589681BEF30FA00B39BED /* LaunchScreen.storyboard in Resources */,
+				F84FA1261C01EBFE0042CD99 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -587,18 +748,23 @@
 				F8E0CD621BFC563E00E64FDF /* XMPPRoomLeagueRosterStorage.swift in Sources */,
 				F8E0CD641BFC67EF00E64FDF /* LeagueAssetManager.swift in Sources */,
 				F8A489081BC50E1C00D7409B /* MulticastDelegate.swift in Sources */,
+				F83AB8BB1C154D4D007C2B6A /* FacebookAdapter.m in Sources */,
 				F88676581BCF5F79006C6B6A /* RealmExtensions.swift in Sources */,
+				F83AB8B91C154D4D007C2B6A /* AdmobECpmAdapter.m in Sources */,
 				F8E22BD31BBE668700C03773 /* XMPPExtensions.swift in Sources */,
 				F84FA1201C01A06B0042CD99 /* Localize.swift in Sources */,
 				F84521921C062B600021427B /* MainViewController.swift in Sources */,
 				F8E8C0A71BF1748900024462 /* ReconnectViewController.swift in Sources */,
 				F8E8C0A51BF0EE2300024462 /* SideMenuController.swift in Sources */,
 				F894016B1BDFDAEA00635D36 /* LeagueMessage.swift in Sources */,
+				F83AB8B51C154D4D007C2B6A /* AdamAdWrapperView.m in Sources */,
 				F83FB1EB1BDFC8AA00FBDCCA /* MoreViewController.swift in Sources */,
 				F8B55C5F1BB532FB005C759D /* AppDelegate.swift in Sources */,
 				F84FA12A1C02567C0042CD99 /* TransitionSegue.swift in Sources */,
 				F83FB1EC1BDFC8AA00FBDCCA /* RecentChatViewController.swift in Sources */,
 				F886765A1BCF6313006C6B6A /* ChatService.swift in Sources */,
+				F83AB8BD1C154D4D007C2B6A /* IAdAdapter.m in Sources */,
+				F83AB8B61C154D4D007C2B6A /* AdamManager.m in Sources */,
 				F89401721BDFDAEA00635D36 /* RecentChatTableCell.swift in Sources */,
 				F89401711BDFDAEA00635D36 /* IconLabel.swift in Sources */,
 				F8803C191BDB6C59005AC9CA /* NavigationUtils.swift in Sources */,
@@ -609,7 +775,9 @@
 				F822E50E1BF194A800C45C8F /* ChatOccupantViewController.swift in Sources */,
 				F86D4C751BCCF45C009E9083 /* RosterService.swift in Sources */,
 				1B9CEB293029B3CA00B2797C /* Async.swift in Sources */,
+				F83AB8B81C154D4D007C2B6A /* AdmobAdapter.m in Sources */,
 				F863677F1BE6953E0075B08B /* SummonerDialogViewController.swift in Sources */,
+				F83AB8B41C154D4D007C2B6A /* AdamAdapter.m in Sources */,
 				F88589501BEDD6CE00B39BED /* RiotAPIClient.swift in Sources */,
 				1B9CE3E8A357CD51DB730827 /* Constants.swift in Sources */,
 				F83FB1E81BDFC8AA00FBDCCA /* ChatViewController.swift in Sources */,
@@ -679,6 +847,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -726,6 +895,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -766,13 +936,24 @@
 			baseConfigurationReference = A8C4616684FFF044C582023E /* Pods-LoLMessenger.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COMPRESS_PNG_FILES = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/LoLMessenger/AdMixer/Adapters/AdmobAdapter",
+					"$(PROJECT_DIR)/LoLMessenger/AdMixer/Adapters/Facebook",
+				);
 				INFOPLIST_FILE = LoLMessenger/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/LoLMessenger/AdMixer/Adapters/AdamAdapter",
+					"$(PROJECT_DIR)/LoLMessenger/AdMixer",
+				);
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = kr.rokoroku.lolmessenger1;
 				PRODUCT_NAME = "Messenger for League of Legends";
@@ -788,13 +969,24 @@
 			baseConfigurationReference = D0646A8FBEC4EA1E04044FDE /* Pods-LoLMessenger.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COMPRESS_PNG_FILES = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/LoLMessenger/AdMixer/Adapters/AdmobAdapter",
+					"$(PROJECT_DIR)/LoLMessenger/AdMixer/Adapters/Facebook",
+				);
 				INFOPLIST_FILE = LoLMessenger/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/LoLMessenger/AdMixer/Adapters/AdamAdapter",
+					"$(PROJECT_DIR)/LoLMessenger/AdMixer",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = kr.rokoroku.lolmessenger1;
 				PRODUCT_NAME = "Messenger for League of Legends";
 				PROVISIONING_PROFILE = "";

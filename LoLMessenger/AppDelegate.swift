@@ -11,6 +11,11 @@ import Fabric
 import Crashlytics
 import RealmSwift
 
+protocol BackgroundDelegate : class {
+    func didEnterBackground(sender: UIApplication)
+    func didBecomeActive(sender: UIApplication)
+}
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
@@ -20,7 +25,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var didShowDisconnectionWarning = false
     var shouldRedirectToReconnect = false
 
-    // MARK: UIApplicationDelegate    
+    private static var delegates: [BackgroundDelegate] = []
+
+    // MARK: UIApplicationDelegate
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject:AnyObject]?) -> Bool {
 
         // initiate Fabric
@@ -46,6 +53,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 let notification = NotificationUtils.create(
                     title: Localized("Disconnected"),
                     body: exception.reason != nil ? "Error: \(exception.reason!)" : Localized("Undefined Error"),
+                    action: Localized("Reconnect"),
                     category: Constants.Notification.Category.Connection)
 
                 NotificationUtils.dismiss(Constants.Notification.Category.Connection)
@@ -78,6 +86,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
             backgroundTimer = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: "timerUpdate:", userInfo: nil, repeats: true)
         }
+
+        AppDelegate.delegates.forEach { $0.didEnterBackground(application) }
     }
 
     func applicationWillEnterForeground(application: UIApplication) {
@@ -86,6 +96,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        #if DEBUG
+            print("Application did become active")
+        #endif
 
         self.backgroundTimer?.invalidate()
         self.backgroundTimer = nil
@@ -97,12 +110,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NotificationUtils.dismiss(Constants.Notification.Category.Connection)
         didShowDisconnectionWarning = false
 
-        if shouldRedirectToReconnect {
+        if shouldRedirectToReconnect || !XMPPService.sharedInstance.isAuthenticated {
             NavigationUtils.navigateToReconnect()
             shouldRedirectToReconnect = false
+        } else {
+            AppDelegate.delegates.forEach { $0.didBecomeActive(application) }
         }
-
-
     }
 
 
@@ -183,6 +196,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 } else if XMPPService.sharedInstance.isAuthenticated {
                     NavigationUtils.navigateToChat(chatId: chatId)
                 }
+        }
+    }
+
+
+    class func addDelegate(delegate: BackgroundDelegate) {
+        var contain = false;
+        for item in delegates {
+            if item === delegate {
+                contain = true;
+            }
+        }
+        if !contain {
+            delegates.append(delegate)
+        }
+    }
+
+    class func removeDelegate(delegate: BackgroundDelegate) {
+        for var i=0; i < delegates.count; i++ {
+            let item = delegates[i]
+            if item === delegate {
+                delegates.removeAtIndex(i--)
+            }
         }
     }
 

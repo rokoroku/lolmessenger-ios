@@ -18,6 +18,7 @@ class PopupSegue : UIStoryboardSegue {
             let screenSize = UIScreen.mainScreen().bounds.size
             var contentSize = CGSizeMake(screenSize.width - 32, screenSize.height/2)
             if contentSize.width > 340 { contentSize.width = 340 }
+            if contentSize.height < 300 { contentSize.height = 300 }
 
             self.destinationViewController.contentSizeInPopup = contentSize
             self.destinationViewController.landscapeContentSizeInPopup = contentSize

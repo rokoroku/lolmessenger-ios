@@ -158,9 +158,6 @@ class AutoPurgingImageCacheWithDisk : AutoPurgingImageCache {
                 if hasCache(key) {
                     image = loadImageFromPath(generatePath(key))
                     if image != nil {
-                        #if DEBUG
-                            print("image loaded from: " + generatePath(key))
-                        #endif
                         super.addImage(image!, withIdentifier: identifier)
                     }
                 }
@@ -173,9 +170,6 @@ class AutoPurgingImageCacheWithDisk : AutoPurgingImageCache {
         if let split = try? identifier.URLString.split("/"), key = split.last {
             super.addImage(image, withIdentifier: key)
 
-            #if DEBUG
-                print("image stored to: " + generatePath(key))
-            #endif
             Async.background {
                 if !self.hasCache(key) {
                     self.saveImage(image, path: generatePath(key))

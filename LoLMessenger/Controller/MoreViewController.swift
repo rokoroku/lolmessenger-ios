@@ -193,9 +193,16 @@ class MoreViewController : FormViewController {
     }
 
     override func viewWillLayoutSubviews() {
-        let adjustForTabbarInsets = UIEdgeInsetsMake(self.topLayoutGuide.length, 0, self.bottomLayoutGuide.length, 0)
-        self.tableView?.contentInset = adjustForTabbarInsets
-        self.tableView?.scrollIndicatorInsets = adjustForTabbarInsets
+        super.viewWillLayoutSubviews()
+
+        var insets : UIEdgeInsets
+        if let tabController = tabBarController as? MainTabBarController, let adView = tabController.getAdView() {
+            insets = UIEdgeInsetsMake(self.topLayoutGuide.length, 0, self.bottomLayoutGuide.length + adView.frame.height, 0)
+        } else {
+            insets = UIEdgeInsetsMake(self.topLayoutGuide.length, 0, self.bottomLayoutGuide.length, 0)
+        }
+        self.tableView!.contentInset = insets;
+        self.tableView!.scrollIndicatorInsets = insets;
     }
 
     override func viewDidAppear(animated: Bool) {
