@@ -54,11 +54,19 @@ class ReconnectViewController : UIViewController {
                             }
                         }
                     })
+
             } else {
                 isConnecting = false
-                self.performSegueWithIdentifier("Login", sender: self)
+                Async.main {
+                    self.performSegueWithIdentifier("Login", sender: self)
+                }
             }
         }
+    }
+
+    override func performSegueWithIdentifier(identifier: String, sender: AnyObject?) {
+        super.performSegueWithIdentifier(identifier, sender: sender)
+        XMPPService.sharedInstance.removeDelegate(self)
     }
 }
 

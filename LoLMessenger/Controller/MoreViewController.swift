@@ -7,6 +7,7 @@
 //
 
 import Eureka
+import KeychainSwift
 import ChameleonFramework
 
 class MoreViewController : FormViewController {
@@ -56,6 +57,9 @@ class MoreViewController : FormViewController {
             handler: { _ in
                 XMPPService.sharedInstance.disconnect()
                 NavigationUtils.navigateToLogin()
+
+                //remove password from keychain
+                KeychainSwift().delete(Constants.Key.Password)
         })
     }
 

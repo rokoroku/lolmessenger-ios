@@ -95,4 +95,28 @@ extension NSDate {
         dateFormatter.dateFormat = dateFormat
         return dateFormatter.stringFromDate(self)
     }
+
+    func formatDate(style: NSDateFormatterStyle) -> String? {
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateStyle = style
+        return dateFormatter.stringFromDate(self)
+    }
+
+    func formatFromCompenents(styleAttitude: NSDateFormatterStyle, year: Bool = true, month: Bool = true, day: Bool = true, hour: Bool = true, minute: Bool = true, second: Bool = true) -> String {
+        let long = styleAttitude == .LongStyle || styleAttitude == .FullStyle ? true : false
+        var comps = ""
+
+        if year { comps += long ? "yyyy" : "yy" }
+        if month { comps += long ? "MMMM" : "MMM" }
+        if day { comps += long ? "dd" : "d" }
+
+        if hour { comps += long ? "HH" : "H" }
+        if minute { comps += long ? "mm" : "m" }
+        if second { comps += long ? "ss" : "s" }
+
+        let format = NSDateFormatter.dateFormatFromTemplate(comps, options: 0, locale: NSLocale.currentLocale())
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = format
+        return formatter.stringFromDate(self)
+    }
 }

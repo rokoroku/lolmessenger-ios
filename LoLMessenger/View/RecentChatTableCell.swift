@@ -39,8 +39,9 @@ class RecentChatTableCell: UITableViewCell {
             message.text = nil
         }
 
-        let datestr = chat.timestamp.format("MMM d")
-        let today = NSDate().format("MMM d")
+        let datestr = chat.timestamp.formatFromCompenents(.LongStyle, year: false, month: true, day: true, hour: false, minute: false, second: false)
+        let today = NSDate().formatFromCompenents(.LongStyle, year: false, month: true, day: true, hour: false, minute: false, second: false)
+
         if datestr == today {
             timestamp.text = chat.timestamp.format("HH:mm")
         } else {

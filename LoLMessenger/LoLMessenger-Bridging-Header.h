@@ -10,11 +10,8 @@
 #define LoLMessenger_Bridging_Header_h
 
 #import <CommonCrypto/CommonCrypto.h>
-//#import "AdMixer.h"
-//#import "AdMixerAdAdapter.h"
-#import "AdMixerView.h"
-#import "AdamAdapter.h"
 #import "IAdAdapter.h"
+#import "AdMixerView.h"
 #import "AdmobAdapter.h"
 #import "FacebookAdapter.h"
 

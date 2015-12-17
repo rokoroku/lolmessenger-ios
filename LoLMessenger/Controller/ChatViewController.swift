@@ -329,11 +329,27 @@ extension ChatViewController : UITableViewDelegate, UITableViewDataSource {
         }
 
         let message = (chatData?.messages[indexPath.row])!
+        var isDateChanged:Bool = true
+
+        // Check date difference between previous message
+        if indexPath.row > 0 {
+            if let previous = (chatData?.messages[indexPath.row - 1]) {
+
+                let calendar = NSCalendar.currentCalendar()
+                let date1 = calendar.startOfDayForDate(previous.timestamp)
+                let date2 = calendar.startOfDayForDate(message.timestamp)
+
+                let components = calendar.components(.Day, fromDate: date1, toDate: date2, options: [])
+                isDateChanged = components.day != 0
+            }
+        }
+
+        // Set cell with identifiers
         if message.isMine {
             let cellIdentifier = "BalloonMine"
             let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! ChatTableCell
             let roster = XMPPService.sharedInstance.myRosterElement
-            cell.setItem(roster, message: message)
+            cell.setItem(roster, message: message, dateChanged: isDateChanged)
             return cell
 
         } else {
@@ -347,7 +363,7 @@ extension ChatViewController : UITableViewDelegate, UITableViewDataSource {
             let isActiveRoster = roster?.available ?? false
             let cellIdentifier = isActiveRoster ? "BalloonOthers" : "BalloonUnknown"
             let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! ChatTableCell
-            cell.setItem(roster, message: message)
+            cell.setItem(roster, message: message, dateChanged: isDateChanged)
             return cell
         }
     }

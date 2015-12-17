@@ -31,8 +31,8 @@ extension ChatDelegate {
 
 class ChatService : NSObject {
     
-    var xmppService: XMPPService!
-    var xmppMessageDeliveryRecipts: XMPPMessageDeliveryReceipts!
+    var xmppService: XMPPService?
+    var xmppMessageDeliveryRecipts: XMPPMessageDeliveryReceipts?
 
     private var roomDictionary = [String: XMPPRoom]()
     private var blacklistedChat = [String]()
@@ -54,7 +54,7 @@ class ChatService : NSObject {
     func activate() {
         assert(!isActivated, "XMPPStream should not be activated")
         
-        if let xmppStream = xmppService.stream() {
+        if let xmppService = xmppService, xmppStream = xmppService.stream() {
             xmppMessageDeliveryRecipts = XMPPMessageDeliveryReceipts(dispatchQueue: xmppService.dispatchQueue)
             xmppMessageDeliveryRecipts!.autoSendMessageDeliveryReceipts = true
             xmppMessageDeliveryRecipts!.autoSendMessageDeliveryRequests = true
@@ -71,7 +71,7 @@ class ChatService : NSObject {
                 xmppRoom.removeDelegate(self)
                 xmppRoom.deactivate()
             }
-            xmppService.stream()?.removeDelegate(self)
+            xmppService?.stream()?.removeDelegate(self)
             xmppService = nil
             isActivated = false
         }
@@ -92,17 +92,19 @@ class ChatService : NSObject {
     }
 
     func joinRoomByJID(roomId: XMPPJID) {
-        var room = roomDictionary[roomId.user]
-        if room == nil {
-            room = XMPPRoom(roomStorage: XMPPRoomLeagueRosterStorage(), jid: roomId)
-            room?.addDelegate(self, delegateQueue: xmppService.dispatchQueue)
-            room?.activate(xmppService.stream())
-            roomDictionary[roomId.user] = room
-        }
-        if room!.isJoined == false && xmppService.myRosterElement != nil {
-            let userElement = xmppService.myRosterElement!
-            let nickname = userElement.username
-            room!.joinRoomUsingNickname(nickname, history: nil)
+        if let xmppService = xmppService {
+            var room = roomDictionary[roomId.user]
+            if room == nil {
+                room = XMPPRoom(roomStorage: XMPPRoomLeagueRosterStorage(), jid: roomId)
+                room?.addDelegate(self, delegateQueue: xmppService.dispatchQueue)
+                room?.activate(xmppService.stream())
+                roomDictionary[roomId.user] = room
+            }
+            if room!.isJoined == false && xmppService.myRosterElement != nil {
+                let userElement = xmppService.myRosterElement!
+                let nickname = userElement.username
+                room!.joinRoomUsingNickname(nickname, history: nil)
+            }
         }
     }
 
@@ -118,7 +120,7 @@ class ChatService : NSObject {
     }
 
     func sendMessage(to: XMPPJID, msg: String) {
-        if let xmppStream = xmppService.stream() {
+        if let xmppService = xmppService, xmppStream = xmppService.stream() {
             var message: XMPPMessage
             if to.domain == Constants.XMPP.Domain.Room {
                 message = XMPPMessage(type: "groupchat", to: to)
@@ -161,7 +163,10 @@ class ChatService : NSObject {
     }
 
     func getLeagueChatEntry(jid: String, named: String? = nil) -> LeagueChat? {
-        if let realm = xmppService.DB() {
+        if xmppService == nil {
+            return nil
+
+        } else if let xmppService = xmppService, realm = xmppService.DB() {
             let result = realm.objects(LeagueChat.self).filter("id = '\(jid)'")
             if let storedChat = result.first {
                 let _ = storedChat.messages.count
@@ -203,7 +208,7 @@ class ChatService : NSObject {
     }
 
     func getNumOfUnreadMessages() -> Int {
-        if let realm = xmppService.DB() {
+        if let xmppService = xmppService, realm = xmppService.DB() {
             return realm.objects(LeagueChat.self).reduce(0) { $0 + $1.unread }
         }
         return 0
@@ -214,7 +219,7 @@ class ChatService : NSObject {
     }
 
     func getLeagueChatEntries() -> [LeagueChat]? {
-        if let realm = xmppService.DB() {
+        if let xmppService = xmppService, let realm = xmppService.DB() {
             return realm.objects(LeagueChat.self)
                 .sorted("timestamp", ascending: false)
                 .filter { $0.lastMessage != nil || $0.type != .Peer }
@@ -265,7 +270,7 @@ extension ChatService : XMPPStreamDelegate {
                     self.xmppStream(sender, didSendMessage: forwardedMessage)
             }
 
-        } else if let leagueChat = getLeagueChatEntryByJID(message.from()) {
+        } else if let xmppService = xmppService, leagueChat = getLeagueChatEntryByJID(message.from()) {
             let roster = xmppService.roster()?.getRosterByJID(message.from())
             if let leagueMessage = LeagueMessage(message: message, nick: roster?.username ?? leagueChat.name, isMine: false) {
                 if message.type() == "error" {
@@ -298,17 +303,14 @@ extension ChatService : XMPPStreamDelegate {
                     }
 
                     if !leagueChat.update(updateBlock) {
-                        let retryResult = try? xmppService.DB()?.write(updateBlock)
-
+                        Async.background(after: 0.5) {
+                            self.xmppStream(sender, didReceiveMessage: message)
+                        }
                         #if DEBUG
-                            if retryResult != nil {
-                                let notification = NotificationUtils.create(title: "Error", body: "Success adding message", category: "nono")
-                                UIApplication.sharedApplication().presentLocalNotificationNow(notification)
-                            } else {
-                                let notification = NotificationUtils.create(title: "Error", body: "Error adding message", category: "nono")
-                                UIApplication.sharedApplication().presentLocalNotificationNow(notification)
-                            }
+                            let notification = NotificationUtils.create(title: "Error", body: "Retrying adding message \(message.body())", category: "nono")
+                            UIApplication.sharedApplication().presentLocalNotificationNow(notification)
                         #endif
+                        return;
                     }
 
                     let rawChat = leagueChat.freeze()
@@ -331,7 +333,7 @@ extension ChatService : XMPPStreamDelegate {
     }
 
     @objc func xmppStream(sender: XMPPStream!, didSendMessage message: XMPPMessage!) {
-        if let leagueChat = getLeagueChatEntryByJID(message.to()),
+        if let xmppService = xmppService, leagueChat = getLeagueChatEntryByJID(message.to()),
             let leagueMessage = LeagueMessage(message: message, nick: xmppService.myRosterElement!.username, isMine: true) {
                 leagueChat.update {
                     leagueChat.addMessage(leagueMessage)
@@ -345,7 +347,7 @@ extension ChatService : XMPPStreamDelegate {
     }
 
     @objc func xmppStream(sender: XMPPStream!, didFailToSendMessage message: XMPPMessage!, error: NSError!) {
-        if let leagueMessage = LeagueMessage(message: message, nick: xmppService.myRosterElement!.username, isMine: true) {
+        if let xmppService = xmppService, let leagueMessage = LeagueMessage(message: message, nick: xmppService.myRosterElement!.username, isMine: true) {
             #if DEBUG
                 print("didFailToSendMessage! " + leagueMessage.description)
             #endif
@@ -365,11 +367,13 @@ extension ChatService: XMPPRoomDelegate {
         #if DEBUG
             print("xmppRoomDidJoin: " + sender.roomJID.debugDescription)
         #endif
-        xmppService.stream()?.resendMyPresence()
-        roomDictionary[sender.roomJID.user] = sender
-        if let chatEntry = getLeagueChatEntryByJID(sender.roomJID)?.freeze() {
-            invokeDelegates {
-                delegate in delegate.didEnterChatRoom(self, from: chatEntry)
+        if let xmppService = xmppService {
+            xmppService.stream()?.resendMyPresence()
+            roomDictionary[sender.roomJID.user] = sender
+            if let chatEntry = getLeagueChatEntryByJID(sender.roomJID)?.freeze() {
+                invokeDelegates {
+                    delegate in delegate.didEnterChatRoom(self, from: chatEntry)
+                }
             }
         }
     }
@@ -414,7 +418,7 @@ extension ChatService: XMPPRoomDelegate {
     }
 
     @objc func xmppRoom(sender: XMPPRoom!, didReceiveMessage message: XMPPMessage!, fromOccupant occupantJID: XMPPJID!) {
-        if let chatEntry = getLeagueChatEntryByJID(sender.roomJID), let message = LeagueMessage(message: message) {
+        if let xmppService = xmppService, chatEntry = getLeagueChatEntryByJID(sender.roomJID), let leagueMessage = LeagueMessage(message: message) {
             if occupantJID.resource != xmppService.myRosterElement?.username {
 
                 var isActiveChat = false
@@ -424,32 +428,28 @@ extension ChatService: XMPPRoomDelegate {
                 }
 
                 let updateBlock: dispatch_block_t = {
-                    chatEntry.addMessage(message, read: isActiveChat)
+                    chatEntry.addMessage(leagueMessage, read: isActiveChat)
                 }
 
                 if !chatEntry.update(updateBlock) {
-                    let retryResult = try? xmppService.DB()?.write(updateBlock)
-
+                    Async.background(after: 0.5) {
+                        self.xmppRoom(sender, didReceiveMessage: message, fromOccupant: occupantJID)
+                    }
                     #if DEBUG
-                        if retryResult != nil {
-                            let notification = NotificationUtils.create(title: "Error", body: "Success adding message", category: "nono")
-                            UIApplication.sharedApplication().presentLocalNotificationNow(notification)
-                        } else {
-                            let notification = NotificationUtils.create(title: "Error", body: "Error adding message", category: "nono")
-                            UIApplication.sharedApplication().presentLocalNotificationNow(notification)
-                        }
+                        let notification = NotificationUtils.create(title: "Error", body: "Retrying adding message \(message.body())", category: "nono")
+                        UIApplication.sharedApplication().presentLocalNotificationNow(notification)
                     #endif
                 }
-                
+
                 let rawChat = chatEntry.freeze()
-                let rawMessage = message.raw()
+                let rawMessage = leagueMessage.raw()
                 invokeDelegates {
                     delegate in delegate.didReceiveNewMessage(self, from: rawChat, message: rawMessage)
                 }
 
                 if !isActiveChat {
                     if !StoredProperties.AlarmDisabledJIDs.contains(chatEntry.id) && StoredProperties.Settings.notifyMessage.value {
-                        let notification = NotificationUtils.create(chatEntry, message: message)
+                        let notification = NotificationUtils.create(chatEntry, message: leagueMessage)
                         UIApplication.sharedApplication().presentLocalNotificationNow(notification)
                     }
                 }

@@ -195,6 +195,7 @@ class XMPPService : NSObject {
 
     func login(username: String, password: String) -> Bool {
         do {
+            print("login", "username \(username) pw \(password)")
             let token = XMPPPlainAuthentication(stream: xmppStream!, username: username, password: "AIR_" + password)
             try xmppStream?.authenticate(token)
         } catch let error as NSError {
@@ -241,9 +242,10 @@ class XMPPService : NSObject {
 
         if var config = realmConfig {
             config.readOnly = readOnly
-            return try? Realm(configuration: config)
+            if let db = try? Realm(configuration: config) {
+                return db
+            }
         }
-
         return nil
     }
 

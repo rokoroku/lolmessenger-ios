@@ -44,8 +44,53 @@ class ChatTableCell: UITableViewCell {
     @IBOutlet weak var balloonImage: BalloonView!
 
     var roster: LeagueRoster?
-    var initialSize: CGSize?
-    var balloonNinePatch: TUNinePatchProtocol?
+    var message: LeagueMessage.RawData?
+
+    private var initialSize: CGSize?
+    private var balloonNinePatch: TUNinePatchProtocol?
+    private var dateChangedLabel: UILabel?
+
+    var showsDateChangedBar: Bool {
+        get {
+            return dateChangedLabel != nil || dateChangedLabel?.superview == nil
+        }
+        set {
+            if (dateChangedLabel != nil && !newValue) {
+                dateChangedLabel?.removeFromSuperview()
+                dateChangedLabel = nil
+                contentView.updateConstraints()
+
+            } else if (dateChangedLabel == nil && newValue) {
+                if let date = message?.timestamp {
+                    dateChangedLabel = UILabel()
+                    dateChangedLabel!.layer.cornerRadius = 2.0
+                    dateChangedLabel!.layer.masksToBounds = true
+                    dateChangedLabel!.backgroundColor = Theme.HighlightColor
+                    dateChangedLabel!.textColor = Theme.TextColorPrimary
+                    dateChangedLabel!.font = dateChangedLabel!.font.fontWithSize(12)
+                    dateChangedLabel!.text = "  \((date.formatDate(.LongStyle))!)  "
+                    dateChangedLabel!.sizeToFit()
+                    contentView.addSubview(dateChangedLabel!)
+                    contentView.addConstraint(dateChangedLabel!.constraintWithAttribute(.CenterX, .Equal, to: contentView))
+                    contentView.addConstraints(
+                        NSLayoutConstraint.constraintsWithVisualFormat(
+                            "V:|-(4@1000)-[label(height)]-(topmargin@1000)-[topview]",
+                            options: [],
+                            metrics: [
+                                "height": 20,
+                                "topmargin": profileIcon != nil || name != nil ? 8 : 16
+                            ],
+                            views: [
+                                "topview": profileIcon != nil ? profileIcon : name != nil ? name : body,
+                                "label": dateChangedLabel!
+                            ]))
+                    
+                    contentView.updateConstraints()
+                    contentView.invalidateIntrinsicContentSize()
+                }
+            }
+        }
+    }
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -85,8 +130,9 @@ class ChatTableCell: UITableViewCell {
         balloonImage.invalidateIntrinsicContentSize()
     }
 
-    func setItem(roster: LeagueRoster?, message: LeagueMessage.RawData) {
+    func setItem(roster: LeagueRoster?, message: LeagueMessage.RawData, dateChanged: Bool = false) {
         self.roster = roster
+        self.message = message
         let isActive = roster?.available ?? false
 
         if profileIcon != nil {
@@ -107,14 +153,11 @@ class ChatTableCell: UITableViewCell {
             }
         }
 
+        showsDateChangedBar = dateChanged
+
         body.text = message.body
-        let datestr = message.timestamp.format("MMM d")
-        let today = NSDate().format("MMM d")
-        if datestr == today {
-            timestamp.text = message.timestamp.format("HH:mm")
-        } else {
-            timestamp.text = message.timestamp.format("MMM d\nHH:mm")
-        }
+        timestamp.text = message.timestamp.format("HH:mm")
+
         body.sizeToFit()
         balloonImage.type = message.isMine ? .Right : .Left
         balloonImage.setNeedsDisplay()

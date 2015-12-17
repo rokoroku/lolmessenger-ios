@@ -28,7 +28,7 @@ enum RosterSort {
 
 class RosterService : NSObject {
 
-    var xmppService: XMPPService!
+    var xmppService: XMPPService?
 
     var xmppRoster: XMPPRoster
     var xmppRosterStorage: XMPPRosterMemoryStorage
@@ -69,7 +69,7 @@ class RosterService : NSObject {
     func activate() {
         assert(!isActivated, "XMPPStream should not be activated")
 
-        if let xmppStream = xmppService.stream() {
+        if let xmppService = xmppService, xmppStream = xmppService.stream() {
             xmppRoster.activate(xmppStream)
             xmppStream.addDelegate(self, delegateQueue: xmppService.dispatchQueue)
             xmppRoster.addDelegate(self, delegateQueue: xmppService.dispatchQueue)
@@ -80,7 +80,7 @@ class RosterService : NSObject {
 
     func deactivate() {
         if isActivated {
-            xmppService.stream()?.removeDelegate(self)
+            xmppService?.stream()?.removeDelegate(self)
             xmppService = nil
             isActivated = false
         }
@@ -221,8 +221,10 @@ extension RosterService : XMPPRosterDelegate {
     }
 
     @objc func xmppRoster(sender: XMPPRoster!, didReceivePresenceSubscriptionRequest presence: XMPPPresence!) {
-        print("didReceivePresenceSubscriptionRequest: " + presence.description)
-        if let jid = presence.from() {
+        #if DEBUG
+            print("didReceivePresenceSubscriptionRequest: " + presence.description)
+        #endif
+        if let xmppService = xmppService, jid = presence.from() {
             if let name = presence.attributeStringValueForName("name") {
                 let summoner = LeagueRoster(jid: jid, nickname: name)
                 notifySubscriptionRequest(summoner)

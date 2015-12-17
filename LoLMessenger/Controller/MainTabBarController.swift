@@ -114,7 +114,6 @@ extension MainTabBarController : AdMixerViewDelegate, BackgroundDelegate {
         bannerView.clipsToBounds = true
 
         AdMixer.registerUserAdAdapterName("iad", cls: IAdAdapter.self)
-        AdMixer.registerUserAdAdapterNameWithAppCode("adam", cls: AdamAdapter.self, appCode: "DAN-1h7oowmcq2iph")
         AdMixer.registerUserAdAdapterNameWithAppCode("admob", cls: AdmobAdapter.self, appCode: "ca-app-pub-6442282031136715/5528204184")
         AdMixer.registerUserAdAdapterNameWithAppCode("facebook", cls: FacebookAdapter.self, appCode: "1458789581093742_1495589060747127")
 
