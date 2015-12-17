@@ -180,6 +180,8 @@ class MoreViewController : FormViewController {
                 var languages = [String: String]()
                 Localize.availableLanguages().forEach {
                     if $0 != "Base" {
+                        print($0)
+                        print(Localize.displayNameForLanguage($0))
                         languages[Localize.displayNameForLanguage($0)] = $0
                     }
                 }

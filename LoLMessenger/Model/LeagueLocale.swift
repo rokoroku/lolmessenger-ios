@@ -42,8 +42,15 @@ struct LeagueLocale: CustomStringConvertible {
     static let availableLocales = [EN, ES, FR, DE, IT, PL, EL, RO, PT, TR, TH, VN, ID, RU, KO, ZH, TW]
 
     static func getPreferredLocale() -> LeagueLocale? {
+        let currentLocale:String = Localize.currentLanguage()
+        if currentLocale.containsString("Hant") {
+            return TW
+        } else if (currentLocale.containsString("Hans")) {
+            return ZH
+        }
+
         for locale in availableLocales {
-            if locale.language == Localize.currentLanguage() {
+            if currentLocale.containsString(locale.language) {
                 return locale
             }
         }

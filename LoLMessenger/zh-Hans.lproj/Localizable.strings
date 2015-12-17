@@ -1,0 +1,291 @@
+"Messenger for LoL" = "Messenger for LoL";
+
+/*
+ * Connection
+ */
+
+"Connecting..." = "正在连接…";
+
+"Disconnected" = "断开连接";
+
+"Reconnect" = "重新连接中…";
+
+"Background session will be expired in one minute." = "背景会议将在一分钟内过期。";
+
+"Your presence has gone offline." = "Messenger for LoL 断开连接";
+
+
+
+
+
+/*
+ * Login Screen
+ */
+
+"Username" = "帐号";
+
+"Password" = "密码";
+
+"Select Region" = "选择你要登录的服务器";
+
+"Need an account?" = "需要一个帐户？";
+
+"Connect" = "登录";
+
+"Please select region" = "选择你要登录的服务器";
+
+"Please input password" = "是不是忘掉了什么呀";
+
+"Please input username" = "是不是忘掉了什么呀";
+
+"Authentication Failed, Check your credential and region" = "密码错误啦检查一下吧";
+
+
+
+
+
+
+/*
+ * Friends
+ */
+
+"Friends" = "好友";
+
+"Summoner Name" = "召唤师昵称";
+
+"Note" = "添加备注";
+
+"Buddy Request" = "新好友请求";
+
+"The buddy %1$@ wants to add you to their list and see your presence online" = "%s 想要添加你为好友。";
+
+"Remove Friend" = "删除好友";
+
+"Are you sure you want to remove %1$@ from your friend list?" = "你确定将 %s 从你的列表中删除嘛？";
+
+"Add as Friend" = "添加好友";
+
+"Please enter summoner name you want to add" = "输入召唤师昵称";
+
+"Do you want to send a friend request to %1$@?" = "你确定要向 %s 发送好友申请？";
+
+"Request Sent!" = "好友申请已发送。";
+
+"Summoner named %1$@ was not found" = "查无此人 (萨比484傻)";
+
+
+
+
+/*
+ * Chat
+ */
+
+"Chat" = "在线";
+
+"1 occupant" = "1 参与者";
+
+"%1$d occupants" = "%d 参与者";
+
+"New message arrived" = "新消息";
+
+"Not connected to chat room" = "不可用";
+
+"Enter New Chat" = "加入讨论组";
+
+"Please enter the name of chat room you want to join" = "输入聊天室名";
+
+"Room Name" = "房间名称";
+
+
+
+
+
+/*
+ * Settings
+ */
+
+"Setting" = "设置";
+
+"Sign out" = "登出";
+
+"Are you sure you want to sign out?" = "你确定嘛？";
+
+"Account" = "用户";
+
+"Summoner Name" = "召唤师昵称";
+
+"Status Message" = "签名";
+
+"Notification" = "通知";
+
+"New Message" = "新消息提醒";
+
+"New Friend Request" = "好友请求提醒";
+
+"Alert Type" = "警报类型";
+
+"Sound" = "声音";
+
+"Vibrate" = "振动";
+
+"Background Session" = "Background Session";
+
+"Since the time of background task is limited to about 3 minutes by Apple's app policy, application will be terminated after the given amount of time." = "Since the time of background task is limited to about 3 minutes by Apple's app policy, application will be terminated after the given amount of time.";
+
+"Expiration Warning" = "Expiration Warning";
+
+"Play notification sound" = "Play notification sound";
+
+"Friend List" = "好友列表";
+
+"Separate Offline Group" = "Separate Offline Group";
+
+"Sort by" = "列表排序";
+
+"Enter to Send" = "点击发送";
+
+"Show unread message first" = "优先显示未读消息";
+
+"Others" = "其他";
+
+"Language" = "语言";
+
+"Some settings are applied after restart." = "某些设置后重新启动应用。";
+
+
+
+/*
+ * Queue Type
+ */
+
+"Normal" = "匹配";
+
+"Co-op" = "人機";
+
+"Ranked" = "排位";
+
+"Custom" = "自定義";
+
+"Practice" = "自定義";
+
+
+
+
+
+/*
+ * Game Type
+ */
+
+"Summoner's Rift" = "召唤师峡谷";
+
+"The Crystal Scar" = "水晶之痕";
+
+"Twisted Treeline" = "扭曲丛林";
+
+"ARAM" = "ARAM";
+
+
+
+
+
+/*
+ * Game Status Formatting
+ */
+
+/* In game string with Game type, Queue type and Champion (e.g. Summoner's Rift (Ranked) - KhaZix) */
+"%1$@ (%2$@) - %3$@" = "%1$@ (%2$@) - %3$@";
+
+/* In game string with Game type and Queue type (e.g. Summoner's Rift (Ranked)) */
+"%1$@ (%2$@)" = "%1$@ (%2$@)";
+
+/* In game string with Queue type and Champion (e.g. Normal Game - KhaZix) */
+"%1$@ Game - %2$@" = "%1$@模式 - %2$@";
+
+/* In game string with Queue type (e.g. Normal Game) */
+"%1$@ Game" = "%1$@模式";
+
+/* In game string with Champion */
+"In Game - %1$@" = "正在游戏 - %1$@";
+
+/* In game string */
+"In Game" = "正在游戏";
+
+"In Team Builder" = "阵容匹配中";
+
+"Hosting a %1$@ Game" = "正在创建匹配模式";
+
+"In Team Select" = "选择队伍中";
+
+"In Queue" = "队列中";
+
+"In Champion Select" = "选择英雄中";
+
+"Spectating" = "观战中";
+
+"Away" = "离开";
+
+"Online" = "在线";
+
+"Offline" = "离线";
+
+
+
+
+
+/*
+ * SHARED STRINGS
+ */
+
+"OK" = "好";
+
+"NO" = "没有";
+
+"Cancel" = "取消";
+
+"Open" = "打开";
+
+"Close" = "关闭";
+
+"Edit" = "编辑";
+
+"Done" = "完成";
+
+"Send" = "发送";
+
+"Error" = "错误";
+
+"Warning" = "警告";
+
+"General" = "好友";
+
+"Unknown" = "未知";
+
+"Undefined Error" = "未定义错误";
+
+"Using iOS Client" = "Using iOS Client";
+
+
+
+
+
+/*
+ * Regions
+ */
+
+"North America" = "North America";
+
+"Europe West" = "Europe West";
+
+"Europe Nordic & East" = "Europe Nordic & East";
+
+"Brazil" = "Brazil";
+
+"Korea" = "Korea";
+
+"Latin America North" = "Latin America North";
+
+"Latin America South" = "Latin America South";
+
+"Oceania" = "Oceania";
+
+"Turkey" = "Turkey";

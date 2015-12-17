@@ -97,6 +97,9 @@
 		D0646A8FBEC4EA1E04044FDE /* Pods-LoLMessenger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LoLMessenger.release.xcconfig"; path = "Pods/Target Support Files/Pods-LoLMessenger/Pods-LoLMessenger.release.xcconfig"; sourceTree = "<group>"; };
 		F80374461BD52EAB00B9266A /* DialogUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DialogUtils.swift; sourceTree = "<group>"; };
 		F80D2A6A1BE1F79E00459E96 /* Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		F8100A8E1C22E9F900642DFC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		F8100A8F1C22E9FD00642DFC /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		F8100A901C22F29500642DFC /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F822E50D1BF194A800C45C8F /* ChatOccupantViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatOccupantViewController.swift; sourceTree = "<group>"; };
 		F822E50F1BF1ADFB00C45C8F /* PopupSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupSegue.swift; sourceTree = "<group>"; };
 		F83AB89D1C154D4D007C2B6A /* AdmobAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdmobAdapter.h; sourceTree = "<group>"; };
@@ -162,7 +165,6 @@
 		F89401681BDFDAEA00635D36 /* YUTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YUTableView.swift; sourceTree = "<group>"; };
 		F89401691BDFDAEA00635D36 /* YUTableViewNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YUTableViewNode.swift; sourceTree = "<group>"; };
 		F89669971C116C1300514920 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
-		F89669981C116C3000514920 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		F89669991C116C3600514920 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F896699A1C116C3B00514920 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F896699B1C116C4800514920 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -523,12 +525,14 @@
 				Base,
 				ko,
 				es,
-				"pt-BR",
 				de,
 				fr,
 				ru,
 				pl,
 				tr,
+				"zh-Hans",
+				"zh-Hant",
+				pt,
 			);
 			mainGroup = F8B55C521BB532FB005C759D;
 			productRefGroup = F8B55C5C1BB532FB005C759D /* Products */;
@@ -766,12 +770,14 @@
 				F84FA1271C01EC0F0042CD99 /* en */,
 				F84FA1281C01EC2F0042CD99 /* ko */,
 				F89669971C116C1300514920 /* es */,
-				F89669981C116C3000514920 /* pt-BR */,
 				F89669991C116C3600514920 /* de */,
 				F896699A1C116C3B00514920 /* fr */,
 				F896699B1C116C4800514920 /* ru */,
 				F896699C1C116C4E00514920 /* pl */,
 				F896699D1C116C5400514920 /* tr */,
+				F8100A8E1C22E9F900642DFC /* zh-Hans */,
+				F8100A8F1C22E9FD00642DFC /* zh-Hant */,
+				F8100A901C22F29500642DFC /* pt */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
