@@ -126,7 +126,7 @@
 
 "Background Session" = "백그라운드 알림";
 
-"Since the time of background task is limited to about 3 minutes by Apple's app policy, application will be terminated after the given amount of time." = "Apple의 앱 정책상 백그라운드 작업 시간이 약 3분으로 제한되어 있기 때문에, 일정 시간 이상 어플리케이션을 사용하지 않으면 연결이 해제됩니다.";
+"Since the time of background task is limited to about 3 minutes by Apple's app policy, application will be terminated after the given amount of time." = "Apple의 앱 정책상 푸시 알림을 사용하지 않는 어플리케이션의 백그라운드 작업 시간이 약 3분으로 제한되어 있기 때문에, 일정 시간 이상 어플리케이션을 사용하지 않으면 연결이 해제됩니다.";
 
 "Expiration Warning" = "종료되기 전 경고";
 

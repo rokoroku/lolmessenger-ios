@@ -61,6 +61,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
 
+        // add admixer settings
+        AdMixer.registerUserAdAdapterName("iad", cls: IAdAdapter.self)
+        AdMixer.registerUserAdAdapterNameWithAppCode("cauly", cls: CaulyAdapter.self, appCode: "UOtNQb0T")
+        AdMixer.registerUserAdAdapterNameWithAppCode("admob", cls: AdmobAdapter.self, appCode: "ca-app-pub-6442282031136715/5528204184")
+        AdMixer.registerUserAdAdapterNameWithAppCode("facebook", cls: FacebookAdapter.self, appCode: "1458789581093742_1495589060747127")
+
         return true
     }
 
@@ -110,7 +116,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NotificationUtils.dismiss(Constants.Notification.Category.Connection)
         didShowDisconnectionWarning = false
 
-        if shouldRedirectToReconnect || !XMPPService.sharedInstance.isAuthenticated {
+        if shouldRedirectToReconnect && !XMPPService.sharedInstance.isAuthenticated {
             NavigationUtils.navigateToReconnect()
             shouldRedirectToReconnect = false
         } else {

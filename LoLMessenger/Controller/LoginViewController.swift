@@ -8,6 +8,7 @@
 
 import UIKit
 import KeychainSwift
+import SafariServices
 
 class LoginViewController: UIViewController {
 
@@ -53,6 +54,9 @@ class LoginViewController: UIViewController {
         if storedJID != nil {
             let storedPassword = keychain.get(Constants.Key.Password)
             passwordField.text = storedPassword
+
+            //remove password from keychain
+            KeychainSwift().delete(Constants.Key.Password)
         }
         regionButton.setTitle(selectedRegion?.name ?? Localized("Select Region"), forState: .Normal)
     }
@@ -62,6 +66,7 @@ class LoginViewController: UIViewController {
         if #available(iOS 9.0, *) {
             UILabel.appearanceWhenContainedInInstancesOfClasses([UILabel.self]).textColor = Theme.TextColorPrimary
         }
+        UIApplication.sharedApplication().keyWindow?.rootViewController = self
     }
 
     override func viewDidDisappear(animated: Bool) {
@@ -132,7 +137,19 @@ class LoginViewController: UIViewController {
     @IBAction
     func visitHomepage(sender: AnyObject) {
         if let url = NSURL(string: "http://\(selectedRegion?.shorthand ?? "na").leagueoflegends.com") {
-            UIApplication.sharedApplication().openURL(url)
+            if #available(iOS 9.0, *) {
+
+                UIButton.appearance().setTitleColor(UIView().tintColor, forState: .Normal)
+                UIApplication.sharedApplication().statusBarStyle = .Default
+
+                let safariViewController = SFSafariViewController(URL: url)
+                safariViewController.delegate = self
+                presentViewController(safariViewController, animated: true, completion: nil)
+
+            } else {
+                // Fallback on earlier versions
+                UIApplication.sharedApplication().openURL(url)
+            }
         }
     }
 
@@ -168,6 +185,16 @@ class LoginViewController: UIViewController {
     }
 }
 
+// MARK: SFSafariViewControllerDelegate
+
+@available(iOS 9.0, *)
+extension LoginViewController : SFSafariViewControllerDelegate {
+    func safariViewControllerDidFinish(controller: SFSafariViewController) {
+        UIButton.appearance().setTitleColor(Theme.TextColorPrimary, forState: .Normal)
+        UIApplication.sharedApplication().statusBarStyle = .LightContent
+    }
+}
+
 // MARK: UIViewControllerTransitioningDelegate
 
 extension LoginViewController: UIViewControllerTransitioningDelegate, UIPopoverPresentationControllerDelegate {
@@ -190,11 +217,10 @@ extension LoginViewController : XMPPConnectionDelegate {
     
     func onAuthenticated(sender: XMPPService) {        
         keychain.set(passwordField.text!, forKey: Constants.Key.Password)
-        connectButton.startFinishAnimation(0.5,
-            completion: {
-                self.isConnecting = false
-                self.performSegueWithIdentifier("Authenticated", sender: self)
-        })
+        connectButton.startFinishAnimation(0.5) {
+            self.isConnecting = false
+            self.performSegueWithIdentifier("Authenticated", sender: self)
+        }
     }
     
     func onDisconnected(sender: XMPPService, error: ErrorType?) {

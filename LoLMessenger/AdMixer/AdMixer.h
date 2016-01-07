@@ -6,9 +6,6 @@
 //  Copyright (c) 2012년 __MyCompanyName__. All rights reserved.
 //
 
-#ifndef ADMIXER_H
-#define ADMIXER_H
-
 #import <Foundation/Foundation.h>
 #import "AXError.h"
 
@@ -16,15 +13,14 @@
 #define AMA_HOUSE_AD				(@"admixer")
 #define AMA_ADMIXER_RTB				(@"admixerrtb")
 #define AMA_ADAM					(@"adam")
-#define AMA_ADCUBE					(@"adcube")
 #define AMA_ADMOB					(@"admob")
-#define AMA_ADMOB_ECPM				(@"admobecpm")
 #define AMA_CAULY					(@"cauly")
 #define AMA_TAD						(@"tad")
 #define AMA_SHALLWE					(@"shallwe")
 #define AMA_IAD						(@"iad")
 #define AMA_INMOBI					(@"inmobi")
 #define AMA_FACEBOOK                (@"facebook")
+#define AMA_MAN                     (@"man")
 
 #define AX_ERR_SUCCESS			(0x00000000)
 
@@ -58,6 +54,4 @@ typedef enum {
 + (BOOL)registerUserAdAdapterNameWithAppCode:(NSString *)adapterName cls:(Class)cls appCode:(NSString*)appCode;
 + (BOOL)registerUserAdAdapterName:(NSString *)adapterName cls:(Class)cls;
 @end
-
-#endif
 

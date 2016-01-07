@@ -21,12 +21,15 @@ static NSArray * g_testDevices = nil;
 
 - (void)dealloc {
 
-	_adView = nil;
-	_interstitial = nil;
+	[_adView release];
+	[_interstitial release];
 	
+	[super dealloc];
 }
 
 + (void)registerTestDevices:(NSArray *)devices {
+	[devices retain];
+	[g_testDevices release];
     g_testDevices = devices;
     
 }
@@ -56,7 +59,7 @@ static NSArray * g_testDevices = nil;
 		AXBannerSize adSize = (AXBannerSize)[[self.adConfig objectForKey:@"adSize"] intValue];
 		switch (adSize) {
 			case AXBannerSize_Default:
-				_adView = [[GADBannerView alloc] initWithAdSize:kGADAdSizeSmartBannerPortrait];
+                _adView = [[GADBannerView alloc] initWithAdSize:kGADAdSizeSmartBannerPortrait];
 				break;
 			case AXBannerSize_IPhone:
 				_adView = [[GADBannerView alloc] initWithAdSize:kGADAdSizeBanner];
@@ -73,6 +76,7 @@ static NSArray * g_testDevices = nil;
 		_adView.delegate = self;
 		_adView.rootViewController = self.baseViewController;
 		_adView.hidden = YES;
+        _adView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 		[self.baseView addSubview:_adView];
 
 	}
@@ -81,7 +85,7 @@ static NSArray * g_testDevices = nil;
 
 - (void)start {
 	GADRequest * request = [GADRequest request];
-	request.testDevices = g_testDevices;
+	//request.testDevices = g_testDevices;
     request.requestAgent = @"AdMixer";
 //	request.testing = self.adInfo.isTestMode;
 	
@@ -96,12 +100,14 @@ static NSArray * g_testDevices = nil;
 	if(self.isInterstitial) {
 		if(_interstitial) {
 			_interstitial.delegate = nil;
+			[_interstitial release];
 			_interstitial = nil;
 		}
 	} else {
 		if(_adView) {
 			_adView.delegate = nil;
 			[_adView removeFromSuperview];
+			[_adView release];
 			_adView = nil;
 		}
 	}
@@ -122,6 +128,8 @@ static NSArray * g_testDevices = nil;
 }
 
 - (void)adView:(GADBannerView *)view didFailToReceiveAdWithError:(GADRequestError *)error {
+	[error retain];
+	[_error release];
 	_error = error;
 	[self performSelector:@selector(delayedFail) withObject:nil afterDelay:0.01];
 }
@@ -149,16 +157,20 @@ static NSArray * g_testDevices = nil;
 - (void)interstitialDidReceiveAd:(GADInterstitial *)ad {
     AX_LOG(AXLogLevelDebug, @"Admob - interstitialDidReceiveAd");
 	
-	[self fireSucceededToReceiveAd];
-	
+    [self fireSucceededToReceiveAd];
+    
 	if(!self.isLoadOnly) {
-		[_interstitial presentFromRootViewController:self.baseViewController];
-		[self fireDisplayedInterstitialAd];
+        [_interstitial presentFromRootViewController:self.baseViewController];
+        
+        [self fireDisplayedInterstitialAd];
+        
 	} else
 		self.hasInterstitialAd = YES;
 }
 
 - (void)interstitial:(GADInterstitial *)ad didFailToReceiveAdWithError:(GADRequestError *)error {
+	[error retain];
+	[_error release];
 	_error = error;
 	[self performSelector:@selector(delayedFail) withObject:nil afterDelay:0.01];
 }

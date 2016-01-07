@@ -14,8 +14,10 @@
 static bool _adViewDidLoad;
 
 - (void)dealloc {
-    _interstitialAd = nil;
-    _adView = nil;
+    [_interstitialAd release];
+    [_adView release];
+    
+    [super dealloc];
 }
 
 - (NSString *)adapterName {
@@ -65,6 +67,7 @@ static bool _adViewDidLoad;
     if(self.isInterstitial) {
         if(_interstitialAd) {
             _interstitialAd.delegate = nil;
+            [_interstitialAd release];
             _interstitialAd = nil;
         }
     } else {
@@ -72,6 +75,7 @@ static bool _adViewDidLoad;
             _adView.delegate = nil;
             if(_adViewDidLoad)
                 [_adView removeFromSuperview];
+            [_adView release];
             _adView = nil;
         }
     }

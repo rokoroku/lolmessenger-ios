@@ -8,6 +8,12 @@
 
 import UIKit
 
+extension UIViewController {
+    func isVisible() -> Bool {
+        return isViewLoaded() && view.window != nil
+    }
+}
+
 extension UIView {
     func rotate180Degrees(duration: CFTimeInterval = 0.2) {
         let rotateAnimation = CABasicAnimation(keyPath: "transform.rotation")

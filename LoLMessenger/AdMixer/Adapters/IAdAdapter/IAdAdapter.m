@@ -12,11 +12,17 @@
 @implementation IAdAdapter
 - (void)dealloc {
     if( self.isInterstitial) {
+        if( _interstitialAd)
+            [_interstitialAd release];
         _interstitialAd = nil;
     }
     else {
+        if( _adView)
+            [_adView release];
         _adView = nil;
     }
+    
+	[super dealloc];
 }
 
 - (NSString *)adapterName {
@@ -69,12 +75,14 @@
 	if(self.isInterstitial) {
 		if(_interstitialAd) {
 			_interstitialAd.delegate = nil;
+			[_interstitialAd release];
 			_interstitialAd = nil;
 		}
 	} else {
 		if(_adView) {
 			_adView.delegate = nil;
 			[_adView removeFromSuperview];
+			[_adView release];
 			_adView = nil;
 		}
 	}

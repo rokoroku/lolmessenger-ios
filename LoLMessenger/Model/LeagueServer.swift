@@ -21,7 +21,7 @@ struct LeagueServer {
     }
 
     static let NA = LeagueServer(name: Localized("North America"), shorthand: "NA", host: "chat.na2.lol.riotgames.com")
-    static let EUW = LeagueServer(name: Localized("Europe West"), shorthand: "EUW", host: "chat.enw1.lol.riotgames.com")
+    static let EUW = LeagueServer(name: Localized("Europe West"), shorthand: "EUW", host: "chat.euw1.lol.riotgames.com")
     static let EUNE = LeagueServer(name: Localized("Europe Nordic & East"), shorthand: "EUNE", host: "chat.eun1.lol.riotgames.com")
     static let BR = LeagueServer(name: Localized("Brazil"), shorthand: "BR",  host: "chat.br.lol.riotgames.com")
     static let KR = LeagueServer(name: Localized("Korea"), shorthand: "KR", host: "chat.kr.lol.riotgames.com")

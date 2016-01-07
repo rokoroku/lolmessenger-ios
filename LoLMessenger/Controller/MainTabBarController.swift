@@ -30,7 +30,7 @@ class MainTabBarController : UITabBarController {
 
         AppDelegate.addDelegate(self)
 
-        Async.main(after: 3) {
+        Async.main(after: 2) {
             self.showAd()
         }
         updateLocale()
@@ -64,7 +64,7 @@ class MainTabBarController : UITabBarController {
         if let presentedViewController = self.selectedViewController {
             self.tabBarController(self, didSelectViewController: presentedViewController)
         }
-        Async.main(after: 1.5) {
+        Async.main(after: 1) {
             self.startAdRequest()
         }
     }
@@ -74,7 +74,6 @@ class MainTabBarController : UITabBarController {
             XMPPService.sharedInstance.chat()?.removeDelegate(self)
             XMPPService.sharedInstance.roster()?.removeDelegate(self)
             NSNotificationCenter.defaultCenter().removeObserver(self, name: LCLLanguageChangeNotification, object: nil)
-            stopAdRequest()
         }
     }
 
@@ -107,18 +106,16 @@ class MainTabBarController : UITabBarController {
 extension MainTabBarController : AdMixerViewDelegate, BackgroundDelegate {
 
     func showAd() {
-        let bounds = UIScreen.mainScreen().bounds
-        let bannerView = AdMixerView(frame: CGRectMake(0.0, bounds.size.height, bounds.width, 50.0))
-        bannerView.backgroundColor = UIColor.init(patternImage: UIImage(named: "default_banner_bg")!)
-        bannerView.tag = 11
-        bannerView.clipsToBounds = true
+        if view.viewWithTag(11) == nil {
+            let bounds = UIScreen.mainScreen().bounds
+            let bannerView = AdMixerView(frame: CGRectMake(0.0, bounds.size.height, bounds.width, 50.0))
+            bannerView.backgroundColor = UIColor.init(patternImage: UIImage(named: "default_banner_bg")!)
+            bannerView.tag = 11
+            bannerView.clipsToBounds = true
 
-        AdMixer.registerUserAdAdapterName("iad", cls: IAdAdapter.self)
-        AdMixer.registerUserAdAdapterNameWithAppCode("admob", cls: AdmobAdapter.self, appCode: "ca-app-pub-6442282031136715/5528204184")
-        AdMixer.registerUserAdAdapterNameWithAppCode("facebook", cls: FacebookAdapter.self, appCode: "1458789581093742_1495589060747127")
-
-        self.view.addSubview(bannerView)
-        startAdRequest()
+            self.view.addSubview(bannerView)
+            startAdRequest()
+        }
     }
 
     func startAdRequest() {
@@ -129,7 +126,7 @@ extension MainTabBarController : AdMixerViewDelegate, BackgroundDelegate {
             adInfo.axKey = "3l188e4t"
             adInfo.rtbVerticalAlign = AdMixerRTBVAlignCenter
             adInfo.rtbBannerHeight = AdMixerRTBBannerHeightFixed
-            banner.delegate = self;
+            banner.delegate = self
             banner.startWithAdInfo(adInfo, baseViewController: self)
         }
     }
@@ -150,7 +147,7 @@ extension MainTabBarController : AdMixerViewDelegate, BackgroundDelegate {
     }
 
     func didBecomeActive(sender: UIApplication) {
-        Async.main(after: 1.5) {
+        Async.main(after: 1) {
             self.startAdRequest()
         }
     }
@@ -159,7 +156,11 @@ extension MainTabBarController : AdMixerViewDelegate, BackgroundDelegate {
         #if DEBUG
             print("receive AD from \(adView.currentAdapterName())")
         #endif
-        layoutBanner()
+        if isVisible() {
+            layoutBanner()
+        } else {
+            stopAdRequest(true)
+        }
     }
 
     @objc func onFailedToReceiveAd(adView: AdMixerView!, error: AXError!) {

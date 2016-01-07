@@ -303,14 +303,14 @@ extension ChatService : XMPPStreamDelegate {
                     }
 
                     if !leagueChat.update(updateBlock) {
-                        Async.background(after: 0.5) {
+                        Async.background(after: 3) {
                             self.xmppStream(sender, didReceiveMessage: message)
                         }
                         #if DEBUG
                             let notification = NotificationUtils.create(title: "Error", body: "Retrying adding message \(message.body())", category: "nono")
                             UIApplication.sharedApplication().presentLocalNotificationNow(notification)
                         #endif
-                        return;
+                        return
                     }
 
                     let rawChat = leagueChat.freeze()

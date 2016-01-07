@@ -12,6 +12,7 @@
 #import <CommonCrypto/CommonCrypto.h>
 #import "IAdAdapter.h"
 #import "AdMixerView.h"
+#import "CaulyAdapter.h"
 #import "AdmobAdapter.h"
 #import "FacebookAdapter.h"
 

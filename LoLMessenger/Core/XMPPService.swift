@@ -181,7 +181,7 @@ class XMPPService : NSObject {
             xmppStream?.hostName = leagueServer.host
             xmppStream?.myJID = XMPPJID.jidWithString(Constants.XMPP.Domain.User, resource: Constants.XMPP.Resource.Mobile)
 
-            try xmppStream?.oldSchoolSecureConnectWithTimeout(3000)
+            try xmppStream?.oldSchoolSecureConnectWithTimeout(5000)
 
         } catch let error as NSError {
             print(error.description)
@@ -195,7 +195,6 @@ class XMPPService : NSObject {
 
     func login(username: String, password: String) -> Bool {
         do {
-            print("login", "username \(username) pw \(password)")
             let token = XMPPPlainAuthentication(stream: xmppStream!, username: username, password: "AIR_" + password)
             try xmppStream?.authenticate(token)
         } catch let error as NSError {
