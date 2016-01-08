@@ -31,7 +31,7 @@ class MainTabBarController : UITabBarController {
         AppDelegate.addDelegate(self)
 
         Async.main(after: 2) {
-            self.showAd()
+            self.activateBannerAd()
         }
         updateLocale()
     }
@@ -74,6 +74,7 @@ class MainTabBarController : UITabBarController {
             XMPPService.sharedInstance.chat()?.removeDelegate(self)
             XMPPService.sharedInstance.roster()?.removeDelegate(self)
             NSNotificationCenter.defaultCenter().removeObserver(self, name: LCLLanguageChangeNotification, object: nil)
+            stopAdRequest()
         }
     }
 
@@ -105,7 +106,7 @@ class MainTabBarController : UITabBarController {
 
 extension MainTabBarController : AdMixerViewDelegate, BackgroundDelegate {
 
-    func showAd() {
+    func activateBannerAd() {
         if view.viewWithTag(11) == nil {
             let bounds = UIScreen.mainScreen().bounds
             let bannerView = AdMixerView(frame: CGRectMake(0.0, bounds.size.height, bounds.width, 50.0))
@@ -119,7 +120,7 @@ extension MainTabBarController : AdMixerViewDelegate, BackgroundDelegate {
     }
 
     func startAdRequest() {
-        if let banner = view.viewWithTag(11) as? AdMixerView where !isAdActivated {
+        if let banner = view.viewWithTag(11) as? AdMixerView where !isAdActivated && isVisible() {
             isAdActivated = true
 
             let adInfo = AdMixerInfo()
@@ -142,25 +143,11 @@ extension MainTabBarController : AdMixerViewDelegate, BackgroundDelegate {
         }
     }
 
-    func didEnterBackground(sender: UIApplication) {
-        stopAdRequest(true)
-    }
-
-    func didBecomeActive(sender: UIApplication) {
-        Async.main(after: 1) {
-            self.startAdRequest()
-        }
-    }
-
     @objc func onSucceededToReceiveAd(adView: AdMixerView!) {
         #if DEBUG
             print("receive AD from \(adView.currentAdapterName())")
         #endif
-        if isVisible() {
-            layoutBanner()
-        } else {
-            stopAdRequest(true)
-        }
+        layoutBanner()
     }
 
     @objc func onFailedToReceiveAd(adView: AdMixerView!, error: AXError!) {
@@ -168,6 +155,16 @@ extension MainTabBarController : AdMixerViewDelegate, BackgroundDelegate {
             print("fail to receive \(adView.currentAdapterName()), \(error)")
         #endif
         layoutBanner(false)
+    }
+
+    internal func didEnterBackground(sender: UIApplication) {
+        stopAdRequest(true)
+    }
+
+    internal func didBecomeActive(sender: UIApplication) {
+        Async.main(after: 1) {
+            self.startAdRequest()
+        }
     }
 
     override func viewWillLayoutSubviews() {

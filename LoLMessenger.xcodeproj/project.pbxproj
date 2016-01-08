@@ -34,8 +34,8 @@
 		F84FA1261C01EBFE0042CD99 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F84FA1241C01EBFE0042CD99 /* Localizable.strings */; };
 		F84FA12A1C02567C0042CD99 /* TransitionSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84FA1291C02567C0042CD99 /* TransitionSegue.swift */; };
 		F8524ADD1BFDA4F700671D32 /* TKTransitionSubmitButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8524ADC1BFDA4F700671D32 /* TKTransitionSubmitButton.swift */; };
+		F8580D341C3E28F900986511 /* libCauly-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F8580D331C3E28F900986511 /* libCauly-universal.a */; };
 		F863484E1C3C23520015D627 /* CaulyAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = F86348491C3C23520015D627 /* CaulyAdapter.m */; };
-		F863484F1C3C23520015D627 /* libCauly.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F863484D1C3C23520015D627 /* libCauly.a */; };
 		F863677F1BE6953E0075B08B /* SummonerDialogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F863677E1BE6953E0075B08B /* SummonerDialogViewController.swift */; };
 		F86D4C751BCCF45C009E9083 /* RosterService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86D4C741BCCF45C009E9083 /* RosterService.swift */; };
 		F87232DD1C1551C1003F4706 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F87232DC1C1551C1003F4706 /* iAd.framework */; };
@@ -138,13 +138,13 @@
 		F84FA1281C01EC2F0042CD99 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F84FA1291C02567C0042CD99 /* TransitionSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitionSegue.swift; sourceTree = "<group>"; };
 		F8524ADC1BFDA4F700671D32 /* TKTransitionSubmitButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TKTransitionSubmitButton.swift; sourceTree = "<group>"; };
+		F8580D331C3E28F900986511 /* libCauly-universal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libCauly-universal.a"; sourceTree = "<group>"; };
 		F86348471C3C23520015D627 /* Cauly.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cauly.h; sourceTree = "<group>"; };
 		F86348481C3C23520015D627 /* CaulyAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaulyAdapter.h; sourceTree = "<group>"; };
 		F86348491C3C23520015D627 /* CaulyAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaulyAdapter.m; sourceTree = "<group>"; };
 		F863484A1C3C23520015D627 /* CaulyAdSetting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaulyAdSetting.h; sourceTree = "<group>"; };
 		F863484B1C3C23520015D627 /* CaulyAdView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaulyAdView.h; sourceTree = "<group>"; };
 		F863484C1C3C23520015D627 /* CaulyInterstitialAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaulyInterstitialAd.h; sourceTree = "<group>"; };
-		F863484D1C3C23520015D627 /* libCauly.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libCauly.a; sourceTree = "<group>"; };
 		F863677E1BE6953E0075B08B /* SummonerDialogViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SummonerDialogViewController.swift; sourceTree = "<group>"; };
 		F86D4C741BCCF45C009E9083 /* RosterService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RosterService.swift; sourceTree = "<group>"; };
 		F87232DC1C1551C1003F4706 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
@@ -207,8 +207,8 @@
 				F9E675E5A379D862BAA1C8FB /* Pods_LoLMessenger.framework in Frameworks */,
 				F83AB8BA1C154D4D007C2B6A /* GoogleMobileAds.framework in Frameworks */,
 				F83AB8BC1C154D4D007C2B6A /* FBAudienceNetwork.framework in Frameworks */,
-				F863484F1C3C23520015D627 /* libCauly.a in Frameworks */,
 				F83AB8BE1C154D4D007C2B6A /* libAdMixer.a in Frameworks */,
+				F8580D341C3E28F900986511 /* libCauly-universal.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -374,7 +374,7 @@
 				F863484A1C3C23520015D627 /* CaulyAdSetting.h */,
 				F863484B1C3C23520015D627 /* CaulyAdView.h */,
 				F863484C1C3C23520015D627 /* CaulyInterstitialAd.h */,
-				F863484D1C3C23520015D627 /* libCauly.a */,
+				F8580D331C3E28F900986511 /* libCauly-universal.a */,
 			);
 			path = CaulyAdapter;
 			sourceTree = "<group>";
