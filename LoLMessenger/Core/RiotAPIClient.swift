@@ -10,12 +10,14 @@ import Alamofire
 import SwiftyJSON
 
 class AccountInfo {
-    var platformId: String;
-    var accountId: Int;
+    var platformId: String
+    var accountId: Int
+    var summonerName: String
 
-    init(platformId: String, accountId: Int) {
-        self.platformId = platformId;
-        self.accountId = accountId;
+    init(platformId: String, accountId: Int, summonerName: String) {
+        self.platformId = platformId
+        self.accountId = accountId
+        self.summonerName = summonerName
     }
 }
 
@@ -27,9 +29,8 @@ class RiotACS {
             .responseJSON { response in
                 if let value = response.result.value {
                     let object = JSON(value)
-                    if let platformId = object["platformId"].string,
-                        let accountId = object["accountId"].int {
-                            callback(AccountInfo(platformId: platformId, accountId: accountId))
+                    if let platformId = object["platformId"].string, accountId = object["accountId"].int {
+                            callback(AccountInfo(platformId: platformId, accountId: accountId, summonerName: name))
                             return
                     }
                 }
@@ -45,8 +46,8 @@ class RiotACS {
                     let object = JSON(value)
                     let player = object["games"]["games"][0]["participantIdentities"][0]["player"]
                     if let id = player["summonerId"].int,
-                        let nick = player["summonerName"].string,
-                        let icon = player["profileIcon"].int
+                        nick = player["summonerName"].string,
+                        icon = player["profileIcon"].int where nick.trim().equalsIgnoreCase(info.summonerName.trim())
                     {
                         let roster = LeagueRoster(numberId: id, nickname: nick)
                         roster.profileIcon = icon
@@ -60,7 +61,7 @@ class RiotACS {
 
     class func getSummonerByName(summonerName name: String, region: LeagueServer, callback: ((LeagueRoster?) -> Void)) {
 
-        let failback: ((LeagueRoster?) -> Void) = {
+        let next: ((LeagueRoster?) -> Void) = {
             if let summoner = $0 {
                 callback(summoner)
             } else {
@@ -71,10 +72,10 @@ class RiotACS {
         RiotACS.getAccountInfo(summonerName: name, region: region) {
             if let info = $0 {
                 getSummonerByAccountInfo(accountInfo: info) { summoner in
-                    failback(summoner)
+                    next(summoner)
                 }
             } else {
-                failback(nil)
+                next(nil)
             }
         }
 
@@ -123,8 +124,8 @@ class RiotAPI {
             if let value = response.result.value {
                 let summoner = JSON(value)[summonerId]
                 if let nick = summoner["name"].string,
-                    let icon = summoner["profileIconId"].int,
-                    let level = summoner["summonerLevel"].int
+                    icon = summoner["profileIconId"].int,
+                    level = summoner["summonerLevel"].int
                 {
                     let roster = LeagueRoster(stringId: id, nickname: nick)
                     roster.profileIcon = icon
@@ -144,9 +145,9 @@ class RiotAPI {
             if let value = response.result.value {
                 let summoner = JSON(value)[summonerName]
                 if let id = summoner["id"].int,
-                    let nick = summoner["name"].string,
-                    let icon = summoner["profileIconId"].int,
-                    let level = summoner["summonerLevel"].int
+                    nick = summoner["name"].string,
+                    icon = summoner["profileIconId"].int,
+                    level = summoner["summonerLevel"].int
                 {
                     let roster = LeagueRoster(numberId: id, nickname: nick)
                     roster.profileIcon = icon

@@ -49,6 +49,14 @@ extension String {
         return self.substringWithRange(range)
     }
 
+    func trim() -> String {
+        return self.stringByReplacingOccurrencesOfString(" ", withString: "")
+    }
+
+    func equalsIgnoreCase(aString: String) -> Bool {
+        return self.caseInsensitiveCompare(aString) == .OrderedSame
+    }
+
     func isEmpty() -> Bool {
         return isEmpty || stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: " ")).isEmpty
     }
